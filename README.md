@@ -11,7 +11,7 @@ for Vue2 & iView.js v2
 
 NPM: https://www.npmjs.com/package/@ajaxjs/ui
 
-```
+```shell
 npm i @ajaxjs/ui # install
 npm run dev # do coding
 npm run build # output js
