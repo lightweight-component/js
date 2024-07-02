@@ -1,11 +1,13 @@
+import { xhr_get, xhr_post, xhr_put, xhr_del } from '@ajaxjs/util/dist/util/xhr';
+
 const DBType = { 'MY_SQL': 'MySQL', 'ORACLE': 'Oracle', 'SQL_SERVER': 'Sql Server', 'SPARK': 'Spark', 'SQLITE': 'SQLite', DB2: 'DB2' };
+// @ts-ignore
+const DATASOURCE_API = window.API_ROOT ? API_ROOT + '/data_service/datasource' : '../../data_service/datasource';
+// @ts-ignore
+const DATA_SERVICE_API = window.API_ROOT ? API_ROOT + '/data_service/admin' : '../../data_service/admin';
 
-DATASOURCE_API = window.API_ROOT ? API_ROOT + '/data_service/datasource' : '../../data_service/datasource';
-DATA_SERVICE_API = window.API_ROOT ? API_ROOT + '/data_service/admin' : '../../data_service/admin';
-
-Vue.component('Datasource', {
-	template: '#data-source-tpl',
-	data() {
+export default {
+	data(): {} {
 		return {
 			isCreate: true,
 			datasources: [
@@ -27,30 +29,30 @@ Vue.component('Datasource', {
 			DBType: DBType
 		};
 	},
-	mounted() {
-		// this.getList();
+	mounted(): void {
+		this.getList();
 	},
 	methods: {
-		active(item) {
+		active(item): void {
 			this.activedItem = item.id;
 			this.form.data = item;
 		},
-		getList(cb) {
-			aj.xhr.get(DATASOURCE_API, j => {
+		getList(cb): void {
+			// @ts-ignore
+			xhr_get(`${window.config.dsApiRoot}/datasource`,  (j: RepsonseResult) => {
 				this.datasources = j.data;
-				cb && cb();
-			});
+			}, { start: 0, limit: 99 });
 		},
-		add() {
+		add(): void {
 			this.activedItem = null;
 			this.form.data = {
 				name: ''
 			};
 		},
-		create() {
+		create(): void {
 			this.$refs.editForm.validate((valid) => {
 				if (valid) {
-					aj.xhr.postJson(DATASOURCE_API, this.form.data, j => {
+					xhr_post(DATASOURCE_API, this.form.data, j => {
 						if (j.status === 1) {
 							let newlyId = j.data;
 							this.getList(() => this.activedItem = newlyId);
@@ -62,35 +64,32 @@ Vue.component('Datasource', {
 					this.$Message.error('表单验证不通过');
 			});
 		},
-		update() {
+		update(): void {
 			let entity = Object.assign({}, this.form.data);
-			aj.xhr.putJson(DATASOURCE_API, entity, j => {
+			xhr_put(DATASOURCE_API, entity, j => {
 				if (j.status === 1) {
 					this.$Message.success('修改数据源成功');
 				}
 			});
 		},
-		del(id, name) {
+		del(id, name): void {
 			this.$Modal.confirm({
 				title: '删除数据源',
 				content: `是否删除数据源 #${name}？`,
 				onOk: () => {
-					aj.xhr.del(DATASOURCE_API + id, j => {
+					xhr_del(DATASOURCE_API + id, j => {
 						this.$Message.success('删除数据源成功');
 						this.getList(() => this.add());
 					});
 				}
 			});
 		},
-		test() {
-			aj.xhr.get(DATASOURCE_API + '/test/' + this.activedItem, j => {
-				if (j.status === 1) {
-					this.$Modal.success({
-						title: '连接数据源成功',
-					});
-				}
+		test(): void {
+			// @ts-ignore
+			xhr_get(`${window.config.dsApiRoot}/datasource/test/` + this.activedItem, (j: RepsonseResult) => {
+				if (j.status)
+					this.$Modal.success({ title: '连接数据源成功' });
 			});
 		}
 	}
-});
-
+};
