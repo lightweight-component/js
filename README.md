@@ -9,7 +9,7 @@
 
 for Vue2 & iView.js v2
 
-NPM: https://www.npmjs.com/package/@ajaxjs/ui
+NPM: https://www.npmjs.com/package/@ajaxjs/ui.
 
 ```shell
 npm i @ajaxjs/ui # install
