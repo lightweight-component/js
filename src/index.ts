@@ -6,10 +6,12 @@ import Fast_iViewTable from './iView-ext/fast-iview-table/list';
 import iViewListCommon from './iView-ext/fast-iview-table/fast-iview-table.vue';
 import ApiSelector from './api-selector/index.vue';
 import ApiHelper from './api-helper/index.vue';
+import DataSource from './data-source/data-source';
+import TableSelector from './table-selector/table-selector.vue';
 
 /**
  * 暴露各个组件
  */
 export default {
-    ApiHelper, ApiSelector, Fast_iViewTable, iViewListCommon
+    ApiHelper, ApiSelector, Fast_iViewTable, iViewListCommon, DataSource,TableSelector
 };
