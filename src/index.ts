@@ -8,10 +8,11 @@ import ApiSelector from './api-selector/index.vue';
 import ApiHelper from './api-helper/index.vue';
 import DataSource from './data-source/data-source';
 import TableSelector from './table-selector/table-selector.vue';
+import IAM from './iam/iam';
 
 /**
  * 暴露各个组件
  */
 export default {
-    ApiHelper, ApiSelector, Fast_iViewTable, iViewListCommon, DataSource,TableSelector
+    ApiHelper, ApiSelector, Fast_iViewTable, iViewListCommon, DataSource, TableSelector, IAM
 };
