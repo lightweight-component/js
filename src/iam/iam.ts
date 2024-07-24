@@ -8,6 +8,13 @@ import { setBaseHeadParams } from "@ajaxjs/util/dist/util/xhr";
  * @returns 用户 JWT
  */
 export default {
+    /**
+     * 
+     * 
+     * @param loginUrl      登录页面地址
+     * @param thisPageUrl   前端页面的地址，最后返回这里
+     * @returns 
+     */
     getLoginInfo(loginUrl: string, thisPageUrl: string): any {
         const token = getQueryParam("token", false);
         let accessToken: string = localStorage.getItem("accessToken");
