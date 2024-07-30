@@ -1,21 +1,19 @@
 <template>
-  <a @click="showUserInfo">{{ state }}
-
-
-  </a>
+  <a @click="showUserInfo">{{ state }}</a>
 </template>
 
 <script lang="ts">
-import {dateFormat} from '@ajaxjs/util/dist/util/utils';
+import { dateFormat } from "@ajaxjs/util/dist/util/utils";
 
-const logout:string = "localStorage.removeItem('accessToken');location.reload();";
+const logout: string =
+  "localStorage.removeItem('accessToken');location.reload();";
 
 export default {
   data() {
     return {
       state: "未登录",
       isShowInfo: false,
-      payload:null
+      payload: null,
     };
   },
 
@@ -28,9 +26,8 @@ export default {
       const tokenParts: string[] = accessToken.split(".");
       const payload = JSON.parse(atob(tokenParts[1])); // 解析载荷
 
-      console.log(payload)
       this.payload = payload;
-      this.state = payload.name;
+      this.state = payload.name + '已登录';
     }
   },
   methods: {
@@ -39,10 +36,15 @@ export default {
         // @ts-ignore
         location.assign(window.config.loginUrl);
       } else {
-            this.$Modal.info({
-                title: '当前用户信息',
-                content: `<p>用户名： ${this.payload.name}</p><p>Token 过期时间：${dateFormat.call(new Date(this.payload.exp * 1000), 'yyyy-MM-dd hh:mm:ss')}</p><p><a href="#" onclick="${logout}">用户登出</a></p>`
-            });
+        this.$Modal.info({
+          title: "当前用户信息",
+          content: `<p>用户名： ${
+            this.payload.name
+          }</p><p>Token 过期时间：${dateFormat.call(
+            new Date(this.payload.exp * 1000),
+            "yyyy-MM-dd hh:mm:ss"
+          )}</p><p><a href="#" onclick="${logout}">用户登出</a></p>`,
+        });
       }
     },
   },
