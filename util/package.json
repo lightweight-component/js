@@ -1,0 +1,39 @@
+{
+  "name": "@ajaxjs/util",
+  "version": "1.0.0",
+  "description": "Core JS Utils",
+  "scripts": {
+    "dev": "rollup -w -c",
+    "build": "rollup -c"
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lightweight-component/js"
+  },
+  "keywords": [
+    "ajaxjs",
+    "util"
+  ],
+  "author": "Frank Cheung <frank@ajaxjs.com>",
+  "license": "Apache License 2.0",
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "eslint": "^9.9.1",
+    "globals": "^15.9.0",
+    "rollup": "^4.21.2",
+    "tslib": "^2.7.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.4.0"
+  }
+}
