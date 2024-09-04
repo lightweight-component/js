@@ -1,5 +1,5 @@
 {
-  "name": "@ajaxjs/widgets",
+  "name": "@ajaxjs/ui",
   "version": "1.0.0",
   "main": "index.js",
   "keywords": [
@@ -8,10 +8,10 @@
   ],
   "author": "Frank Cheung <frank@ajaxjs.com>",
   "license": "Apache License 2.0",
-  "description": "My widgets based on Vue.js",
+  "description": "Widgets based on iView.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lightweight-component/js/tree/main/widgets"
+    "url": "https://github.com/lightweight-component/js/tree/main/ui"
   },
   "bugs": {
     "url": "https://github.com/lightweight-component/js/issues"
@@ -21,7 +21,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@ajaxjs/util": "1.1.3"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -35,6 +37,7 @@
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
     "typescript": "~4.5.5",
+    "view-design": "^4.7.0",
     "vue": "^2.6.14",
     "vue-template-compiler": "^2.6.14"
   }
