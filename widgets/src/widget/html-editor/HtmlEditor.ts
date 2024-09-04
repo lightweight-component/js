@@ -71,13 +71,14 @@ export default {
         },
 
         createLink(): void {
-            let result: string = prompt("请输入 URL 地址");
+            const result: string = prompt("请输入 URL 地址");
+
             if (result)
                 this.format("createLink", result);
         },
 
         insertImage(): void {
-            // @ts-ignore
+            // @ts-ignore xxxxx
             if (window.isCreate)
                 alert('请保存记录后再上传图片。');
             else {
@@ -92,7 +93,7 @@ export default {
          * 清理冗余 HTML
          */
         cleanHTML(): void {
-            // @ts-ignore
+            // @ts-ignore xxxxx
             this.setIframeBody(HtmlSanitizer.SanitizeHtml(this.iframeDoc.body.innerHTML));
         },
 
@@ -106,7 +107,7 @@ export default {
          * @param ev 
          */
         onCmdClk(ev: Event): void {
-            let el: HTMLElement = <HTMLElement>ev.target,
+            const el: HTMLElement = <HTMLElement>ev.target,
                 clsName = <string>el.className.split(' ').shift();
 
             this.format(clsName);
@@ -133,7 +134,7 @@ export default {
          * @param ev
          */
         onFontsizeChoserClk(ev: Event): void {
-            let el: HTMLElement = <HTMLElement>ev.target,
+            const el: HTMLElement = <HTMLElement>ev.target,
                 els = (<HTMLElement>ev.currentTarget).children;
 
             let i: number, j: number;
@@ -150,11 +151,11 @@ export default {
          * @param ev
          */
         onFontfamilyChoserClk(ev: Event): void {
-            let el: HTMLElement = <HTMLElement>ev.target;
+            const el: HTMLElement = <HTMLElement>ev.target;
             this.format('fontname', el.innerHTML);
 
             /* 如何解决点击之后马上隐藏面板？由于 js（单击事件） 没有控制 CSS 的 :hover 伪类的方法，故所以必须使用以下技巧：*/
-            let menuPanel: HTMLElement = <HTMLElement>el.parentNode;
+            const menuPanel: HTMLElement = <HTMLElement>el.parentNode;
             menuPanel.style.display = 'none';
             setTimeout(() => menuPanel.style.display = '', 300);
         },
@@ -163,9 +164,9 @@ export default {
          * 创建颜色选择器
          */
         createColorPickerHTML(): string {
-            let cl: string[] = ['00', '33', '66', '99', 'CC', 'FF'],
-                b: string, d: string, e: string, f: string,
-                h: string[] = ['<div class="colorhead"><span class="colortitle">颜色选择</span></div><div class="colorbody"><table cellspaci="0" cellpadding="0"><tr>'];
+            const cl: string[] = ['00', '33', '66', '99', 'CC', 'FF'];
+            let b: string, d: string, e: string, f: string;
+            const h: string[] = ['<div class="colorhead"><span class="colortitle">颜色选择</span></div><div class="colorbody"><table cellspaci="0" cellpadding="0"><tr>'];
 
             // 创建 body  [6 x 6的色盘]
             for (let i = 0; i < 6; ++i) {
@@ -237,15 +238,15 @@ function onImagePaste(ev: ClipboardEvent): void {
         return;
     }
 
-    let items: DataTransferItemList | null = ev.clipboardData && ev.clipboardData.items,
-        file: File | null = null; // file 就是剪切板中的图片文件
+    const items: DataTransferItemList | null = ev.clipboardData && ev.clipboardData.items;
+    let file: File | null = null; // file 就是剪切板中的图片文件
 
     if (items && items.length) {// 检索剪切板 items
         for (let i = 0; i < items.length; i++) {
             const item: DataTransferItem = items[i];
 
             if (item.type.indexOf('image') !== -1) {
-                // @ts-ignore
+                // @ts-ignore xxxxx
                 if (window.isCreate) { // 有图片
                     alert('请保存记录后再上传图片。');
                     return;

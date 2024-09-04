@@ -71,7 +71,7 @@ export default {
     animate(params: number): void {
       var el: HTMLLIElement = this.list[this.active],
         fps: number = 1000 / this.fps;
-      // @ts-ignore
+      // @ts-ignore xxxxxxx
       window.clearTimeout(el.timer);
 
       window.setTimeout(function loop() {
@@ -81,10 +81,10 @@ export default {
         // console.log("i=" + i + "; speed="+ speed+"; s="+s+"; k="+k);
         i += speed;
         el.style.opacity = String(i / 100);
-        // @ts-ignore
+        // @ts-ignore xxxxxxxx
         window.clearTimeout(el.timer);
         // params.complete && params.complete.call(elem);
-        // @ts-ignore
+        // @ts-ignore xxxxx
         el.timer = window.setTimeout(loop, fps);
       }, fps);
     },

@@ -16,7 +16,7 @@
     "build": "vue-cli-service build",
     "release": "tsc && xcopy src\\*.* dist\\ /s /y /d && npm publish"
   },
-  "author": "sp42",
+  "author": "Frank Cheung <frank@ajaxjs.com>",
   "license": "Apache License 2.0",
   "files": [
     "dist/"

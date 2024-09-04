@@ -21,14 +21,12 @@
     <br />
     <br />
     <h2>生成的 HTML 标签</h2>
-    <p>
-      {{v}}
-    </p>
+    <p>{{v}}</p>
   </div>
 </template>
 
 <script>
-import HtmlEditor from "@/widget/HtmlEditor/HtmlEditor.vue";
+import HtmlEditor from "@/widget/html-editor/HtmlEditor.vue";
 
 export default {
   components: { HtmlEditor },

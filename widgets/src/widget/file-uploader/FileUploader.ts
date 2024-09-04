@@ -44,19 +44,19 @@ export default {
          * @param ev
          */
         onUploadInputChange(ev: Event): void {
-            let fileInput: HTMLInputElement = <HTMLInputElement>ev.target;
+            const fileInput: HTMLInputElement = <HTMLInputElement>ev.target;
             if (!fileInput.files || !fileInput.files[0]) return;
 
             // this.errStatus = [false, false, false];
             this.onFileGet(fileInput.files);
 
-            let file: File = fileInput.files[0];
+            const file: File = fileInput.files[0];
             this.fileObj = file;
 
             if (this.isImgUpload) {
-                let reader: FileReader = new FileReader();
+                const reader: FileReader = new FileReader();
                 reader.onload = (e) => {
-                    let imgBase64: string = <string>e.target.result; // 得到了图片的 base64 编码
+                    const imgBase64: string = <string>e.target.result; // 得到了图片的 base64 编码
                     // alert(imgBase64Str);
                     this.imgSrc = imgBase64;
                 }
@@ -80,7 +80,7 @@ export default {
         },
 
         onFileGet(files: FileList): void {
-            let file: File = files[0],
+            const file: File = files[0],
                 fileType: string = file.type;
 
             this.$fileObj = file;
@@ -96,13 +96,13 @@ export default {
             // this.$uploadOk_callback({ isOk: true, msg: "ok!", imgUrl: "fdfdf" });
             // return;
 
-            let fd: FormData = new FormData();
+            const fd: FormData = new FormData();
 
             if (this.$blob) fd.append("file", this.$blob, this.fileName);
             else if (this.$fileObj) fd.append("file", this.$fileObj);
 
-            let xhr: XMLHttpRequest = new XMLHttpRequest();
-            //@ts-ignore
+            const xhr: XMLHttpRequest = new XMLHttpRequest();
+            //@ts-ignore xxxxxx
             xhr.onreadystatechange = aj.xhr.requestHandler.delegate(
                 null,
                 this.$uploadOk_callback,
@@ -110,7 +110,7 @@ export default {
             );
             xhr.open("POST", this.action, true);
             xhr.onprogress = (ev: ProgressEvent) => {
-                let progress: number = 0,
+                let progress = 0,
                     p: number = ~~((ev.loaded * 1000) / ev.total);
                 p = p / 10;
 
@@ -132,7 +132,7 @@ export default {
  * @param limit
  */
 function changeByte(limit: number): string {
-    let size: string = "";
+    let size = "";
 
     if (limit < 0.1 * 1024)
         // 小于 0.1KB，则转化成 B
@@ -146,7 +146,7 @@ function changeByte(limit: number): string {
     // 其他转化成 GB
     else size = (limit / (1024 * 1024 * 1024)).toFixed(2) + "GB";
 
-    let index = size.indexOf("."); // 获取小数点处的索引
+    const index: number = size.indexOf("."); // 获取小数点处的索引
 
     if (size.substr(index + 1, 2) == "00")
         // 获取小数点后两位的值，判断后两位是否为 00，如果是则删除 00

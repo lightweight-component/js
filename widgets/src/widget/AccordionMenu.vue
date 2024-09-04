@@ -33,7 +33,7 @@ export default {
       if (_btn && _btn.tagName == "H3" &&  (_btn.parentNode as Element).tagName == "LI") {
         _btn = _btn.parentNode as Element;
 
-        for (let btn: Element, i: number = 0, j = children.length; i < j; i++) {
+        for (let btn: Element, i = 0, j = children.length; i < j; i++) {
           btn = children[i];
           let ul = btn.querySelector("ul");
 

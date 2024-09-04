@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-import FileUploader from "@/widget/FileUploader/FileUploader.vue";
+import FileUploader from "@/widget/file-uploader/FileUploader.vue";
 import Calendar from "@/widget/calendar/Calendar.vue";
 
 export default {

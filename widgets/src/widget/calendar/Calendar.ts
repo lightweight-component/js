@@ -6,7 +6,7 @@ export default {
         showTime: Boolean // 是否显示时间，即“时分秒”
     },
     data() {
-        let date: Date = new Date;
+        const date: Date = new Date;
         return {
             date: date,
             year: date.getFullYear(),
@@ -29,25 +29,25 @@ export default {
          * 画日历
          */
         render(): void {
-            let arr: number[] = this.getDateArr(),// 用来保存日期列表
+            const arr: number[] = this.getDateArr(),// 用来保存日期列表
                 frag: DocumentFragment = document.createDocumentFragment();// 插入日期
 
             while (arr.length) {
-                let row: HTMLTableRowElement = document.createElement("tr"); // 每个星期插入一个 tr
+                const row: HTMLTableRowElement = document.createElement("tr"); // 每个星期插入一个 tr
 
                 for (let i = 1; i <= 7; i++) { // 每个星期有7天
-                    let cell: HTMLTableCellElement = document.createElement("td");
+                    const cell: HTMLTableCellElement = document.createElement("td");
 
                     if (arr.length) {
-                        let d: number = arr.shift();
+                        const d: number = arr.shift();
 
                         if (d) {
-                            let text: string = this.year + '-' + this.month + '-' + d;
+                            const text: string = this.year + '-' + this.month + '-' + d;
                             cell.title = text;  // 保存日期在 title 属性
                             cell.className = 'day day_' + text;
                             cell.innerHTML = d + "";
 
-                            let on: Date = new Date(this.year, this.month - 1, d);
+                            const on: Date = new Date(this.year, this.month - 1, d);
 
                             // 判断是否今日
                             if (isSameDay(on, this.date)) {
@@ -66,7 +66,7 @@ export default {
             }
 
             // 先清空内容再插入
-            let tbody = <HTMLElement>this.$el.querySelector("table tbody");
+            const tbody = <HTMLElement>this.$el.querySelector("table tbody");
             tbody.innerHTML = '';
             tbody.appendChild(frag);
         },
@@ -78,7 +78,7 @@ export default {
          * @param month 
          */
         getDate(dateType: 'preMonth' | 'nextMonth' | 'setMonth' | 'preYear' | 'nextYear', month: number): void {
-            let nowYear: number = this.date.getFullYear(),
+            const nowYear: number = this.date.getFullYear(),
                 nowMonth: number = this.date.getMonth() + 1; // 当前日期
 
             switch (dateType) {
@@ -106,7 +106,7 @@ export default {
          * @param querySelectoreven
          */
         setMonth(ev: Event): void {
-            let el: HTMLSelectElement = <HTMLSelectElement>ev.target;
+            const el: HTMLSelectElement = <HTMLSelectElement>ev.target;
             this.getDate('setMonth', Number(el.selectedOptions[0].value));
         },
 
@@ -116,7 +116,7 @@ export default {
          * @param this 
          */
         getDateArr(): number[] {
-            let arr: number[] = [];
+            const arr: number[] = [];
 
             // 算出这个月1号距离前面的星期天有多少天
             for (let i = 1, firstDay: number = new Date(this.year, this.month - 1, 1).getDay(); i <= firstDay; i++)
@@ -135,7 +135,7 @@ export default {
          * @param event 
          */
         pickDay(ev: Event): string {
-            let el: HTMLElement = <HTMLElement>ev.target,
+            const el: HTMLElement = <HTMLElement>ev.target,
                 date: string = el.title;
             this.$emit('pickdate', date);
 
@@ -147,7 +147,7 @@ export default {
          * @param event 
          */
         pickupTime(event: Event): void {
-            let hour: HTMLSelectElement = <HTMLSelectElement>this.$el.querySelector('.hour'),
+            const hour: HTMLSelectElement = <HTMLSelectElement>this.$el.querySelector('.hour'),
                 minute: HTMLSelectElement = <HTMLSelectElement>this.$el.querySelector('.minute'),
                 time = hour.selectedOptions[0].value + ':' + minute.selectedOptions[0].value;
 

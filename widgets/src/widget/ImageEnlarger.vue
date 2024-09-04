@@ -64,6 +64,7 @@ export default {
 function throttle(fn, delay, mustRunDelay) {
   var timer, t_start;
   return function () {
+    // @ts-ignore: xxxxxxxxxx
     var _this = this;
     var t_curr = +new Date();
     window.clearTimeout(timer);
@@ -72,12 +73,12 @@ function throttle(fn, delay, mustRunDelay) {
       t_start = t_curr;
       
     if (t_curr - t_start >= mustRunDelay) {
-      // @ts-ignore
+      // @ts-ignore xxxxxxxxxxxxxx
       fn.apply(this, arguments);
       t_start = t_curr;
     } else {
       var args = arguments;
-      // @ts-ignore
+      // @ts-ignore: xxxxxxxxxx
       timer = window.setTimeout(function () {
         return fn.apply(_this, args);
       }, delay);
