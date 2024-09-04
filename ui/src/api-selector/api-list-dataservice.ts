@@ -1,4 +1,4 @@
-import { xhr_get } from '@ajaxjs/util/dist/util/xhr';
+import { Xhr } from "@ajaxjs/util";
 import test from './test-dataservice';
 
 export default {
@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         getDataService(): void {
-            xhr_get(`${this.API}/datasource`, (j: RepsonseResult) => {
+            Xhr.xhr_get(`${this.API}/datasource`, (j: RepsonseResult) => {
                 // console.log(j.result);
                 let DataServiceTreeData: any[] = [];
                 // let i: number = 0;
@@ -40,7 +40,7 @@ export default {
             let datasourceDir: string = item.urlDir;
             let datasourceId: number = item.datasourceId;
 
-            xhr_get(`${this.API}/data_service?datasourceId=${datasourceId}`, (j: RepsonseResult) => {
+            Xhr.xhr_get(`${this.API}/data_service?datasourceId=${datasourceId}`, (j: RepsonseResult) => {
                 if (j.data) {
                     this.list = j.data;
                     let data: any[] = [];
@@ -148,7 +148,7 @@ export default {
             if (!data.isLoaded) {
                 // 预先加载
                 let tableFields: any[] = [];
-                xhr_get(`${this.API}/data_service/getAllFieldsByDataSourceAndTablename?datasourceId=${data.cfg.datasourceId}&tableName=${data.cfg.tableName}`,
+                Xhr.xhr_get(`${this.API}/data_service/getAllFieldsByDataSourceAndTablename?datasourceId=${data.cfg.datasourceId}&tableName=${data.cfg.tableName}`,
                     (j: RepsonseResult) => {
                         console.log(j)
                         //@ts-ignore

@@ -46,24 +46,12 @@
         </td>
       </tr>
     </table>
-
-    <DemoWidget v-if="show == 'widget'" />
-    <Form v-if="show == 'form'" />
-    <HtmlEditor v-if="show == 'html-editor'" />
-    <Calendar v-if="show == 'calendar'" />
-    <PlayGround v-if="show == 'play-ground'" />
   </div>
 </template>
 
 <script>
-import DemoWidget from "./pages/widgets.vue";
-import Form from "./pages/form.vue";
-import HtmlEditor from "./pages/html-editor.vue";
-import Calendar from "./pages/calendar.vue";
-import PlayGround from "./pages/play-ground.vue";
-
 export default {
-  components: { DemoWidget, Form, HtmlEditor, Calendar, PlayGround },
+  components: {  },
   data() {
     return {
       show: "intro",

@@ -64,7 +64,8 @@
 
 <script lang="ts">
 import Render from "./document-render.vue";
-import { xhr_post_upload } from "../../../util/xhr";
+import { Xhr } from "@ajaxjs/util";
+// import { xhr_post_upload } from "../../../util/xhr";
 //@ts-ignore
 // import FileUploader from "./../../../widget/FileUploader/FileUploader.vue";
 

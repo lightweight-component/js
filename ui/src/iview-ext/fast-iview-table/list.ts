@@ -1,5 +1,4 @@
-import { dateFormat } from '@ajaxjs/util/dist/util/utils';
-import { xhr_del } from '@ajaxjs/util/dist/util/xhr';
+import { Xhr, Utils } from "@ajaxjs/util";
 
 /**
  * 处理响应的回调函数
@@ -19,7 +18,7 @@ export default {
     },
 
     delInfo(index: number) {
-        xhr_del(`${this.API}/${this.list.data[index].id}`, (j: RepsonseResult) => {
+        Xhr.xhr_del(`${this.API}/${this.list.data[index].id}`, (j: RepsonseResult) => {
             if (j.status) {
                 this.list.data.splice(index, 1);
                 this.list.total--;
@@ -39,7 +38,7 @@ export default {
      */
     createDate: {
         title: '创建日期',/*  key: 'createDate', */ width: 160, align: 'center', render(h: Function, params: any) {
-            return h('div', dateFormat.call(new Date(params.row.createDate), 'yyyy-MM-dd hh:mm'));
+            return h('div', Utils.dateFormat.call(new Date(params.row.createDate), 'yyyy-MM-dd hh:mm'));
         }
     },
 

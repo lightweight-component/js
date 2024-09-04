@@ -1,4 +1,4 @@
-import { xhr_get } from '@ajaxjs/util/dist/util/xhr';
+import { Xhr } from "@ajaxjs/util";
 
 export default {
     props: {
@@ -31,7 +31,7 @@ export default {
             // if (this.list.search.name)
             //     params.where = `name LIKE '%${this.list.search.name}%'`;
 
-            xhr_get(this.API, (j: RepsonseResult) => {
+            Xhr.xhr_get(this.API, (j: RepsonseResult) => {
                 this.list.loading = false;
 
 

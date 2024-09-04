@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { dateFormat } from "@ajaxjs/util/dist/util/utils";
+import {  Utils } from "@ajaxjs/util";
 
 const logout: string = "localStorage.removeItem('accessToken');location.reload();";
 
@@ -39,7 +39,7 @@ export default {
           title: "当前用户信息",
           content: `<p>用户名： ${
             this.payload.name
-          }</p><p>Token 过期时间：${dateFormat.call(
+          }</p><p>Token 过期时间：${Utils.dateFormat.call(
             new Date(this.payload.exp * 1000),
             "yyyy-MM-dd hh:mm:ss"
           )}</p><p><a href="#" onclick="${logout}">用户登出</a></p>`,

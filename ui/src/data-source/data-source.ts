@@ -1,4 +1,4 @@
-import { xhr_get, xhr_post, xhr_put, xhr_del } from '@ajaxjs/util/dist/util/xhr';
+import { Xhr } from "@ajaxjs/util";
 
 const DBType = { 'MY_SQL': 'MySQL', 'ORACLE': 'Oracle', 'SQL_SERVER': 'Sql Server', 'SPARK': 'Spark', 'SQLITE': 'SQLite', DB2: 'DB2' };
 // @ts-ignore
@@ -38,8 +38,8 @@ export default {
 			this.form.data = item;
 		},
 		getList(cb): void {
-			// @ts-ignore
-			xhr_get(`${window.config.dsApiRoot}/datasource`,  (j: RepsonseResult) => {
+			// @ts-ignore xxxx
+			xhr_get(`${window.config.dsApiRoot}/datasource`, (j: RepsonseResult) => {
 				this.datasources = j.data;
 			}, { start: 0, limit: 99 });
 		},
@@ -52,7 +52,7 @@ export default {
 		create(): void {
 			this.$refs.editForm.validate((valid) => {
 				if (valid) {
-					xhr_post(DATASOURCE_API, this.form.data, j => {
+					Xhr.xhr_post(DATASOURCE_API, this.form.data, j => {
 						if (j.status === 1) {
 							let newlyId = j.data;
 							this.getList(() => this.activedItem = newlyId);
@@ -66,7 +66,7 @@ export default {
 		},
 		update(): void {
 			let entity = Object.assign({}, this.form.data);
-			xhr_put(DATASOURCE_API, entity, j => {
+			Xhr.xhr_put(DATASOURCE_API, entity, j => {
 				if (j.status === 1) {
 					this.$Message.success('修改数据源成功');
 				}
@@ -77,7 +77,7 @@ export default {
 				title: '删除数据源',
 				content: `是否删除数据源 #${name}？`,
 				onOk: () => {
-					xhr_del(DATASOURCE_API + id, j => {
+					Xhr.xhr_del(DATASOURCE_API + id, j => {
 						this.$Message.success('删除数据源成功');
 						this.getList(() => this.add());
 					});
@@ -85,7 +85,7 @@ export default {
 			});
 		},
 		test(): void {
-			// @ts-ignore
+			// @ts-ignore xxxxxx
 			xhr_get(`${window.config.dsApiRoot}/datasource/test/` + this.activedItem, (j: RepsonseResult) => {
 				if (j.status)
 					this.$Modal.success({ title: '连接数据源成功' });
