@@ -1,7 +1,6 @@
 const { defineConfig } = require('@vue/cli-service');
-const { console } = require('inspector');
+// const { console } = require('inspector');
 const path = require('path');
-console.log(path)
 
 module.exports = defineConfig({
   transpileDependencies: true,

@@ -50,15 +50,15 @@ export class Validator {
      * 对每一个表单元素监听事件，一失去焦点就触发表单验证
      */
     private checkEveryField(): void {
-        let arr: NodeListOf<HTMLInputElement> = this.el.querySelectorAll('input');
+        const arr: NodeListOf<HTMLInputElement> = this.el.querySelectorAll('input');
         arr.forEach((input: HTMLInputElement) => {
             input.addEventListener('blur', (ev: Event) => {
-                let el: HTMLFormControl = <HTMLFormControl>ev.target;
+                const el: HTMLFormControl = <HTMLFormControl>ev.target;
 
                 if (el.tagName == "A" || Validator.isIgnoreEl(el))// 忽略部分元素；a 元素也有 blur 事件，忽略之
                     return;
 
-                let result: ErrorElement | null = Validator.check(el);
+                const result: ErrorElement | null = Validator.check(el);
 
                 if (result) { // 如果有错误,就把它显示出来
                     this.errorElements.push(result);
@@ -74,7 +74,7 @@ export class Validator {
      * @param err 
      */
     private showError(err: ErrorElement): void {
-        let el = err.el,
+        const el = err.el,
             id: string = el.id || el.name; // 获取字段 id 或者 name
 
         if (!id)
@@ -106,14 +106,14 @@ export class Validator {
      * @param el 
      */
     private removeError(el: HTMLFormControl): void {
-        let id: string = el.id || el.name;// 获取字段的 id 或者 name
+        const id: string = el.id || el.name;// 获取字段的 id 或者 name
         if (!id)
             return;
 
         el.classList.remove('error');            // 删除字段的错误类
         el.removeAttribute('aria-describedby');  // 移除字段的 ARIA role
 
-        let message: HTMLElement | null = <HTMLElement | null>el.form.querySelector(`.error-message#error-for-${id}`); // 检查 DOM 中是否有错误消息
+        const message: HTMLElement | null = <HTMLElement | null>el.form.querySelector(`.error-message#error-for-${id}`); // 检查 DOM 中是否有错误消息
         if (message) {
             message.innerHTML = ''; // 如果有错误消息就隐藏它
             message.classList.add('hide');
@@ -139,7 +139,7 @@ export class Validator {
         // if (!field || !field.getAttribute)
         //     console.log(field);
 
-        let validity: ValidityState = field.validity;  // 获取 validity
+        const validity: ValidityState = field.validity;  // 获取 validity
 
         if (!validity)
             throw '浏览器不支持 HTML5 表单验证';
@@ -147,7 +147,7 @@ export class Validator {
         if (validity.valid) // 通过验证
             return null;
         else {
-            let result: ErrorElement = {
+            const result: ErrorElement = {
                 el: field,
                 msg: "无效输入" // 通用错误讯息 The value you entered for this field is invalid.
             };
@@ -199,14 +199,14 @@ export class Validator {
      * @param form 
      */
     public static onSubmit(form: HTMLFormElement): boolean {
-        let fields: HTMLFormControlsCollection = form.elements;// 获取所有的表单元素
+        const fields: HTMLFormControlsCollection = form.elements;// 获取所有的表单元素
 
         // 验证每一个字段
         // 将具有错误的第一个字段存储到变量中以便稍后我们将其默认获得焦点
         let error: ErrorElement | null, hasErrors: HTMLElement | null = null;
 
         for (let i = 0, j = fields.length; i < j; i++) {
-            let el: HTMLFormControl = <HTMLFormControl>fields[i];
+            const el: HTMLFormControl = <HTMLFormControl>fields[i];
             error = this.check(el);
 
             if (error) {

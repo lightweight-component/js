@@ -1,5 +1,5 @@
 // https://github.com/jitbit/HtmlSanitizer/blob/master/HtmlSanitizer.js
-// @ts-ignore
+// @ts-ignore xxxxxx
 HtmlSanitizer = new (function foo() {
     var tagWhitelist_ = {
         'A': true, 'ABBR': true, 'B': true, 'BLOCKQUOTE': true, 'BODY': true, 'BR': true, 'CENTER': true, 'CODE': true, 'DIV': true, 'EM': true, 'FONT': true,
@@ -31,7 +31,9 @@ HtmlSanitizer = new (function foo() {
         document.body.appendChild(iframe); // necessary so the iframe contains a document
 
         var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
-        if (iframedoc.body == null) iframedoc.write("<body></body>"); // null in IE
+        if (iframedoc.body == null)
+            iframedoc.write("<body></body>"); // null in IE
+        
         iframedoc.body.innerHTML = input;
 
         function makeSanitizedCopy(node) {
@@ -40,10 +42,8 @@ HtmlSanitizer = new (function foo() {
             } else if (node.nodeType == Node.ELEMENT_NODE && (tagWhitelist_[node.tagName] || contentTagWhiteList_[node.tagName])) {
 
                 //remove useless empty spans (lots of those when pasting from MS Outlook)
-                if ((node.tagName == "SPAN" || node.tagName == "B" || node.tagName == "I" || node.tagName == "U")
-                    && node.innerHTML.trim() == "") {
+                if ((node.tagName == "SPAN" || node.tagName == "B" || node.tagName == "I" || node.tagName == "U") && node.innerHTML.trim() == "")
                     return document.createDocumentFragment();
-                }
 
                 if (contentTagWhiteList_[node.tagName])
                     newNode = iframedoc.createElement('DIV'); //convert to DIV
@@ -56,15 +56,16 @@ HtmlSanitizer = new (function foo() {
                         if (attr.name == "style") {
                             for (s = 0; s < node.style.length; s++) {
                                 var styleName = node.style[s];
+
                                 if (cssWhitelist_[styleName])
                                     newNode.style.setProperty(styleName, node.style.getPropertyValue(styleName));
                             }
-                        }
-                        else {
+                        } else {
                             if (uriAttributes_[attr.name]) { //if this is a "uri" attribute, that can have "javascript:" or something
                                 if (attr.value.indexOf(":") > -1 && !startsWithAny(attr.value, schemaWhiteList_))
                                     continue;
                             }
+
                             newNode.setAttribute(attr.name, attr.value);
                         }
                     }
@@ -73,24 +74,22 @@ HtmlSanitizer = new (function foo() {
                     var subCopy = makeSanitizedCopy(node.childNodes[i]);
                     newNode.appendChild(subCopy, false);
                 }
-            } else {
+            } else
                 newNode = document.createDocumentFragment();
-            }
+
             return newNode;
-        };
+        }
 
         var resultElement = makeSanitizedCopy(iframedoc.body);
         document.body.removeChild(iframe);
-        return resultElement.innerHTML
-            .replace(/<br[^>]*>(\S)/g, "<br>\n$1")
-            .replace(/div><div/g, "div>\n<div"); //replace is just for cleaner code
+
+        return resultElement.innerHTML.replace(/<br[^>]*>(\S)/g, "<br>\n$1").replace(/div><div/g, "div>\n<div"); //replace is just for cleaner code
     }
 
     function startsWithAny(str, substrings) {
         for (var i = 0; i < substrings.length; i++) {
-            if (str.indexOf(substrings[i]) == 0) {
+            if (str.indexOf(substrings[i]) == 0)
                 return true;
-            }
         }
 
         return false;

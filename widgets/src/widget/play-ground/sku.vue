@@ -42,7 +42,7 @@ var myData = {},
 
 // 获取 key 的库存量
 function getNum(key: string): number {
-  let result: number = 0,
+  let result = 0,
     n = [];
 
   if (typeof myData[key] != "undefined")   // 检查是否已计算过
@@ -58,7 +58,7 @@ function getNum(key: string): number {
     let j;
 
     for (j = 0; j < keys[i].length && items.length > 0; j++) {
-        // @ts-ignore
+        // @ts-ignore xxxxxxxx
       if (keys[i][j] == items[0]) 
         break;
     }
@@ -79,10 +79,11 @@ function getNum(key: string): number {
   return result;
 }
 
-// document.write(getNum("10") + ";"); //输出14
-// document.write(getNum("11") + ";"); //输出1
-// document.write(getNum("10;21") + ";"); //输出11
-// document.write(getNum("21;31") + ";"); //输出2​
+/*
+document.write(getNum("10"));//输出14
+document.write(getNum("11"));//输出1
+document.write(getNum("10;21"));//输出11 21;31=2
+*/
 export default {
   data() {
     return {

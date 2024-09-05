@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "declaration": true, // 启用声明文件的生成
+    "outDir": "./dist", // 指定输出目录
     "target": "esnext",
     "module": "esnext",
     "strict": false,

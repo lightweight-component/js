@@ -27,13 +27,13 @@ export default {
     placeholder: { type: String, default: "请输入日期" }, // 提示文字
   },
   watch: {
-    fieldValue( n: string): void {
+    fieldValue(n: string): void {
       this.date = n;
     },
   },
   mounted(): void {
     if (this.positionFixed) {
-      let el: HTMLElement = <HTMLElement>this.$el.$(".aj-form-calendar");
+      let el: HTMLElement = this.$el.$(".aj-form-calendar") as HTMLElement;
       el.classList.add("positionFixed");
     }
 
@@ -45,8 +45,8 @@ export default {
     if (this.fieldValue) {
       let arr: string = this.fieldValue.split(" ")[0],
         _arr = arr.split("-");
-      // @ts-ignore
-      this.$refs.calendar.date = new Date(arr[0],arr[1] - 1, arr[2]," ", "", " ");
+      // @ts-ignore xxxx
+      this.$refs.calendar.date = new Date(arr[0], arr[1] - 1, arr[2], " ", ""," ");
     }
   },
   methods: {
@@ -58,9 +58,9 @@ export default {
     },
     onMouseOver(ev: Event): void {
       if (this.positionFixed) {
-        let el: HTMLElement = <HTMLElement>ev.currentTarget,
+        let el: HTMLElement = ev.currentTarget as HTMLElement,
           b: DOMRect = el.getBoundingClientRect(),
-          c: HTMLElement = <HTMLElement>this.$el.$(".aj-form-calendar");
+          c: HTMLElement = this.$el.$(".aj-form-calendar") as HTMLElement;
 
         c.style.top = b.top + el.clientHeight - 0 + "px";
         c.style.left = b.left - 0 + 0 + "px";

@@ -1,7 +1,6 @@
 {
   "name": "@ajaxjs/widgets",
   "version": "1.0.0",
-  "main": "index.js",
   "keywords": [
     "ajaxjs",
     "widgets"
@@ -19,8 +18,15 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib src/index.js --name @ajaxjs/widgets --dest dist"
   },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "dependencies": {},
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",

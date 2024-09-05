@@ -9,7 +9,9 @@
 /**
  * 展开闭合器
  */
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
   props: {
     openHeight: { type: Number, default: 200 },
     closeHeight: { type: Number, default: 50 },
@@ -19,7 +21,7 @@ export default {
       expended: false,
     };
   },
-};
+});
 </script>
 
 <style lang="less" scoped>
