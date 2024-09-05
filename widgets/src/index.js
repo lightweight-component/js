@@ -4,7 +4,6 @@ const requireComponent = require.context('./', true, /\.vue$/);
 const components = [];
 
 requireComponent.keys().forEach(fileName => {
-    console.log(fileName);
     if (fileName != './App.vue') {
         const cmp = requireComponent(fileName).default || requireComponent(fileName);
         if (cmp.extendOptions)
@@ -23,7 +22,7 @@ const install = (Vue) => {
             const cmp = requireComponent(fileName).default || requireComponent(fileName);
 
             if (cmp.extendOptions && cmp.extendOptions.name) {
-                console.log(fileName, cmp.extendOptions.name);
+                // console.log(fileName, cmp.extendOptions.name);
 
                 // 注册组件（组件名，组件）
                 Vue.component(cmp.extendOptions.name, cmp);

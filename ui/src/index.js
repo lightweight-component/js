@@ -4,23 +4,30 @@ const requireComponent = require.context('./', true, /\.vue$/);
 const components = [];
 
 requireComponent.keys().forEach(fileName => {
-    console.log(fileName);
-    const cmp = requireComponent(fileName).default || requireComponent(fileName);
-    components.push(cmp);
+    if (fileName != './App.vue') {
+        const cmp = requireComponent(fileName).default || requireComponent(fileName);
+        if (cmp.extendOptions)
+            components.push(cmp);
+    }
 });
 
 // 插件
-const install = Vue => {
+const install = (Vue) => {
     if (install.installed)
         return install.installed;
 
     requireComponent.keys().forEach(fileName => {
-        // 第i个组件
-        const cmp = requireComponent(fileName).default || requireComponent(fileName);
-        // console.log(fileName, cmp.extendOptions.name);
+        if (fileName != './App.vue') {
+            // 第i个组件
+            const cmp = requireComponent(fileName).default || requireComponent(fileName);
 
-        // 注册组件（组件名，组件）
-        Vue.component(cmp.extendOptions.name, cmp);
+            if (cmp.extendOptions && cmp.extendOptions.name) {
+                // console.log(fileName, cmp.extendOptions.name);
+
+                // 注册组件（组件名，组件）
+                Vue.component(cmp.extendOptions.name, cmp);
+            }
+        }
     });
 
     // 全局自定义指令

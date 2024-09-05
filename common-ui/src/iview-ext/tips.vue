@@ -3,15 +3,12 @@
 </template>
 
 <script>
-import Vue from "vue";
-
 /**
  * 帮助图标
  */
-export default Vue.extend({
-  name: 'Tips',
+export default {
   props: {
     text: { type: String, required: true },
   },
-});
+};
 </script>

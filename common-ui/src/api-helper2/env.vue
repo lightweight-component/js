@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { Xhr } from "@ajaxjs/util";
+import { xhr_get } from "../../util/xhr";
 
 export default {
   props: {},
@@ -53,7 +53,7 @@ export default {
     };
   },
   mounted() {
-    Xhr.xhr_get("http://127.0.0.1:8080/cms/api/ApiHelper/env/list", (j: RepsonseResult) => {
+    xhr_get("http://127.0.0.1:8080/cms/api/ApiHelper/env/list", (j: RepsonseResult) => {
         if (j.status) 
           this.envs = j.data;
         else this.$Message.warning(j.message);

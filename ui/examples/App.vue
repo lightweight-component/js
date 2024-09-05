@@ -13,6 +13,7 @@
       <tr>
         <td>
           <h1>ajaxjs.js 前端组件库</h1>
+          <Tips text="Foo" />
           <ul>
             <li>
               这是一个个人练手项目，组件不是很全，只有顶部导航列出那些。要求大而全的请参考
@@ -31,13 +32,9 @@
           <p>
             <a href="https://www.npmjs.com/package/@ajaxjs/ui">npm</a>
             |
-            <a href="https://gitee.com/sp42_admin/ajaxjs/tree/master/aj-ui-widget/aj"
-            >源码</a>
+            <a href="https://gitee.com/sp42_admin/ajaxjs/tree/master/aj-ui-widget/aj">源码</a>
             |
-            <a
-              target="_blank"
-              href="//shang.qq.com/wpa/qunwpa?idkey=3877893a4ed3a5f0be01e809e7ac120e346102bd550deb6692239bb42de38e22"
-            >QQ 群：3150067</a>
+            <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=3877893a4ed3a5f0be01e809e7ac120e346102bd550deb6692239bb42de38e22">QQ 群：3150067</a>
             |
             <a href="mailto:frank@ajaxjs.com">Email</a> |
             <a target="_blank" href="http://blog.csdn.net/zhangxin09">作者博客</a>
@@ -50,8 +47,10 @@
 </template>
 
 <script>
+import Tips from "../src/iview-ext/tips.vue";
+
 export default {
-  components: {  },
+  components: { Tips },
   data() {
     return {
       show: "intro",

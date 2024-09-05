@@ -28,12 +28,10 @@
 </template>
 
 <script>
-import Vue from "vue";
-import { Xhr, Utils } from "@ajaxjs/util";
+import { xhr_get, getPageList } from '@ajaxjs/util/dist/util/xhr';
 
 // 选择表
-export default Vue.extend({
-  name: "TableSelector",
+export default {
   data() {
     return {
       // isCrossDb: false,
@@ -82,13 +80,13 @@ export default Vue.extend({
   methods: {
     getData() {
       this.loading = true;
-      let url = `${window.config.dsApiRoot}/datasource/${this.dataSourceId}/get_all_tables?start=${this.start}&limit=${this.pageSize}`;
+      let url =`${window.config.dsApiRoot}/datasource/${this.dataSourceId}/get_all_tables?start=${this.start}&limit=${this.pageSize}`;
       // let url = `${DS_CONFIG.API_ROOT}/admin0/${this.dataSourceId}/getAllTables?start=${this.start}&limit=${this.pageSize}`;
 
       if (this.searchKeyword) url += `&tableName=${this.searchKeyword}`;
       if (this.databaseName) url += `&dbName=${this.databaseName}`;
 
-      Xhr.xhr_get(url, (j) => {
+     xhr_get(url, (j) => {
         if (j.status) {
           this.data = j.data.rows;
           this.total = j.data.total;
@@ -104,9 +102,9 @@ export default Vue.extend({
       this.listData = this.data.slice(start, end);
     },
     onSelect(arr) {
-      // arr.forEach((item) => {
-      //   this.data.forEach((_item) => {});
-      // });
+      arr.forEach((item) => {
+        this.data.forEach((_item) => {});
+      });
     },
     resetData() {
       this.searchKeyword = "";
@@ -152,15 +150,12 @@ export default Vue.extend({
     dataSourceId(id) {
       if (id) {
         if (this.isCrossDb)
-         Xhr.xhr_get(`/admin/${this.dataSourceId}/get_databases`, (j) => {
+          aj.xhr.get(
+            `${DS_CONFIG.API_ROOT}/admin/${this.dataSourceId}/get_databases`,
+            (j) => {
               if (j.status) {
                 // 过滤 mysql 自带的库
-                let not = [
-                  "information_schema",
-                  "performance_schema",
-                  "sys",
-                  "mysql",
-                ];
+                let not = ["information_schema", "performance_schema", "sys", "mysql"];
                 let arr = j.data.filter((db) => !not.includes(db));
                 this.databaseList = arr;
 
@@ -181,5 +176,5 @@ export default Vue.extend({
       this.getData(); // 会重复请求
     },
   },
-});
+};
 </script>

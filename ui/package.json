@@ -1,10 +1,12 @@
 {
   "name": "@ajaxjs/ui",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "1.3.2",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
-    "ajaxjs",
-    "widgets"
+    "ajaxjs"
   ],
   "author": "Frank Cheung <frank@ajaxjs.com>",
   "license": "Apache License 2.0",
@@ -19,8 +21,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name @ajaxjs/widgets --dest dist src/index.js",
+    "deploy": "npm run lib && npm version patch && npm publish"
   },
+  "main": "dist/@ajaxjs/widgets.umd.js",
+  "types": "dist/types.d.ts",
   "dependencies": {
     "@ajaxjs/util": "1.1.3"
   },

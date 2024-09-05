@@ -3,13 +3,11 @@
 </template>
 
 <script lang="ts">
-import {  Utils } from "@ajaxjs/util";
-import Vue from "vue";
+import { dateFormat } from "@ajaxjs/util/dist/util/utils";
 
-const logout = "localStorage.removeItem('accessToken');location.reload();";
+const logout: string = "localStorage.removeItem('accessToken');location.reload();";
 
-export default Vue.extend({
-  name: 'IAM',
+export default {
   data() {
     return {
       state: "未登录",
@@ -34,14 +32,14 @@ export default Vue.extend({
   methods: {
     showUserInfo(): void {
       if (this.state === "未登录") {
-        // @ts-ignore xxx
+        // @ts-ignore
         location.assign(window.config.loginUrl);
       } else {
         this.$Modal.info({
           title: "当前用户信息",
           content: `<p>用户名： ${
             this.payload.name
-          }</p><p>Token 过期时间：${Utils.dateFormat.call(
+          }</p><p>Token 过期时间：${dateFormat.call(
             new Date(this.payload.exp * 1000),
             "yyyy-MM-dd hh:mm:ss"
           )}</p><p><a href="#" onclick="${logout}">用户登出</a></p>`,
@@ -49,5 +47,5 @@ export default Vue.extend({
       }
     },
   },
-});
+};
 </script>
