@@ -20,14 +20,16 @@
 </template>
 
 <script>
+import Vue from "vue";
 import FontSize from './AdjustFontSize.vue';
 
-export default { 
+export default Vue.extend({
+  name: 'ArticleContent',
   props: {
     title: String, author: String, source: String
   },
   components: { FontSize }
-}
+});
 </script>
 
 <style lang="less" scoped>

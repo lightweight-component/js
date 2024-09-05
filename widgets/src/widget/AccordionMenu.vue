@@ -5,25 +5,11 @@
 </template>
 
 <script lang="ts">
-/**
- * 内部子菜单的高亮
- *
- * @param ev
- */
-function highlightSubItem(ev: Event) {
-  let li: Element,
-    el: Element = ev.target as Element;
+import Vue from "vue";
+import { defineComponent } from 'vue';
 
-  if (el.tagName == "A" && el.getAttribute("target")) {
-    li = el.parentNode as Element;
-    li.querySelectorAll("li").forEach((_el: Element) => {
-      if (_el == li) _el.classList.add("selected");
-      else _el.classList.remove("selected");
-    });
-  }
-}
-
-export default {
+export default defineComponent({
+  name: 'AccordionMenu',
   methods: {
     onClk(ev: Event): void {
       let children: HTMLCollection = this.$el.children;
@@ -56,7 +42,25 @@ export default {
       } else return;
     }
   }
-};
+});
+
+/**
+ * 内部子菜单的高亮
+ *
+ * @param ev
+ */
+function highlightSubItem(ev: Event) {
+  let li: Element,
+    el: Element = ev.target as Element;
+
+  if (el.tagName == "A" && el.getAttribute("target")) {
+    li = el.parentNode as Element;
+    li.querySelectorAll("li").forEach((_el: Element) => {
+      if (_el == li) _el.classList.add("selected");
+      else _el.classList.remove("selected");
+    });
+  }
+}
 </script>
 
 <style lang="less" scoped>

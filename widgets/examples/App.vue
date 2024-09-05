@@ -56,14 +56,15 @@
 </template>
 
 <script>
-import DemoWidget from "./pages/widgets.vue";
-import Form from "./pages/form.vue";
-import HtmlEditor from "./pages/html-editor.vue";
-import Calendar from "./pages/calendar.vue";
-import PlayGround from "./pages/play-ground.vue";
+import DemoWidget from "./widgets.vue";
+import Form from "./form.vue";
+import HtmlEditor from "./html-editor.vue";
+import Calendar from "./calendar.vue";
+import PlayGround from "./play-ground.vue";
 
 export default {
   components: { DemoWidget, Form, HtmlEditor, Calendar, PlayGround },
+  // components: { DemoWidget },
   data() {
     return {
       show: "intro",

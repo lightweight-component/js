@@ -1,7 +1,10 @@
+import Vue from "vue";
+
 /**
  * 日期选择器
  */
-export default {
+export default Vue.extend({
+    name: 'Calendar',
     props: {
         showTime: Boolean // 是否显示时间，即“时分秒”
     },
@@ -154,7 +157,7 @@ export default {
             this.$emit('pick-time', time);
         }
     }
-};
+});
 
 /**
   * 判断两个日期是否同一日

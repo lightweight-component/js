@@ -5,10 +5,13 @@
 </template>
 
 <script>
+import Vue from "vue";
+
 /**
  * 悬浮显示大图
  */
-export default {
+export default Vue.extend({
+  name: 'ImageEnlarger',
   props: {
     imgUrl: { type: String, required: true },// 图片地址
   },
@@ -51,7 +54,7 @@ export default {
       }
     }, 50, 5000), false);
   }
-};
+});
 
 /**
  * 函数节流

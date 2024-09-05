@@ -1,4 +1,7 @@
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
+    name: 'HtmlEditor',
     props: {
         vModel: String,                 // 双向绑定
         uploadImageActionUrl: String,   // 图片上传路径
@@ -224,7 +227,7 @@ export default {
             }
         },
     }
-};
+});
 
 /**
  * 粘贴图片

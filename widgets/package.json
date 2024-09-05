@@ -1,6 +1,10 @@
 {
   "name": "@ajaxjs/widgets",
-  "version": "1.0.0",
+  "version": "1.0.9",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "ajaxjs",
     "widgets"
@@ -19,11 +23,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib src/index.js --name @ajaxjs/widgets --dest dist"
+    "lib": "vue-cli-service build --target lib --name @ajaxjs/widgets --dest dist src/index.js",
+    "deploy": "npm run lib && tsc && npm version patch && npm publish"
   },
-  "main": "dist/index.umd.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/@ajaxjs/widgets.umd.js",
+  "types": "dist/types.d.ts",
   "files": [
     "dist/"
   ],

@@ -1,6 +1,8 @@
 import Empty from '../EmptyContent';
+import Vue from "vue";
 
-export default {
+export default Vue.extend({
+    name: 'FileUploader',
     props: {
         action: { type: String, required: false }, // 上传路径
         limitSize: { type: Number, default: 20000 }, // 文件大小限制
@@ -124,7 +126,7 @@ export default {
 
         changeByte: changeByte
     }
-}
+});
 
 /**
  * 字节 Byte 转化成 KB，MB，GB

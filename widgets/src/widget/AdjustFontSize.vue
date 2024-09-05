@@ -10,10 +10,13 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
+
 /**
  * 调整正文字体大小
  */
-export default {
+export default Vue.extend({
+  name: 'AdjustFontSize',
   props: {
     articleTarget: { type: String, default: "article p" }, // 正文所在的位置，通过 CSS Selector 定位
   },
@@ -33,7 +36,7 @@ export default {
       }
     }
   }
-};
+});
 </script>
 
 <style lang="less" scoped>

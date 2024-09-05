@@ -2,10 +2,12 @@
   "compilerOptions": {
     "declaration": true, // 启用声明文件的生成
     "outDir": "./dist", // 指定输出目录
+    // "outFile": "./dist/fooooooo.js", // 指定输出文件
     "target": "esnext",
     "module": "esnext",
     "strict": false,
     "jsx": "preserve",
+    "jsxImportSource": "vue",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,

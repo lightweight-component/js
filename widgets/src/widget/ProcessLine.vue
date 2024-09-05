@@ -10,10 +10,13 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
+
 /**
  * 进度条
  */
-export default {
+export default Vue.extend({
+  name: 'ProcessLine',
   props: {
     items: {
       type: Array,
@@ -56,7 +59,7 @@ export default {
       this.go(next);
     },
   },
-};
+});
 </script>
 
 <style lang="less" scoped>
