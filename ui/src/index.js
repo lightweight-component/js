@@ -1,13 +1,15 @@
 // 动态引入组件
 const requireComponent = require.context('./', true, /\.vue$/);
-// import FooAbc from './FooAbc.vue';
-const components = [];
+import List from './iview-ext/list';
+import IAM from './iam/iam';
+
+const components = {};
 
 requireComponent.keys().forEach(fileName => {
     if (fileName != './App.vue') {
         const cmp = requireComponent(fileName).default || requireComponent(fileName);
         if (cmp.extendOptions)
-            components.push(cmp);
+            components[cmp.extendOptions.name] = cmp;
     }
 });
 
@@ -44,5 +46,7 @@ if (typeof window !== 'undefined' && window.Vue)
 
 export default {
     install,
+    List,
+    IAM,
     ...components//组件也一样要暴露
 }

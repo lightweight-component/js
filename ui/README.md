@@ -18,6 +18,10 @@ npm run build # output js
 npm run release # deploy to NPM
 ```
 
+```js
+import '@ajaxjs/ui/dist/@ajaxjs/ui.css';
+```
+
 ## API Selector API 选择器
 
 ## API Helper 可视化 HTTP 请求工具

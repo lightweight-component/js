@@ -4,7 +4,12 @@ const path = require('path');
 console.log(path)
 
 module.exports = defineConfig({
-  transpileDependencies: true,
+  transpileDependencies: false,
+  chainWebpack: (config) => {
+    config.externals({
+      '@ajaxjs/util': '@ajaxjs/util'
+    });
+  },
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',

@@ -1,7 +1,9 @@
-import List from './list';
-import { Xhr } from "@ajaxjs/util";
+import Vue from "vue";
+import List from "./list";
+import { Xhr } from '@ajaxjs/util';
 
-export default {
+export default Vue.extend({
+    name: "FastViewTable",
     props: {
         widgetName: { type: String, required: false },
         apiUrl: { type: String, required: false },  // 接口地址
@@ -128,4 +130,4 @@ export default {
             this.getData();
         }
     },
-};
+});

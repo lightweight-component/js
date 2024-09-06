@@ -40,7 +40,7 @@ export default {
         title: '创建日期',/*  key: 'createDate', */ width: 160, align: 'center', render(h: (a: string, b: string) => object, params: any) {
             return h('div', Utils.dateFormat.call(new Date(params.row.createDate), 'yyyy-MM-dd hh:mm'));
         }
-    },np
+    },
 
     /**
      * 分类标签

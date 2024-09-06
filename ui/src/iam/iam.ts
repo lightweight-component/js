@@ -19,7 +19,7 @@ export default {
 
         if (!accessToken && !token) {
             console.log('你未登录！');
-            let target: string = `${loginUrl}?web_url=${encodeURIComponent(thisPageUrl)}`;
+            const target = `${loginUrl}?web_url=${encodeURIComponent(thisPageUrl)}`;
 
             confirm('你未登录。是否跳转到登录页面？') && location.assign(target);
 
@@ -51,11 +51,11 @@ export default {
 };
 
 function getQueryParam(variable: string, isParent: boolean): string | null {
-    var query: string = (isParent ? parent.location : window.location).search.substring(1);
-    var vars: string[] = query.split("&");
+    const query: string = (isParent ? parent.location : window.location).search.substring(1);
+    const vars: string[] = query.split("&");
 
-    for (var i: number = 0; i < vars.length; i++) {
-        var pair: string[] = vars[i].split("=");
+    for (let i = 0; i < vars.length; i++) {
+        const pair: string[] = vars[i].split("=");
 
         if (pair[0] == variable)
             return pair[1];

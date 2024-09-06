@@ -9,7 +9,7 @@ import Vue from "vue";
 const logout = "localStorage.removeItem('accessToken');location.reload();";
 
 export default Vue.extend({
-  name: 'IAM',
+  name: 'IamUser',
   data() {
     return {
       state: "未登录",
