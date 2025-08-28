@@ -6,7 +6,7 @@ export type HttpHeaders = {
 // 定义回调函数的类型：接收一个参数（通常是响应数据），无返回值
 export type ResponseCallback = (data: any) => void;
 
-function request(api: string, method: string, params: any, callback: ResponseCallback, header?: HttpHeaders): void {
+function request(api: string, method: string, bodyData: any, callback: ResponseCallback, header?: HttpHeaders): void {
     let headers: HttpHeaders = {};
 
     if (header)
@@ -14,13 +14,13 @@ function request(api: string, method: string, params: any, callback: ResponseCal
             headers[key] = header[key];
 
     method = method.toUpperCase();
-    let body: string | null = params;
+    let body: string | null = bodyData;
 
-    if (params && (method === 'POST' || method === 'PUT')) {
+    if (bodyData && (method === 'POST' || method === 'PUT')) {
         if (headers['Content-Type'] == 'application/json')
-            body = JSON.stringify(params);
+            body = JSON.stringify(bodyData);
         else if (headers['Content-Type'] == "application/x-www-form-urlencoded")
-            body = json2fromParams(params);
+            body = json2formParams(bodyData);
     }
 
     fetch(api, {
@@ -48,15 +48,15 @@ function request(api: string, method: string, params: any, callback: ResponseCal
         });
 }
 
-function json2fromParams(param: any): string {
-    let result: string = "";
+function json2formParams(params: any): string {
+  const pairs: string[] = [];
 
-    for (let name in param) {
-        if (typeof param[name] != "function")
-            result += "&" + name + "=" + encodeURIComponent(param[name]);
-    }
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== null && value !== undefined && typeof value !== 'function') 
+      pairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
+  }
 
-    return result.substring(1);
+  return pairs.join('&');
 }
 
 /**
@@ -70,10 +70,22 @@ export function get(api: string, callback: ResponseCallback, header?: HttpHeader
     request(api, 'GET', null, callback, header);
 }
 
-export function post(api: string, param: any, callback: ResponseCallback, header?: HttpHeaders): void {
-    request(api, 'GET', param, callback, { 'Content-Type': 'application/json', ...header });
+export function post(api: string, bodyData: any, callback: ResponseCallback, header?: HttpHeaders): void {
+    request(api, 'POST', bodyData, callback, { 'Content-Type': 'application/json', ...header });
 }
 
-export function postForm(api: string, param: any, callback: ResponseCallback, header?: HttpHeaders): void {
-    request(api, 'GET', param, callback, { 'Content-Type': 'x-www-form-urlencoded', ...header });
+export function postForm(api: string, bodyData: any, callback: ResponseCallback, header?: HttpHeaders): void {
+    request(api, 'POST', bodyData, callback, { 'Content-Type': 'application/x-www-form-urlencoded', ...header });
+}
+
+export function put(api: string, bodyData: any, callback: ResponseCallback, header?: HttpHeaders): void {
+    request(api, 'PUT', bodyData, callback, { 'Content-Type': 'application/json', ...header });
+}
+
+export function putForm(api: string, bodyData: any, callback: ResponseCallback, header?: HttpHeaders): void {
+    request(api, 'PUT', bodyData, callback, { 'Content-Type': 'application/x-www-form-urlencoded', ...header });
+}
+
+export function del(api: string, callback: ResponseCallback, header?: HttpHeaders): void {
+    request(api, 'DELETE', null, callback, header);
 }

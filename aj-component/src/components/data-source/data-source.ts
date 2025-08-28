@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { get, post } from '../common';
+import { get, post, put, del } from '../common';
 
 const DBType = { 'MY_SQL': 'MySQL', 'ORACLE': 'Oracle', 'SQL_SERVER': 'Sql Server', 'SPARK': 'Spark', 'SQLITE': 'SQLite', DB2: 'DB2' };
 
@@ -49,9 +49,10 @@ export default defineComponent({
 			this.activedItem = item.id;
 			this.form.data = item;
 		},
-		getList(): void {
+		getList(callback?: (data: any) => void): void {
 			get(`${this.api}/datasource?start=0&`, (j) => {
 				this.datasources = j.data;
+				callback && callback(this.datasources);
 			});
 		},
 		add(): void {
@@ -80,10 +81,9 @@ export default defineComponent({
 		},
 		update(): void {
 			const entity = Object.assign({}, this.form.data);
-			Xhr.xhr_put(DATASOURCE_API, entity, j => {
-				if (j.status === 1) {
+			put(`${this.api}/datasource`, entity, j => {
+				if (j.status === 1)
 					this.$Message.success('修改数据源成功');
-				}
 			});
 		},
 		del(id: number, name: string): void {
@@ -91,7 +91,7 @@ export default defineComponent({
 				title: '删除数据源',
 				content: `是否删除数据源 #${name}？`,
 				onOk: () => {
-					Xhr.xhr_del(this.api + id, (j: any): void => {
+					del(this.api + id, (j: any): void => {
 						this.$Message.success('删除数据源成功');
 						this.getList(() => this.add());
 					});
