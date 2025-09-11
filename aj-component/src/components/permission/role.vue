@@ -1,0 +1,341 @@
+<template>
+  <div>
+   <!--  <h1 class="page-title">角色管理</h1> -->
+
+    <div class="main">
+      <div class="left">
+        <div>
+          <span class="btns">
+            <Button type="primary" icon="ios-add" @click="createTopRoleNode">创建顶级角色</Button>
+            <Button type="info" icon="ios-refresh" @click="refreshRoleList">刷新</Button>
+          </span>
+
+        </div>
+        <h2>角色管理</h2>
+
+        <div class="tree">
+          <Tree :data="roleTreeData" @on-select-change="onTreeNodeClk" @on-contextmenu="handleContextMenu">
+            <template slot="contextMenu">
+              <DropdownItem @click.native="editRole" style="color: cornflowerblue">▶ 编辑角色</DropdownItem>
+              <DropdownItem @click.native="addSubNode" style="color: green">
+                ➕ 添加子节点
+              </DropdownItem>
+              <DropdownItem @click.native="delRole" style="color: #ed4014">
+                ✖ 删除角色
+              </DropdownItem>
+            </template>
+          </Tree>
+        </div>
+      </div>
+
+      <div class="right">
+        <p style="text-indent:2em;">---你可以维护角色的权限，可以给角色分配权限，也可以给角色分配子角色。一个角色对应多个权限；角色可以继承，拥有父级的所有权限。
+        </p>
+        <fieldset class="panel">
+          <legend>继承的父级权限：</legend>
+          <div class="inherited-permission">
+            <span v-for="(item, index) in permission.inheritPermissionList" :key="item.id">{{item.roleName}}-{{item.name}}
+
+              <span v-if="index &lt; permission.inheritPermissionList.length - 1">、</span>
+            </span>
+          </div>
+        </fieldset>
+        <br />
+        <br />
+        <div>
+          <h2>{{currentRole ? '角色 ' + currentRole.name + ' 的权限' : '请选择一个角色'}}
+
+            <span style="font-weight:normal;font-size:14px;" v-if="currentRole.id == null">请从左侧选择一个角色以继续操作</span>
+          </h2>
+
+          <div class="permission-list">
+            <select multiple v-model="selectedPermissions">
+              <option v-for="item in permission.permissionList" :key="item.name" :value="item.id">{{item.name}}</option>
+            </select>
+            <div class="permission-bts">
+              <Button :disabled="currentRole.id == null" type="primary" icon="ios-add" @click="addPermission">添加权限</Button>
+              <Button :disabled="!selectedPermissions.length" type="warning" icon="ios-remove" @click="removePermission">移除权限</Button>
+              <Button :disabled="currentRole.id == null" type="error" icon="ios-close" @click="clearPermission">清空权限</Button>
+              <br />
+              <Button :disabled="currentRole.id == null" type="success" icon="ios-add-circle-outline" @click="savePermission">&nbsp;&nbsp;&nbsp;保 存&nbsp;&nbsp;&nbsp;</Button>
+            </div>
+            <p>增加、删除权限请到<a @click="showPermissionMgr(false)">权限管理</a>。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Modal v-model="isShisShowRoleEditForm" :title="'角色'+ (!roleForm.isCreate ? ' #' + currentRole.id : '' )" @on-ok="saveRole">
+      <Form :model="currentRole" :label-width="100" style="margin-right: 10%;margin-left: 3%;">
+        <FormItem label="角色名称">
+          <Input v-model="currentRole.name" placeholder="Enter something..."></Input>
+        </FormItem>
+        <FormItem label="角色说明">
+          <Input type="textarea" :rows="4" v-model="currentRole.content" placeholder="Enter something..."></Input>
+        </FormItem>
+        <FormItem v-if="!roleForm.isTop">
+          <Checkbox v-model="currentRole.isInheritedParent">继承父级权限</Checkbox>
+        </FormItem>
+        <FormItem label="角色状态">
+          <label><input type="radio" v-model="currentRole.stat" value="0" /> 启用</label> &nbsp;
+          <label><input type="radio" v-model="currentRole.stat" value="2" /> 禁用</label>
+        </FormItem>
+        <FormItem v-if="!roleForm.isCreate" style="color:gray;">
+          创建于 {{ currentRole.createDate | formatDate }} 修改于 {{ currentRole.updateDate | formatDate }}
+        </FormItem>
+      </Form>
+    </Modal>
+
+    <Modal v-model="isShowPermissionMgr" width="1000" title="权限管理列表">
+      <PermissionMgr :is-pickup="isPermissionMgrPickup" :on-pickup="pickupPermission" :simple-api="simpleApi" />
+    </Modal>
+  </div>
+</template>
+
+<script lang="ts" >import { defineComponent } from 'vue';
+import { get, post, put, del } from '../common';
+
+type RolePanel = {
+    simpleApi: string;
+
+    /**
+     * 
+     */
+    permissionApi: string;
+
+    /**
+     * 
+     */
+    isShisShowRoleEditForm: boolean;
+
+    /**
+     * 是否显示权限管理器
+     */
+    isShowPermissionMgr: boolean
+
+    /**
+     * 是否显示权限管理器
+     */
+    isPermissionMgrPickup: boolean
+
+    /**
+     * 当前角色
+     */
+    currentRole: any
+
+    permission: RolePanel_Permission
+
+    selectedPermissions: []
+
+    contextData: any
+
+    roleTreeData: []
+
+    roleForm: any
+}
+
+type RolePanel_Permission = {
+    inheritPermissionList: RolePanel_Permission_ListItem[],
+
+    permissionList: RolePanel_Permission_ListItem[]
+};
+
+type RolePanel_Permission_ListItem = {
+    id: any
+    name: string
+    isInherit?: boolean
+};
+
+export default defineComponent({
+    data(): RolePanel {
+        return {
+            simpleApi: 'http://localhost:8888/iam/simple_api',
+            permissionApi: 'http://localhost:8888/iam/permission',
+            isShisShowRoleEditForm: false,
+            isShowPermissionMgr: false,
+            isPermissionMgrPickup: true,
+            currentRole: {
+                name: ''
+            },
+            permission: {
+                inheritPermissionList: [],
+                permissionList: []
+            } as RolePanel_Permission,
+            selectedPermissions: [],
+            contextData: null,
+            roleTreeData: [],
+            roleForm: {
+                isTop: false,
+                isCreate: false
+            }
+        };
+    },
+    methods: {
+        handleContextMenu(data: any): void {
+            this.contextData = data;
+        },
+        editRole(): void {
+            this.roleForm.isCreate = false;
+            this.isShisShowRoleEditForm = true;
+
+            this.roleForm.isTop = this.contextData.parentId == -1;
+
+            get(`${this.simpleApi}/role/${this.contextData.id}`, (j: any) => {
+                if (j.status) {
+                    this.currentRole = j.data;
+                } else
+                    this.$Message.warning(j.message || '获取数据失败');
+            });
+        },
+        createTopRoleNode(): void {
+            this.roleForm.isTop = true;
+            this.roleForm.isCreate = true;
+            this.currentRole = {};
+            this.contextData = { id: -1 };
+            this.isShisShowRoleEditForm = true;
+        },
+        delRole(): void {
+            let treeNodeName: string = this.contextData.title;
+
+            this.$Modal.confirm({
+                title: '删除角色',
+                content: `<p>确定删除 ${treeNodeName} 这个节点吗？<br />注意：该节点下<b>所有的子节点</b>也会一并被删除！</p>`,
+                onOk: () => {
+                    del(`${this.permissionApi}/role/${this.contextData.id}`, (j: any) => {
+                        if (j.status) {
+                            this.$Message.success('删除成功');
+                            this.refreshRoleList();
+                        } else
+                            this.$Message.warning(j.message || '获取数据失败');
+                    });
+                }
+            });
+        },
+        addSubNode(): void {
+            this.roleForm.isTop = false;
+            this.roleForm.isCreate = true;
+            this.currentRole = {};
+            this.isShisShowRoleEditForm = true;
+        },
+        refreshRoleList(): void {
+            get(`${this.permissionApi}/role_tree`, (j: any) => {
+                if (j.status) {
+                    this.roleTreeData = j.data;
+                } else
+                    this.$Message.warning(j.message || '获取数据失败');
+            });
+        },
+
+        saveRole(): void {
+            let data: any = List.copyBeanClean(this.currentRole);
+            data.parentId = this.contextData.id;
+
+            if (this.roleForm.isCreate) {
+                post(`${this.simpleApi}/role`, (j: any) => {
+                    if (j.status) {
+                        this.$Message.success('创建成功');
+                        this.refreshRoleList();
+                    }
+                }, data);
+            } else {
+                put(`${this.simpleApi}/role/${data.id}`, (j: any) => {
+                    if (j.status) {
+                        this.$Message.success('修改成功');
+                        this.refreshRoleList();
+                    }
+                }, data);
+            }
+        },
+
+        onTreeNodeClk(nodeArr: any[], node: any): void {
+            // debugger
+            this.currentRole = { name: node.title, id: node.id };
+        },
+
+        //--------------------------- permission -----------------------
+
+        addPermission(): void {
+            this.showPermissionMgr(true);
+        },
+        removePermission(): void {
+            for (const id of this.selectedPermissions) {
+                const index = this.permission.permissionList.findIndex(element => element.id === id);
+
+                if (index !== -1)
+                    this.permission.permissionList.splice(index, 1);
+            }
+        },
+        clearPermission(): void {
+            this.permission.permissionList = [];
+        },
+
+        savePermission(): void {
+            let arr: string[] = [];
+            this.permission.permissionList.forEach((item: any) => arr.push(item.id));
+
+            let data: any = {
+                roleId: this.currentRole.id,
+                permissionIds: arr.join(',')
+            };
+
+            post(`${this.permissionApi}/add_permissions_to_role`, (j: any) => {
+                if (j.status)
+                    this.$Message.success('保存权限成功');
+            }, data);
+        },
+        showPermissionMgr(isPermissionMgrPickup: boolean): void {
+            this.isShowPermissionMgr = true;
+            this.isPermissionMgrPickup = isPermissionMgrPickup;
+        },
+        pickupPermission(data: any): void {
+            // TODO add multiple selection
+            let arr: any[] = this.permission.permissionList;
+
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i].id == data.id) {
+                    this.$Message.warning('已经添加了权限' + data.name);
+                    return;
+                }
+            }
+
+            this.permission.permissionList.push({
+                id: data.id,
+                name: data.name
+            });
+
+            this.$Message.success(`添加权限[${data.name}]成功`);
+            // debugger
+        },
+        handlePermissionList(data: RolePanel_Permission_ListItem[]): void {
+            this.permission.inheritPermissionList = [];
+            this.permission.permissionList = [];
+
+            data.forEach((item: RolePanel_Permission_ListItem) => {
+                if (item.isInherit)
+                    this.permission.inheritPermissionList.push(item);
+                else
+                    this.permission.permissionList.push({
+                        id: item.id,
+                        name: item.name
+                    });
+
+            });
+        }
+    },
+
+    watch: {
+        currentRole(currentRole): void {
+            if (currentRole && currentRole.id) {
+                get(`${this.permissionApi}/permission_list_by_role/${currentRole.id}`, (j: any) => {
+                    if (j.status) {
+                        this.handlePermissionList(j.data);
+                    } else
+                        this.$Message.warning(j.message || '获取数据失败');
+                });
+            }
+        }
+    }
+});
+</script>
+
+<style lang="less" scoped src="./role.less"></style>

@@ -4,11 +4,14 @@ import TableSelector from './components/table-selector/table-selector.vue';
 import ApiHelper from './components/api-helper/index.vue';
 import ApiHelper2 from './components/api-helper2/api-helper.vue';
 import ApiSelector from './components/api-selector/index.vue';
+import Role from './components/permission/role.vue';
 </script>
 
 <template>
   <div>
-    <h2>数据源选择器</h2>
+    <h2>角色管理</h2>
+    <Role />
+<!--     <h2>数据源选择器</h2>
     <DataSource class="box" api="/foo" />
 
     <h2>数据表选择器</h2>
@@ -21,7 +24,7 @@ import ApiSelector from './components/api-selector/index.vue';
 
     <h2>HTTP 请求前端组件</h2>
     <ApiHelper class="box" :is-cross-db="false" />
-    <ApiHelper2 class="box" :is-cross-db="false" />
+    <ApiHelper2 class="box" :is-cross-db="false" /> -->
   </div>
 </template>
 
