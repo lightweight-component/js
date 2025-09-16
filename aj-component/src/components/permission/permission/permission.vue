@@ -3,10 +3,10 @@
         <div style="margin-bottom: 20px;">
             <span style="float:right;">
                 <Button @click="showCreate" v-if="!isPickup" type="primary" icon="ios-add"
-                    style="margin-right: 10px;">增加模块</Button>
+                    style="margin-right: 10px;">增加权限</Button>
                 <Button @click="getData()" icon="ios-refresh">刷新</Button>
             </span>
-            <Input style="width: 30%;" @on-search="doSearch" search enter-button placeholder="模块的名称或编码皆可搜索" />
+            <Input style="width: 30%;" @on-search="doSearch" search enter-button placeholder="权限的名称或编码皆可搜索" />
         </div>
         <Table border :columns="columnsDef" :data="list.data" style="min-height:250px">
             <template #action="{ row }">
@@ -25,20 +25,20 @@
             :model-value="list.current" @on-change="onPageNoChange" @on-page-size-change="handleChangePageSize"
             size="small" show-total show-elevator show-sizer />
 
-        <Modal v-model="isShowEditWin" :title="isCreate ? '创建模块' : '编辑模块' + permissionData.id" width="600"
+        <Modal v-model="isShowEditWin" :title="isCreate ? '创建权限' : '编辑权限' + permissionData.id" width="600"
             @on-ok="save">
             <Form :model="permissionData" :rules="ruleValidate" :label-width="100"
                 style="margin-right: 10%;margin-left: 3%;">
-                <FormItem label="模块名称" prop="name">
-                    <Input v-model="permissionData.name" placeholder="请输入模块名称……"></Input>
+                <FormItem label="权限名称" prop="name">
+                    <Input v-model="permissionData.name" placeholder="请输入权限名称……"></Input>
                 </FormItem>
-                <FormItem label="模块编码" prop="code">
-                    <Input v-model="permissionData.code" placeholder="请输入模块编码……"></Input>
+                <FormItem label="权限编码" prop="code">
+                    <Input v-model="permissionData.code" placeholder="请输入权限编码……"></Input>
                 </FormItem>
-                <FormItem label="模块说明">
-                    <Input type="textarea" :rows="4" v-model="permissionData.content" placeholder="请输入模块说明……"></Input>
+                <FormItem label="权限说明">
+                    <Input type="textarea" :rows="4" v-model="permissionData.content" placeholder="请输入权限说明……"></Input>
                 </FormItem>
-                <FormItem label="模块状态">
+                <FormItem label="权限状态">
                     <label><input type="radio" v-model="permissionData.stat" value="0" /> 启用</label> &nbsp;
                     <label><input type="radio" v-model="permissionData.stat" value="2" /> 禁用</label>
                 </FormItem>
@@ -57,7 +57,7 @@ import List from '../common-ui';
 import type { PermissionPanel } from './permission-type';
 
 /**
- * 模块列表
+ * 权限列表
  */
 export default defineComponent({
     props: {
@@ -81,11 +81,11 @@ export default defineComponent({
             columnsDef: [
                 List.id,
                 {
-                    title: "模块名称",
+                    title: "权限名称",
                     key: "name",
                 },
                 {
-                    title: "模块编码",
+                    title: "权限编码",
                     key: "code",
                     ellipsis: true
                 },
@@ -119,7 +119,7 @@ export default defineComponent({
     },
     methods: {
         getData(queryString?: string): void {
-            let api: string = `${this.simpleApi}/module_permission/page?pageNo=${this.list.current}&limit=${this.list.limit}`;
+            let api: string = `${this.simpleApi}/permission/page?pageNo=${this.list.current}&limit=${this.list.limit}`;
 
             if (this.isPickup)
                 api += '&q_stat=0';
@@ -148,7 +148,7 @@ export default defineComponent({
             this.isCreate = true;
         },
         doDelete(id: number): void {
-            del(`${this.simpleApi}/module_permission/${id}`, (j: any) => {
+            del(`${this.simpleApi}/permission/${id}`, (j: any) => {
                 if (j.status) {
                     this.$Message.success('删除成功');
                     this.getData();
@@ -159,7 +159,7 @@ export default defineComponent({
             this.isShowEditWin = true;
             this.isCreate = false;
 
-            get(`${this.simpleApi}/module_permission/${id}`, (j: any) => {
+            get(`${this.simpleApi}/permission/${id}`, (j: any) => {
                 if (j.status)
                     this.permissionData = j.data;
             });
@@ -168,14 +168,14 @@ export default defineComponent({
             let data: any = List.copyBeanClean(this.permissionData);
 
             if (this.isCreate) {
-                post(`${this.simpleApi}/module_permission`, (j: any) => {
+                post(`${this.simpleApi}/permission`, (j: any) => {
                     if (j.status) {
                         this.$Message.success('创建成功');
                         this.getData();
                     }
                 }, data);
             } else {
-                put(`${this.simpleApi}/module_permission`, (j: any) => {
+                put(`${this.simpleApi}/permission/${this.permissionData.id}`, (j: any) => {
                     if (j.status) {
                         this.$Message.success('修改成功');
                         this.getData();

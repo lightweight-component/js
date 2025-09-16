@@ -9,7 +9,7 @@ import Role from './components/permission/role.vue';
 
 <template>
   <div>
-    <h2>角色管理</h2>
+    <h2>模块权限管理</h2>
     <Role />
 <!--     <h2>数据源选择器</h2>
     <DataSource class="box" api="/foo" />

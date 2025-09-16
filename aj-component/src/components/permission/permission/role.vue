@@ -33,12 +33,13 @@
 
       <div class="right">
         <p class="note">
-          你可以维护角色可访问的模块，可以给角色分配模块，也可以给角色分配子角色。一个角色对应多个权限；角色可以继承，拥有父级的所有模块的访问权限。
+          你可以维护角色的权限，可以给角色分配权限，也可以给角色分配子角色。一个角色对应多个权限；角色可以继承，拥有父级的所有权限。
         </p>
         <fieldset class="panel">
-          <legend>通过继承父级的模块：</legend>
+          <legend>通过继承父级的权限：</legend>
           <div class="inherited-permission">
-            <span v-for="(item, index) in permission.inheritPermissionList" :key="item.id">{{ item.roleName }}-{{item.name }}
+            <span v-for="(item, index) in permission.inheritPermissionList" :key="item.id">{{ item.roleName }}-{{
+              item.name }}
               <span v-if="index < permission.inheritPermissionList.length - 1">、</span>
             </span>
           </div>
@@ -46,8 +47,8 @@
         <br />
         <br />
         <div>
-          <h2>
-            {{ currentRole ? '角色[' + currentRole.name + ']可访问的模块' : '请选择一个角色' }}
+          <h2>{{ currentRole ? '角色 ' + currentRole.name + ' 的权限' : '请选择一个角色' }}
+
             <span style="font-weight:normal;font-size:14px;" v-if="currentRole.id == null">请从左侧选择一个角色以继续操作</span>
           </h2>
 
@@ -58,16 +59,16 @@
             </select>
             <div class="permission-bts">
               <Button :disabled="currentRole.id == null" type="primary" icon="ios-add"
-                @click="addPermission">添加模块</Button>
+                @click="addPermission">添加权限</Button>
               <Button :disabled="!selectedPermissions.length" type="warning" icon="ios-remove"
-                @click="removePermission">移除模块</Button>
+                @click="removePermission">移除权限</Button>
               <Button :disabled="currentRole.id == null" type="error" icon="ios-close"
-                @click="clearPermission">清空模块</Button>
+                @click="clearPermission">清空权限</Button>
               <br />
               <Button :disabled="currentRole.id == null" type="success" icon="ios-add-circle-outline"
                 @click="savePermission">&nbsp;&nbsp;&nbsp;保 存&nbsp;&nbsp;&nbsp;</Button>
             </div>
-            <p>增加、删除模块请到<a @click="showPermissionMgr(false)">模块管理</a>。</p>
+            <p>增加、删除权限请到<a @click="showPermissionMgr(false)">权限管理</a>。</p>
           </div>
         </div>
       </div>
