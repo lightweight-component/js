@@ -2,6 +2,11 @@ export type RolePanel = {
     simpleApi: string;
 
     /**
+     * 角色 API
+     */
+    roleApi: string;
+
+    /**
      * 
      */
     permissionApi: string;

@@ -168,19 +168,19 @@ export default defineComponent({
             let data: any = List.copyBeanClean(this.permissionData);
 
             if (this.isCreate) {
-                post(`${this.simpleApi}/module_permission`, (j: any) => {
+                post(`${this.simpleApi}/module_permission`, data, (j: any) => {
                     if (j.status) {
                         this.$Message.success('创建成功');
                         this.getData();
                     }
-                }, data);
+                });
             } else {
-                put(`${this.simpleApi}/module_permission`, (j: any) => {
+                put(`${this.simpleApi}/module_permission`, data, (j: any) => {
                     if (j.status) {
                         this.$Message.success('修改成功');
                         this.getData();
                     }
-                }, data);
+                });
             }
         }
     },
@@ -199,7 +199,7 @@ export default defineComponent({
                         this.columnsDef.splice(i, 1);
                         break;
                     }
-            } 
+            }
             // else
             //     this.columnsDef.splice(3, 0, List.status);
         }

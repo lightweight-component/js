@@ -35,16 +35,7 @@
         <p class="note">
           你可以维护角色可访问的模块，可以给角色分配模块，也可以给角色分配子角色。一个角色对应多个权限；角色可以继承，拥有父级的所有模块的访问权限。
         </p>
-        <fieldset class="panel">
-          <legend>通过继承父级的模块：</legend>
-          <div class="inherited-permission">
-            <span v-for="(item, index) in permission.inheritPermissionList" :key="item.id">{{ item.roleName }}-{{item.name }}
-              <span v-if="index < permission.inheritPermissionList.length - 1">、</span>
-            </span>
-          </div>
-        </fieldset>
-        <br />
-        <br />
+
         <div>
           <h2>
             {{ currentRole ? '角色[' + currentRole.name + ']可访问的模块' : '请选择一个角色' }}
@@ -70,6 +61,16 @@
             <p>增加、删除模块请到<a @click="showPermissionMgr(false)">模块管理</a>。</p>
           </div>
         </div>
+        <br />
+        <fieldset class="panel">
+          <legend>通过继承父级的模块：</legend>
+          <div class="inherited-permission">
+            <span v-for="(item, index) in permission.inheritPermissionList" :key="item.id">{{ item.roleName
+            }}-{{ item.name }}
+              <span v-if="index < permission.inheritPermissionList.length - 1">、</span>
+            </span>
+          </div>
+        </fieldset>
       </div>
     </div>
 
@@ -119,7 +120,8 @@ export default defineComponent({
   data(): RolePanel {
     return {
       simpleApi: 'http://localhost:8082/iam_api/common_api',
-      permissionApi: 'http://localhost:8082/iam_api/permission',
+      roleApi: 'http://localhost:8082/iam_api/permission',
+      permissionApi: 'http://localhost:8082/iam_api/module_permission',
       isShisShowRoleEditForm: false,
       isShowPermissionMgr: false,
       isPermissionMgrPickup: true,
@@ -144,9 +146,16 @@ export default defineComponent({
   },
   methods: {
     handleContextMenu(data: any): void {
-      // debugger
       this.contextData = data;
     },
+
+    /**
+      * 编辑角色信息
+      * 
+      * 该函数用于初始化角色编辑表单，设置编辑状态，并从服务器获取指定角色的详细信息
+      * 
+      * @returns {void}
+      */
     editRole(): void {
       this.roleForm.isCreate = false;
       this.isShisShowRoleEditForm = true;
@@ -182,7 +191,7 @@ export default defineComponent({
         title: '删除角色',
         content: `<p>确定删除 ${treeNodeName} 这个节点吗？<br />注意：该节点下<b>所有的子节点</b>也会一并被删除！</p>`,
         onOk: () => {
-          del(`${this.permissionApi}/role/${this.contextData.id}`, (j: any) => {
+          del(`${this.roleApi}/role/${this.contextData.id}`, (j: any) => {
             if (j.status) {
               this.$Message.success('删除成功');
               this.refreshRoleList();
@@ -199,7 +208,7 @@ export default defineComponent({
       this.isShisShowRoleEditForm = true;
     },
     refreshRoleList(): void {
-      get(`${this.permissionApi}/role_tree`, (j: any) => {
+      get(`${this.roleApi}/role_tree`, (j: any) => {
         if (j.status) {
           this.roleTreeData = j.data;
         } else
@@ -269,10 +278,10 @@ export default defineComponent({
         permissionIds: arr.join(',')
       };
 
-      post(`${this.permissionApi}/add_permissions_to_role`, (j: any) => {
+      postForm(`${this.permissionApi}/add_permissions_to_role`, data, (j: any) => {
         if (j.status)
           this.$Message.success('保存权限成功');
-      }, data);
+      });
     },
     showPermissionMgr(isPermissionMgrPickup: boolean): void {
       this.isShowPermissionMgr = true;
@@ -295,7 +304,6 @@ export default defineComponent({
       });
 
       this.$Message.success(`添加权限[${data.name}]成功`);
-      // debugger
     },
     handlePermissionList(data: RolePanel_Permission_ListItem[]): void {
       this.permission.inheritPermissionList = [];
@@ -309,7 +317,6 @@ export default defineComponent({
             id: item.id,
             name: item.name
           });
-
       });
     }
   },
