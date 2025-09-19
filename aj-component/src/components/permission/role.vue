@@ -106,8 +106,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import { get, post, put, del } from '../common';
-import { get, post, put, postForm, putForm, del } from '../common/request';
+import { get, post, put, del } from '../common';
+// import { get, post, put, postForm, putForm, del } from '../common/request';
 import type { RolePanel, RolePanel_Permission, RolePanel_Permission_ListItem } from './role-type';
 import List from '../common-ui';
 import PermissionMgr from './permission.vue';
