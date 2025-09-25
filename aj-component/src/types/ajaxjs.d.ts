@@ -23,6 +23,9 @@ declare type ApiResponseResult = {
      */
     data: ApiResponseResultData;
 
+    /**
+     * 链路 id
+     */
     traceId: string
 }
 
