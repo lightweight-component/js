@@ -2,7 +2,7 @@
   <div>{{n}}</div>
 </template>
 
-<script lang="ts">
+<script>
 /*
  淘宝SKU组合查询算法实现 https://www.cnblogs.com/linybo/p/14061335.html
  sku组合查询算法探讨 https://blog.csdn.net/xmlife/article/details/77628724

@@ -5,10 +5,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { defineComponent } from 'vue';
-
-export default defineComponent({
+export default {
   name: 'AccordionMenu',
   methods: {
     onClk(ev: Event): void {
@@ -16,7 +13,7 @@ export default defineComponent({
       highlightSubItem(ev);
       let _btn: Element = ev.target as Element;
 
-      if (_btn && _btn.tagName == "H3" &&  (_btn.parentNode as Element).tagName == "LI") {
+      if (_btn && _btn.tagName == "H3" && (_btn.parentNode as Element).tagName == "LI") {
         _btn = _btn.parentNode as Element;
 
         for (let btn: Element, i = 0, j = children.length; i < j; i++) {
@@ -26,38 +23,40 @@ export default defineComponent({
           if (btn == _btn) {
             if (btn.className.indexOf("pressed") != -1) {
               btn.classList.remove("pressed"); // 再次点击，隐藏！
-              if (ul) 
+              if (ul)
                 ul.style.height = "0px";
             } else {
-              if (ul) 
+              if (ul)
                 ul.style.height = ul.scrollHeight + "px";
               btn.classList.add("pressed");
             }
           } else {
             btn.classList.remove("pressed");
-            if (ul) 
+
+            if (ul)
               ul.style.height = "0px";
           }
         }
       } else return;
     }
   }
-});
+};
 
 /**
  * 内部子菜单的高亮
  *
  * @param ev
  */
-function highlightSubItem(ev: Event) {
-  let li: Element,
-    el: Element = ev.target as Element;
+function highlightSubItem(ev: Event): void {
+  let li: Element, el: Element = ev.target as Element;
 
   if (el.tagName == "A" && el.getAttribute("target")) {
     li = el.parentNode as Element;
     li.querySelectorAll("li").forEach((_el: Element) => {
-      if (_el == li) _el.classList.add("selected");
-      else _el.classList.remove("selected");
+      if (_el == li)
+        _el.classList.add("selected");
+      else
+        _el.classList.remove("selected");
     });
   }
 }
@@ -68,7 +67,7 @@ function highlightSubItem(ev: Event) {
 
 // 折叠菜单 Accordion Menu
 .aj-accordion {
-  & > li h3 {
+  &>li h3 {
     cursor: pointer;
   }
 
@@ -78,8 +77,9 @@ function highlightSubItem(ev: Event) {
     }
   }
 
-  & > li > ul {
-    .transition (height .5s cubic-bezier(0, 1, 0.5, 1));;
+  &>li>ul {
+    .transition (height .5s cubic-bezier(0, 1, 0.5, 1));
+    ;
     overflow: hidden;
   }
 
@@ -92,7 +92,7 @@ function highlightSubItem(ev: Event) {
   .aj-accordion ();
   overflow: hidden;
 
-  & > li {
+  &>li {
     border-top: 1px solid white;
     border-bottom: 1px solid lightgray;
 

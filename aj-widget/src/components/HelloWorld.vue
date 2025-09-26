@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AjAdjustFontSize from './widget/AdjustFontSize.vue';
 import Calendar from './calendar/Calendar.vue';
-import HtmlEditor from './HtmlEditor/HtmlEditor.vue';
+import HtmlEditor from './html-editor/HtmlEditor.vue';
 import { ref } from 'vue';
 
 defineProps<{ msg: string }>()

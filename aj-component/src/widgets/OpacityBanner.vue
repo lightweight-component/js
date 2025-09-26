@@ -5,13 +5,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
 /**
  * 渐显 banner
  * 注意：定时器保存在 DOM 元素的属性上，是否会内存泄漏呢？
  */
-export default Vue.extend({
+export default {
   name: 'OpacityBanner',
   props: {
     delay: { default: 3000 }, // 延时
@@ -72,13 +70,13 @@ export default Vue.extend({
      * @param params
      */
     animate(params: number): void {
-      var el: HTMLLIElement = this.list[this.active],
+      let el: HTMLLIElement = this.list[this.active],
         fps: number = 1000 / this.fps;
       // @ts-ignore xxxxxxx
       window.clearTimeout(el.timer);
 
       window.setTimeout(function loop() {
-        var i: number = getOpacity(el);
+        let i: number = getOpacity(el);
         let speed: number = (params - i) / 8;
         speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
         // console.log("i=" + i + "; speed="+ speed+"; s="+s+"; k="+k);
@@ -92,7 +90,7 @@ export default Vue.extend({
       }, fps);
     },
   },
-});
+};
 
 /**
  * 获取元素的透明度

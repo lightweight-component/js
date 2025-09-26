@@ -1,21 +1,19 @@
 <template>
   <div class="aj-process-line">
     <div class="process-line">
-      <div v-for="(item, index) in items" :key="index" :class="{current: index == current, done: index < current}">
-        <span>{{index + 1}}</span>
-        <p>{{item}}</p>
+      <div v-for="(item, index) in items" :key="index" :class="{ current: index == current, done: index < current }">
+        <span>{{ index + 1 }}</span>
+        <p>{{ item }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
 /**
  * 进度条
  */
-export default Vue.extend({
+export default {
   name: 'ProcessLine',
   props: {
     items: {
@@ -25,7 +23,7 @@ export default Vue.extend({
       },
     },
   },
-  data():any {
+  data(): any {
     return {
       current: 0,
     };
@@ -59,7 +57,7 @@ export default Vue.extend({
       this.go(next);
     },
   },
-});
+};
 </script>
 
 <style lang="less" scoped>
@@ -73,7 +71,7 @@ export default Vue.extend({
     color: lightgray;
     font-weight: bold;
 
-    & > div {
+    &>div {
       float: left;
       width: 156px;
       text-align: center;
@@ -88,6 +86,7 @@ export default Vue.extend({
       }
 
       &.done {
+
         //				color: lighten(@mainColor, 80%);
         span {
           //					background-color: lighten(@mainColor, 50%);

@@ -10,12 +10,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
 /**
  * 调整正文字体大小
  */
-export default Vue.extend({
+export default {
   name: 'AdjustFontSize',
   props: {
     articleTarget: { type: String, default: "article p" }, // 正文所在的位置，通过 CSS Selector 定位
@@ -30,13 +28,16 @@ export default Vue.extend({
       if (el.tagName == "LABEL" || el.tagName == "INPUT") {
         if (el.tagName != "LABEL") el = el.parentNode as Element;
 
-        if (el.innerHTML.indexOf("大") != -1) setFontSize("12pt");
-        else if (el.innerHTML.indexOf("中") != -1) setFontSize("10.5pt");
-        else if (el.innerHTML.indexOf("小") != -1) setFontSize("9pt");
+        if (el.innerHTML.indexOf("大") != -1)
+          setFontSize("12pt");
+        else if (el.innerHTML.indexOf("中") != -1)
+          setFontSize("10.5pt");
+        else if (el.innerHTML.indexOf("小") != -1)
+          setFontSize("9pt");
       }
     }
   }
-});
+};
 </script>
 
 <style lang="less" scoped>

@@ -9,9 +9,7 @@
 /**
  * 展开闭合器
  */
-import Vue from "vue";
-
-export default Vue.extend({
+export default {
   name: "Expander",
   props: {
     openHeight: { type: Number, default: 200 },
@@ -22,7 +20,7 @@ export default Vue.extend({
       expended: false,
     };
   },
-});
+};
 </script>
 
 <style lang="less" scoped>
@@ -38,13 +36,11 @@ export default Vue.extend({
     left: 0;
     height: 23px;
     width: 100%;
-    background: -webkit-gradient(
-      linear,
-      center top,
-      center bottom,
-      from(transparent),
-      to(white)
-    );
+    background: -webkit-gradient(linear,
+        center top,
+        center bottom,
+        from(transparent),
+        to(white));
   }
 
   .openBtn {

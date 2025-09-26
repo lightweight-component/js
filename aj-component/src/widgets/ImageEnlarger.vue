@@ -5,12 +5,10 @@
 </template>
 
 <script>
-import Vue from "vue";
-
 /**
  * 悬浮显示大图
  */
-export default Vue.extend({
+export default {
   name: 'ImageEnlarger',
   props: {
     imgUrl: { type: String, required: true },// 图片地址
@@ -54,7 +52,7 @@ export default Vue.extend({
       }
     }, 50, 5000), false);
   }
-});
+};
 
 /**
  * 函数节流
@@ -74,7 +72,7 @@ function throttle(fn, delay, mustRunDelay) {
 
     if (!t_start)
       t_start = t_curr;
-      
+
     if (t_curr - t_start >= mustRunDelay) {
       // @ts-ignore xxxxxxxxxxxxxx
       fn.apply(this, arguments);
@@ -90,7 +88,7 @@ function throttle(fn, delay, mustRunDelay) {
 }
 </script>
 
-<style lang="less">
+<style>
 .aj-img-thumb img {
   max-width: 50px;
   max-height: 60px;
@@ -101,9 +99,9 @@ function throttle(fn, delay, mustRunDelay) {
   position: fixed;
   max-width: 400px;
   transition: top ease-in 200ms, left ease-in 200ms;
+}
 
-  img {
-    width: 100%;
-  }
+.aj-image-large-view img {
+  width: 100%;
 }
 </style>

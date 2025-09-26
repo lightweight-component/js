@@ -1,7 +1,7 @@
-import Empty from '../EmptyContent';
-import Vue from "vue";
+import Empty from '../../../../widgets/src/widget/EmptyContent';
+import { defineComponent } from 'vue';
 
-export default Vue.extend({
+export default defineComponent({
     name: 'FileUploader',
     props: {
         action: { type: String, required: false }, // 上传路径
