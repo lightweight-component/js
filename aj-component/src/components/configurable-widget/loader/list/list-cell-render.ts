@@ -51,9 +51,8 @@ export default function (rendererColDef: iViewTableColumn, item: TableColumn): v
             if (item.isCode && item.customRender)
                 rendererColDef.render = eval(item.customRender);
 
-            if (!item.isCode && item.customRenderKV) {
-                rendererColDef.render = customRender(<JsonParam[]><unknown>item.customRenderKV);
-            }
+            if (!item.isCode && item.customRenderKV)
+                rendererColDef.render = customRender(item.customRenderKV as unknown as JsonParam[]);
         }
     }
 }
@@ -67,7 +66,7 @@ export default function (rendererColDef: iViewTableColumn, item: TableColumn): v
  */
 function state(h: (a: string, b: object, c: string) => any, params: any) {
     const value = params.row[params.column.key]; // 取出当前值
-    const dot = '•';
+    const dot: string = '•';
 
     switch (value) {
         case 0:

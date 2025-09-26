@@ -7,18 +7,23 @@
       <Button type="primary" v-if="status === 2" @click="update">保存</Button>
 
       <Button @click="resetFields" v-if="status !== 0">重置</Button>
-      <Button @click="$router.back()">返回</Button>
+      <Button @click="router.back()">返回</Button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { get } from '../../../common/request';
+import { get, post, put } from '../../../common/request';
 import FromRenderer from "./form-factory-renderer.vue";
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: "FormLoader",
+  setup() {
+    const router = useRouter();  // 获取 router 实例
+    return { router };
+  },
   components: { FromRenderer },
   props: {
     // formId: { type: Number, required: false }, // 表单配置 id
@@ -28,8 +33,26 @@ export default defineComponent({
   data() {
     return {
       formId: 0, // 表单定义 id
-      entityId: 0, // 实体 id
-      cfg: { fields: [] },
+      entityId: '', // 实体 id
+      cfg: {
+        labelWidth: 80, fields: [], isShowBtns: false, isRESTful_writeApi: false,
+        dataBinding: {
+          /**
+           * 请求地址
+           */
+          url: "",
+
+          /**
+           * 固定参数
+           */
+          baseParams: "string",
+
+          /**
+           * 动态获取参数的函数
+           */
+          beforeRequest: ""
+        }
+      } as FormFactory_Config,
       status: 1, // 0=查看/1=新增/2=修改
       oldJson: null, // JSON Based 下的旧 JSON 完整数据。因为 data 只有部分
     };
@@ -43,12 +66,14 @@ export default defineComponent({
      * 加载表单配置
      */
     load(): void {
+      const fromRenderer: any = this.$refs.FromRenderer;
+
       if (this.entityId)
         // 有 id 表示修改状态
         this.status = 2;
       else {
         this.status = 1;
-        this.$refs.FromRenderer.data = {};
+        (this.$refs.FromRenderer as any).data = {};
       }
 
       get(`${this.apiPrefix}/common_api/widget_config/${this.formId}`, (j: RepsonseResult) => {
@@ -63,33 +88,37 @@ export default defineComponent({
             this.status = 2; // JSON 配置模式下没有新建
 
             get(dataBinding.url, (j: RepsonseResult) => {
+              // @ts-ignore
               this.oldJson = j; // 完整的
 
               const jsonTarget: any = findNode(this.oldJson, this.entityId.split(".")); // 部分的，目标的
 
-              this.$refs.FromRenderer.data = {};
-              Object.assign(this.$refs.FromRenderer.data, jsonTarget);
+              (this.$refs.FromRenderer as any).data = {};
+              Object.assign(fromRenderer.data, jsonTarget);
             });
+
           } else {
             if (this.entityId) {// 加载单笔内容
-              this.$refs.FromRenderer.data = {};
+              (this.$refs.FromRenderer as any).data = {};
 
-              Xhr.xhr_get(`${dataBinding.url}/${this.entityId}`, (j: RepsonseResult) => {
+              get(`${dataBinding.url}/${this.entityId}`, (j: RepsonseResult) => {
                 if (isJsonBased) {
-                  this.$refs.FromRenderer.data = j;
-                  this.$refs.FromRenderer.$forceUpdate();
+                  fromRenderer.data = j;
+                  fromRenderer.$forceUpdate();
                 } else {
                   const r = j.data;
 
                   if (r) {
-                    this.$refs.FromRenderer.data = r;
-                    this.$refs.FromRenderer.$forceUpdate();
-                  } else this.$Message.warning("获取单笔内容失败");
+                    fromRenderer.data = r;
+                    fromRenderer.$forceUpdate();
+                  } else
+                    this.$Message.warning("获取单笔内容失败");
                 }
               });
             }
           }
-        } else this.$Message.error("获取表单配置失败");
+        } else
+          this.$Message.error("获取表单配置失败");
       });
     },
 
@@ -97,7 +126,7 @@ export default defineComponent({
      * 重置表单，但没作用
      */
     resetFields(): void {
-      this.$refs.FromRenderer.$refs.formDynamic.resetFields();
+      (this.$refs.FromRenderer as any).$refs.formDynamic.resetFields();
     },
 
     /**
@@ -105,7 +134,7 @@ export default defineComponent({
      */
     create(): void {
       const cfg: FormFactory_Config = this.cfg;
-      let api: DataBinding;
+      let api: DataBinding | undefined;
 
       const callback = (j: RepsonseResult) => {
         if (j.status) {
@@ -119,12 +148,12 @@ export default defineComponent({
         api = cfg.updateApi;
         const r: ManagedRequest = this._initParams(api);
 
-        Xhr.xhr_post(r.url, callback, r.params);
+        post(r.url, callback, r.params);
       } else {
         api = cfg.createApi;
         const r: ManagedRequest = this._initParams(api);
 
-        (api.httpMethod == 'post' ? Xhr.xhr_post : Xhr.xhr_put)(r.url, callback, r.params);
+        (api?.httpMethod == 'post' ? post : put)(r.url, callback, r.params);
       }
     },
 
@@ -133,24 +162,25 @@ export default defineComponent({
       */
     update(): void {
       const cfg: FormFactory_Config = this.cfg;
-      const api: DataBinding = cfg.updateApi;
-      const params: any = api.baseParams || {};
+      const api: DataBinding | undefined = cfg.updateApi;
+      const params: any = api?.baseParams || {};
 
-      if (cfg.jsonBased.isJsonBased) {// Raw body post
+      if (cfg.jsonBased?.isJsonBased) {// Raw body post
         const jsonTarget: any = findNode(this.oldJson, this.entityId.split('.'));
-        Object.assign(jsonTarget, this.$refs.FromRenderer.data);
+        Object.assign(jsonTarget, (this.$refs.FromRenderer as any).data);
 
         // @ts-ignore xxxx
         const json: string = JSON.stringify(r.params);
         console.log(json);
 
-        Xhr.xhr_post(api.url, (j: RepsonseResult) => {
-          console.log(j)
-        }, json, { contentType: 'application/json' });
+        if (api)
+          post(api.url, json, (j: RepsonseResult) => {
+            console.log(j)
+          }, { contentType: 'application/json' });
       } else {
-        const r: ManagedRequest = this._initParams(api, this.$refs.FromRenderer.data, this);
+        const r: ManagedRequest = this._initParams(api, (this.$refs.FromRenderer as any).data, this);
 
-        Xhr.xhr_put(r.url, (j: RepsonseResult) => {
+        put(r.url, (j: RepsonseResult) => {
           if (j.status)
             this.$Message.success(j.message);
           else
@@ -165,18 +195,17 @@ function findNode(obj: any, queen: string[]): any {
   if (!queen.shift)
     return null;
 
-  const first: string = queen.shift();
+  const first: string | undefined = queen.shift();
 
   for (const i in obj) {
     if (i === first) {
       const target: any = obj[i];
 
-      if (queen.length == 0) {
+      if (queen.length == 0)
         // 找到了
         return target;
-      } else {
+      else
         return findNode(obj[i], queen);
-      }
     }
   }
 }

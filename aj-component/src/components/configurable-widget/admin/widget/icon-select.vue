@@ -10,17 +10,18 @@
 
     <Modal class="modal-icons" v-model="modal" title="选择图标" width="800" @on-cancel="cancel">
       <div>
-        <Input v-model="iconName" suffix="ios-search" placeholder="请输入图标名称" style="width: 100%" @on-change="filterIcons" />
+        <Input v-model="iconName" suffix="ios-search" placeholder="请输入图标名称" style="width: 100%"
+          @on-change="filterIcons" />
         <ul class="icon-list">
           <!-- <li class="list-items" v-for="(item,index) in iconList" :key="index" @click="selectedIcon(item)">
                         <Icon :type="item" />
                         <span>{{item}}</span>
                     </li> -->
           <Row :gutter="24">
-            <Col span="12" class="list-items" v-for="(item,index) in iconList" :key="index">
+            <Col span="12" class="list-items" v-for="(item, index) in iconList" :key="index">
             <div @click="selectedIcon(item)">
               <Icon style="padding-bottom: 5px;font-size: 18px;margin-right: 5px;" :type="item" />
-              <span style="font-size: 18px;">{{item}}</span>
+              <span style="font-size: 18px;">{{ item }}</span>
             </div>
             </Col>
           </Row>
@@ -36,8 +37,9 @@
 <script>
 // import font from '@/plugins/icon-name.js';
 // import fontName from '@bingo/iview-pro-style/style/fonts/iconname.js'
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: "compIcons",
   props: {
     data: {
@@ -90,7 +92,7 @@ export default {
       this.iconName = "";
     },
   },
-};
+});
 </script>
 
 <style lang="less" scoped>
@@ -116,6 +118,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+
     .ivu-modal {
       top: 0;
     }

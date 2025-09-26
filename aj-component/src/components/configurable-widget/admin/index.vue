@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import leftTree from "./tree/tree.vue";
+import leftTree from "./tree.vue";
 import UI from "@ajaxjs/ui";
 import List from "./list/list.vue";
 import Form from "./form/list.vue";
-import project from "./project/project.vue";
+import project from "./project.vue";
 
 UI.IAM.getLoginInfo(window.config.loginUrl, window.config.thisPageUrl);
 const user = UI.IamUser;

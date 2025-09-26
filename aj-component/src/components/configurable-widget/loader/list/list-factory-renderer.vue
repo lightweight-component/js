@@ -96,18 +96,19 @@ export default defineComponent({
       if (this.list.search.name)
         params.where = `name LIKE '%${this.list.search.name}%'`;
 
-      const listCfg: ListFactory_ListConfig = this.cfg;
-      const r: ManagedRequest = prepareRequest(listCfg.dataBinding, params, this);
+      const listCfg: ListFactory_ListConfig = this.cfg as ListFactory_ListConfig;
+      const r: ManagedRequest | null = prepareRequest(listCfg.dataBinding, params, this);
       this.list.data = []; // 清空数据
 
-      get(r.url, (j: RepsonseResult) => {
-        if (j.status) {
-          this.list.data = j.data.rows;
-          this.list.total = j.data.total;
-        } else this.$Message.warning(j.message);
+      if (r)
+        get(r.url, (j: RepsonseResult) => {
+          if (j.status) {
+            this.list.data = j.data.rows;
+            this.list.total = j.data.total;
+          } else this.$Message.warning(j.message);
 
-        this.list.loading = false;
-      }, r.params);
+          this.list.loading = false;
+        }, r.params);
     },
 
     viewEntity(row: any, rowId: number): void {
@@ -115,9 +116,10 @@ export default defineComponent({
     },
 
     createEntity(): void {
-      this.$refs.FromRenderer.data = {};
-      this.$refs.FromRenderer.$forceUpdate();
-      this._openForm(null, null, 1);
+      const fromRenderer = this.$refs.FromRenderer as any;
+      fromRenderer.data = {};
+      fromRenderer.$forceUpdate();
+      this._openForm(null, undefined, 1);
     },
 
     editEntity(row: any, rowId: number): void {
@@ -155,8 +157,9 @@ export default defineComponent({
       location.hash = `#/form?formId=${formId}&title=${name}&entityId=${entityId}`;
     },
 
-    _openForm(row: any, rowId: number, formMode: number): void {
+    _openForm(row: any, rowId?: number, formMode: number): void {
       // 加载表单配置
+      // @ts-ignore
       const apiRoot: string = this.apiRoot || this.$parent.$parent.$parent.apiRoot;
 
       if (!apiRoot)
@@ -178,13 +181,13 @@ export default defineComponent({
         formCfgId = this.cfg.bindingForm.id;//  表单配置
       debugger
 
-      Xhr.xhr_get(`${apiRoot}/common_api/widget_config/${formCfgId}`, (j: RepsonseResult) => {
+      get(`${apiRoot}/common_api/widget_config/${formCfgId}`, (j: RepsonseResult) => {
         if (j.status) {
           this.isShowForm = true;
           this.form.cfg = j.data.config;// 数据库记录转换到 配置对象;
           const cfg: FormFactory_Config = this.form.cfg;
           this.form.fields = cfg.fields;
-          this.$refs.FromRenderer.status = formMode;
+          (this.$refs.FromRenderer as any).status = formMode;
 
           // if (formMode == 0 || formMode == 2) {
           //     FormLoaderMethod.methods.loadInfo.call({
@@ -202,7 +205,7 @@ export default defineComponent({
         title: '删除实体',
         content: `<p>确定删除 ${row.name || '记录'} #${row.id}？</p>`,
         onOk: () => {
-          Xhr.xhr_del(`${api}/${row.id}`, (j: RepsonseResult) => {
+          del(`${api}/${row.id}`, (j: RepsonseResult) => {
             if (j.status) {
               this.$Message.info('删除成功');
               this.getData();
@@ -235,7 +238,6 @@ export default defineComponent({
 /**
  * 数据绑定的公用方法
  */
-
 const API_ROOT_PREFIX: string = '{API_ROOT_PREFIX}';
 
 /**
@@ -246,20 +248,21 @@ const API_ROOT_PREFIX: string = '{API_ROOT_PREFIX}';
  * @param cmp           组件实例，可选的。用于 beforeRequest 函数指定 this 指针
  * @returns 请求参数
  */
-export function prepareRequest(dataBinding: DataBinding, params?: any, cmp?: any): ManagedRequest {
+export function prepareRequest(dataBinding: DataBinding, params?: any, cmp?: any): ManagedRequest | null {
   if (!dataBinding) {
     alert("未有数据绑定！");
-    return;
+    return null;
   }
 
   if (!dataBinding.url) {
     alert("未有 API 地址接口");
-    return;
+    return null;
   }
 
   let url: string = dataBinding.url;
 
   if (url.indexOf(API_ROOT_PREFIX) != -1)
+    // @ts-ignore
     url = dataBinding.url.replace(API_ROOT_PREFIX, window['config'].dsApiRoot);
 
   if (!params)
@@ -270,11 +273,12 @@ export function prepareRequest(dataBinding: DataBinding, params?: any, cmp?: any
 
   if (dataBinding.beforeRequest) {
     const before: any = new Function('params', dataBinding.beforeRequest);
+    // @ts-ignore
     before.call(cmp || this, params);
   }
 
   return { url: url, params: params };
-});
+};
 </script>
 
 <style scoped>

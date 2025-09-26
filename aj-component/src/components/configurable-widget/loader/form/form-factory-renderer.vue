@@ -1,4 +1,5 @@
 <script lang="ts">
+import { defineComponent, h, ref } from 'vue'
 import ItemRender from './form-item-render.vue';
 
 /*
@@ -6,7 +7,7 @@ import ItemRender from './form-item-render.vue';
   动态设置 FormItem 的 prop 属性时，会依据上层的 Form 组件的 model 来获取，查看示例代码。
   FormItem 还可以独立设置 required、error 等属性，详见 API。
 */
-export default {
+export default defineComponent({
     components: { ItemRender },
     props: {
         cfg: { type: Object, required: true }
@@ -21,16 +22,16 @@ export default {
             status: 1  // 0=查看/1=新增/2=修改
         };
     },
-    render(h: (a:string, b:object, c?: any[]) => any): any {
-        if(!this.cfg.fields || !this.cfg.fields.length)
+    render(h: (a: string, b: object, c?: any[]) => any): any {
+        if (!this.cfg.fields || !this.cfg.fields.length)
             return;
-            
+
         let children: any[] = [];
         let stack2: any[] = [], stack3: any[] = [];
 
         for (let i = 0, j = this.cfg.fields.length; i < j; i++) {
             let item = this.cfg.fields[i];
-            
+
             if (item.isShow) {
                 let uiLayout = item.uiLayout;
                 let itemTag = [h('ItemRender', { props: { item: item, data: this.data, status: this.status } })];
@@ -60,21 +61,21 @@ export default {
 
         return this.$createElement('Form', {
             ref: 'formDynamic',
-            props: {'label-width': this.cfg.labelWidth || 80, 'label-colon': this.status === 0 }
+            props: { 'label-width': this.cfg.labelWidth || 80, 'label-colon': this.status === 0 }
         }, arr);
     },
 
     methods: {
-        handleSubmit(name) {
-            this.$refs[name].validate((valid) => {
-                if (valid) 
+        handleSubmit(name: string): void {
+            (this.$refs[name] as any).validate((valid: boolean) => {
+                if (valid)
                     this.$Message.success('Success!');
-                 else 
+                else
                     this.$Message.error('Fail!');
             });
         },
 
-        handleAdd() {
+        handleAdd(): void {
             this.index++;
             this.formDynamic.fields.push({
                 value: '',
@@ -82,17 +83,15 @@ export default {
                 status: 1
             });
         },
-        handleRemove(index) {
+        handleRemove(index: number): void {
             this.formDynamic.fields[index].status = 0;
-        },
+        }
     }
-};
+});
 </script>
 
-<style lang="less">
-.html-content {
-    img {
-        max-width: 60%;
-    }
+<style>
+.html-content img{
+    max-width: 60%;
 }
 </style>
