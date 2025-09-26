@@ -1,17 +1,15 @@
+<!-- 帮助图标 -->
 <template>
   <i style="cursor: pointer;" class="ivu-icon ivu-icon-ios-help-circle-outline" :title="text"></i>
 </template>
 
 <script>
-import Vue from "vue";
+import { defineComponent } from 'vue';
 
-/**
- * 帮助图标
- */
-export default Vue.extend({
+export default defineComponent({
   name: 'Tips',
   props: {
-    text: { type: String, required: true },
-  },
+    text: { type: String, required: true }
+  }
 });
 </script>

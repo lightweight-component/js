@@ -1,11 +1,7 @@
 <template>
   <span>
     <FormItem label="HTTP 方法">
-      <Select
-        v-model="cfg.httpMethod"
-        size="small"
-        style="width: 150px; margin-right: 20px"
-      >
+      <Select v-model="cfg.httpMethod" size="small" style="width: 150px; margin-right: 20px">
         <Option value="GET">GET</Option>
         <Option value="POST">POST</Option>
         <Option value="PUT">PUT</Option>
@@ -23,17 +19,11 @@
     <FormItem label="固定参数">
       <Input size="small" v-model="cfg.baseParams" placeholder="JSON 格式" />
       <br />
-      <Button size="small" @click="isShowDymaicArgs = true"
-        >动态获取参数</Button
-      >
+      <Button size="small" @click="isShowDymaicArgs = true">动态获取参数</Button>
     </FormItem>
 
     <Modal v-model="isShowDymaicArgs" title="动态获取参数" width="800">
-      <codemirror
-        v-model="cfg.beforeRequest"
-        :options="cmOption"
-        style="border: 1px solid lightgray"
-      />
+      <codemirror v-model="cfg.beforeRequest" :options="cmOption" style="border: 1px solid lightgray" />
     </Modal>
   </span>
 </template>
