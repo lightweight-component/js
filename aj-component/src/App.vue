@@ -5,13 +5,15 @@ import ApiHelper from './components/api-helper/index.vue';
 import ApiHelper2 from './components/api-helper2/api-helper.vue';
 import ApiSelector from './components/api-selector/index.vue';
 import Role from './components/permission/role.vue';
+import UserLogin from './widgets/user-login/UserLogin.vue';
 </script>
 
 <template>
   <div>
+    <!-- <UserLogin /> -->
     <h2>模块权限管理</h2>
     <Role />
-<!--     <h2>数据源选择器</h2>
+    <!--     <h2>数据源选择器</h2>
     <DataSource class="box" api="/foo" />
 
     <h2>数据表选择器</h2>
