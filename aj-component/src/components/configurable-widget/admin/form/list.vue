@@ -1,6 +1,7 @@
 <template>
   <div>
-    <FastViewTable widget-name="表单定义" :list-api-url="initApi" :api-url="apiPrefix + '/common_api/widget_config/'" :columns-def="list.columns">
+    <FastViewTable widget-name="表单定义" :list-api-url="initApi" :api-url="apiPrefix + '/common_api/widget_config/'"
+      :columns-def="list.columns">
       <template v-slot:list_action="item">
         <a @click="openDemo(item.item)">预览</a>
         <Divider type="vertical" />
@@ -14,17 +15,17 @@
 </template>
 
 <script lang="ts">
-import UI from "@ajaxjs/ui";
+// import UI from "@ajaxjs/ui";
 import FormLoader from "./form-loader.vue";
-import { Utils } from "@ajaxjs/util";
-
-const FastViewTable = UI.FastViewTable;
+// import { Utils } from "@ajaxjs/util";
+import FastiViewTable from "../../../common/FastiViewTable.vue";
+import List from "../../../common-ui";
 
 /**
  * 管理界面列表
  */
 export default {
-  components: { FastViewTable, FormLoader },
+  components: { FastiViewTable, FormLoader },
   props: {
     apiPrefix: { type: String, required: true }, // API 前缀
     initApi: { type: String, required: true },
@@ -36,7 +37,7 @@ export default {
       // API: `${window.config.dsApiRoot}/common_api/widget_config/page?q_type=FORM_DEF`,
       list: {
         columns: [
-          UI.List.id,
+          List.id,
           {
             title: "列表名称",
             key: "name",
@@ -48,10 +49,7 @@ export default {
             title: "关联数据库",
             render(h: Function, params: any) {
               if (params.row.datasourceName)
-                return h(
-                  "span",
-                  params.row.datasourceName + "/" + params.row.tableName
-                );
+                return h("span", params.row.datasourceName + "/" + params.row.tableName);
               else return h("span", params.row.tableName);
             },
             width: 280,
@@ -71,8 +69,8 @@ export default {
               );
             },
           },
-          UI.List.createDate,
-          UI.List.status,
+          List.createDate,
+          List.status,
           { title: "操作", slot: "action", align: "center", width: 260 },
         ],
       },

@@ -3,13 +3,14 @@ import MoreAttrib from './form-more-attrib.vue';
 import ConfigPanel from './form-config.vue';
 import ConfigTable from '../../common/config-table.vue';
 import InfoMixins from '../../common/info-common';
-import {FastViewTable as FastTable} from "@ajaxjs/ui";
+import FastiViewTable from "../../../../common/FastiViewTable.vue";
+
 
 /**
  * 内页
  */
 export default {
-    components: { ConfigTable, MoreAttrib, FormLoader, FastTable, ConfigPanel },
+    components: { ConfigTable, MoreAttrib, FormLoader, FastiViewTable, ConfigPanel },
     mixins: [InfoMixins],
     data(): {} {
         return {

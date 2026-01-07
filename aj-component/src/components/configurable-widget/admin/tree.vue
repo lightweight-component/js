@@ -1,32 +1,35 @@
 <template>
     <span>
         <div class="search-panel ">
-          <i-Input suffix="ios-search" placeholder="搜索……" style="width: 90%" />
+            <i-Input suffix="ios-search" placeholder="搜索……" style="width: 90%" />
         </div>
 
-        <Tree ref="treeCmp" :data="treeData" :load-data="loadTreeData" style="height: 93%;overflow-y: auto;margin-left: 10px;" 
-          @on-contextmenu="handleContextMenu" @on-select-change="$parent.$parent.openLeft">
-          <template slot="contextMenu">
-            <span v-if="isProjectNode">
-              <Dropdown-Item @click.native="$parent.$parent.$refs.project.create" style="color:green">
-                <Icon type="ios-add" /> 新建项目</Dropdown-Item>
-              <Dropdown-Item @click.native="$parent.$parent.$refs.project.update">
-                <Icon type="ios-create" /> 编辑项目</Dropdown-Item>
-              <Dropdown-Item @click.native="$parent.$parent.$refs.project.deletePorject" style="color: #ed4014">
-                <Icon type="ios-trash" /> 删除项目
-              </Dropdown-Item>
-            </span>
-            <span v-if="!isProjectNode">
-              <Dropdown-Item style="color: #ed4014">删除服务</Dropdown-Item>
-            </span>
-          </template>
+        <Tree ref="treeCmp" :data="treeData" :load-data="loadTreeData"
+            style="height: 93%;overflow-y: auto;margin-left: 10px;" @on-contextmenu="handleContextMenu"
+            @on-select-change="$parent.$parent.openLeft">
+            <template slot="contextMenu">
+                <span v-if="isProjectNode">
+                    <Dropdown-Item @click.native="$parent.$parent.$refs.project.create" style="color:green">
+                        <Icon type="ios-add" /> 新建项目
+                    </Dropdown-Item>
+                    <Dropdown-Item @click.native="$parent.$parent.$refs.project.update">
+                        <Icon type="ios-create" /> 编辑项目
+                    </Dropdown-Item>
+                    <Dropdown-Item @click.native="$parent.$parent.$refs.project.deletePorject" style="color: #ed4014">
+                        <Icon type="ios-trash" /> 删除项目
+                    </Dropdown-Item>
+                </span>
+                <span v-if="!isProjectNode">
+                    <Dropdown-Item style="color: #ed4014">删除服务</Dropdown-Item>
+                </span>
+            </template>
         </Tree>
     </span>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { get} from '../../common/request';
+import { get } from '../../common/request';
 
 declare const window: Window & {
     config: ConfigInterface;
@@ -64,11 +67,11 @@ export default defineComponent({
 
         // 异步加载树数据
         loadTreeData(item: null, callback: Function): void {
-            get(`${window.config.dsApiRoot}/common_api/project/list`, (j: RepsonseResult) => {
+            get(`${window.config.dsApiRoot}/common_api/ds_project/list?allow=1`, (j: ApiResponseResult) => {
                 if (j.status) {
                     let data: DS_TreeNode_Project[] = [];
 
-                    j.data.forEach((project: DataService_Porject) => {
+                    (j.data as []).forEach((project: DataService_Porject) => {
                         let projectTreeNode: DS_TreeNode_Project = {
                             title: project.name,
                             loading: false,
@@ -79,7 +82,7 @@ export default defineComponent({
                             render: renderProjectTreeNode
                         };
 
-                        this.loadTreeProejct(Utils.isDebug() ? project.apiPrefixDev : project.apiPrefixProd, projectTreeNode)
+                        this.loadTreeProejct(/* Utils.isDebug() */true ? project.apiPrefixDev : project.apiPrefixProd, projectTreeNode)
                         data.push(projectTreeNode);
                     });
 
@@ -95,19 +98,20 @@ export default defineComponent({
          * @param projectTreeNode 
          */
         loadTreeProejct(apiPrefix: string, projectTreeNode: DS_TreeNode_Project): void {
-            Xhr.xhr_get(`${apiPrefix}/common_api/common_api/list`, (j: RepsonseResult) => {
+            get(`${apiPrefix}/common_api/ds_common_api/list?allow=1`, (j: ApiResponseResult) => {
                 if (j.status) {
                     let base: any = {
                         title: '表单定义',
                         selected: false,
-                        contextmenu: false, parentNode: projectTreeNode.projectData, render: renderCrudTreeNode
+                        contextmenu: false, 
+                        parentNode: projectTreeNode.projectData, 
+                        render: renderCrudTreeNode
                     };
-                    let data = [
+           
+                    projectTreeNode.children = [
                         { ...base, title: "表单定义" },
                         { ...base, title: "列表定义" }
                     ];
-
-                    projectTreeNode.children = data;
                 }
             });
         }
@@ -144,6 +148,7 @@ const renderCrudTreeNode = (h: Function, { root, node, data }) => {
     text-align: center;
 }
 </style>
+
 <style lang="less">
 .search-panel {
     border-bottom: 1px solid lightgray;
@@ -168,10 +173,12 @@ const renderCrudTreeNode = (h: Function, { root, node, data }) => {
         color: green;
         border: 1px solid green;
     }
+
     &.put {
         color: rgb(224, 60, 254);
         border: 1px solid rgb(224, 60, 254);
     }
+
     &.delete {
         color: red;
         border: 1px solid red;

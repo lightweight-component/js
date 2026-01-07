@@ -1,32 +1,31 @@
 <template>
   <Split v-model="split" style="border-top: 1px solid lightgray;">
-    <div slot="left" class="split-pane-left">
+    <template #left class="split-pane-left">
       <leftTree ref="leftTreeCmp" />
-    </div>
+    </template>
 
-    <div slot="right" class="split-pane-right">
+
+    <template #right class="split-pane-right">
       <div class="header">
-        <user />
+        <!--  <user /> -->
         <h1 v-if="widgetType == 'listDef'">列表定义</h1>
         <h1 v-if="widgetType == 'formDef'">表单定义</h1>
       </div>
-
       <List :init-api="api" :api-prefix="apiPrefix" v-if="widgetType == 'listDef'" />
       <Form :init-api="api" :api-prefix="apiPrefix" v-if="widgetType == 'formDef'" />
-      <project ref="project" />
-    </div>
+      <project ref="project" /> 
+    </template>
   </Split>
 </template>
 
 <script>
 import leftTree from "./tree.vue";
-import UI from "@ajaxjs/ui";
 import List from "./list/list.vue";
 import Form from "./form/list.vue";
 import project from "./project.vue";
 
-UI.IAM.getLoginInfo(window.config.loginUrl, window.config.thisPageUrl);
-const user = UI.IamUser;
+// UI.IAM.getLoginInfo(window.config.loginUrl, window.config.thisPageUrl);
+// const user = UI.IamUser;
 
 export default {
   components: {
@@ -34,14 +33,14 @@ export default {
     Form,
     leftTree,
     project,
-    user,
+    /*   user, */
   },
   data() {
     return {
       split: 0.16,
       widgetType: "listDef",
       api: "",
-      apiPrefix: "sssssss",
+      apiPrefix: "http://localhost:8088/robot_api",
     };
   },
   methods: {
@@ -72,9 +71,10 @@ export default {
   padding-right: 30px;
   border-bottom: 1px solid #eee;
 
-  & > a {
+  &>a {
     float: right;
   }
+
   h1 {
     margin: 10px 30px;
     padding: 6px 0;
@@ -90,7 +90,7 @@ export default {
 
 html,
 body,
-.main > .ivu-menu {
+.main>.ivu-menu {
   height: 100%;
 }
 

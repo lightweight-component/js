@@ -83,11 +83,11 @@
 </template>
 
 <script>
-import draggable from "vuedraggable";
+// import draggable from "vuedraggable";
 import DataModelSelector from "../widget/data-model-selector.vue";
 
 export default {
-  components: { draggable, DataModelSelector },
+  components: { /* draggable, */ DataModelSelector },
   props: {
     columns: Array,
     belowPerview: Boolean,

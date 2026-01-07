@@ -1,18 +1,19 @@
 <template>
   <div>
-    <FastViewTable widget-name="列表定义" :list-api-url="initApi" :api-url="apiPrefix + '/common_api/widget_config/'" :columns-def="list.columns">
+    <FastiViewTable widget-name="列表定义" :list-api-url="initApi2"
+      :api-url="apiPrefix + '/common_api/ds_widget_config/list?allow=1'" :columns-def="list.columns">
       <template v-slot:list_action="item">
         <a @click="openDemo(item.item)">预览</a>
         <Divider type="vertical" />
       </template>
 
-      <!--         <template v-slot:toolbar>
-            <div style="float:left;margin-right:10px;">
-                <h2>Scoped slot with props</h2>
-                <a>管理项目</a>
-            </div>
-        </template> -->
-    </FastViewTable>
+      <!-- <template v-slot:toolbar>
+        <div style="float:left;margin-right:10px;">
+          <h2>Scoped slot with props</h2>
+          <a>管理项目</a>
+        </div>
+      </template> -->
+    </FastiViewTable>
 
     <Modal v-model="perview.isShow" title="预览" width="1200" ok-text="关闭" cancel-text="">
       <ListLoader ref="listDefDemo" :api-prefix="apiPrefix" />
@@ -21,26 +22,28 @@
 </template>
 
 <script lang="ts">
-import UI from "@ajaxjs/ui";
-import { Utils } from "@ajaxjs/util";
+import { defineComponent } from 'vue';
+import { dateFormat } from '../../../common';
+import List from '../../../common-ui';
 import ListLoader from "./list-loader.vue";
+import FastiViewTable from "../../../common/FastiViewTable.vue";
 
-const FastViewTable = UI.FastViewTable;
 /**
  * 管理界面列表
  */
-export default {
-  components: { FastViewTable, ListLoader },
+export default defineComponent({
+  components: { FastiViewTable, ListLoader },
   props: {
     apiPrefix: { type: String, required: true }, // API 前缀
-    initApi: { type: String, required: true },
+    initApi: { type: String, required: true, defalut: 'http://localhost:8088/robot_api/common_api/ds_widget_config/list?allow=1&q_type=LIST' },
+    initApi2: { type: String, required: false, defalut: 'http://localhost:8088/robot_api/common_api/ds_widget_config/list?allow=1&q_type=LIST' },
   },
   data() {
     return {
       perview: { isShow: false, title: "", data: {} },
       list: {
         columns: [
-          UI.List.id,
+          List.id,
           {
             title: "列表名称",
             key: "name",
@@ -74,17 +77,12 @@ export default {
             width: 160,
             align: "center",
             render(h: Function, params: any) {
-              return h(
-                "div",
-                Utils.dateFormat.call(
-                  new Date(params.row.updateDate),
-                  "yyyy-MM-dd hh:mm"
-                )
+              return h("div", dateFormat(params.row.updateDate, "yyyy-MM-dd hh:mm")
               );
             },
           },
-          UI.List.createDate,
-          UI.List.status,
+          List.createDate,
+          List.status,
           { title: "操作", slot: "action", align: "center", width: 260 },
         ],
       },
@@ -119,5 +117,5 @@ export default {
       }); // 进入详情页，采用相对路径
     },
   },
-};
+});
 </script>

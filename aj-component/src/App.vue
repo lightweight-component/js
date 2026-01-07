@@ -6,13 +6,19 @@ import ApiHelper2 from './components/api-helper2/api-helper.vue';
 import ApiSelector from './components/api-selector/index.vue';
 import Role from './components/permission/role.vue';
 import UserLogin from './widgets/user-login/UserLogin.vue';
+import CF_Admin from './components/configurable-widget/admin/index.vue';
+
+window.config = {
+  dsApiRoot: 'http://localhost:8088/robot_api',
+};
 </script>
 
 <template>
   <div>
     <!-- <UserLogin /> -->
     <h2>模块权限管理</h2>
-    <Role />
+    <CF_Admin style="width:1300px;height: 700px;" />
+    <!--<Role />-->
     <!--     <h2>数据源选择器</h2>
     <DataSource class="box" api="/foo" />
 
@@ -32,7 +38,7 @@ import UserLogin from './widgets/user-login/UserLogin.vue';
 
 <style scoped>
 .box {
-  width: 1000px;
+  width: 1300px;
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 3%;
