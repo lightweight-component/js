@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "ES2017", // 或更高版本，如 ES2018, ES2019, ES2020, ES2022, ESNext
+        "module": "ESNext", // 通常与 target 保持一致或兼容
+        "lib": [
+            "ES2017",
+            "DOM"
+        ], // <--- 关键：确保包含 "ES2017" 或更高版本
+        // ... 其他选项
+        "moduleResolution": "bundler", // 如果使用 Vite 或较新工具链
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        // ... 其他选项
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
