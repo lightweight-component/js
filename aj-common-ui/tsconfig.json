@@ -1,0 +1,43 @@
+// tsconfig.json
+{
+    "compilerOptions": {
+        "target": "ES2020", // 或更高版本，根据你的目标环境
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "skipLibCheck": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler", // Vite 推荐
+        "allowImportingTsExtensions": true, // 允许导入 .ts 扩展名
+        "resolveJsonModule": true,
+        "isolatedModules": true, // 使每个文件都是模块
+        "noEmit": true, // 不由 tsc 生成 JS 文件，交给 Vite 处理
+        "jsx": "preserve", // 如果使用 JSX
+        /* Type Checking */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        /* Emitting Type Declarations */
+        "declaration": true, // 生成 .d.ts 文件
+        "declarationDir": "./types", // 指定 .d.ts 文件输出目录 (可选，但推荐)
+        "emitDeclarationOnly": true, // 只生成声明文件，不生成 JS (可选，但推荐用于库)
+        "outDir": "./dist-types", // 指定编译输出目录 (如果 emitDeclarationOnly 为 true)
+        // "declarationMap": true // 生成 .d.ts.map 文件 (可选，用于调试)
+    },
+    "include": [
+        "src/**/*.ts", // 包含所有 .ts 文件
+        "src/**/*.d.ts",
+        "src/**/*.tsx", // 如果使用 TSX
+        "src/**/*.vue" // 如果使用 Vue
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "demo" // 通常不包含 demo 代码
+    ]
+}

@@ -1,0 +1,1 @@
+export { getQueryParam, copyToClipboard } from './utils';
