@@ -1,19 +1,21 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts'; // 导入 dts 插件
-// import { resolve } from 'path';
 
 export default defineConfig({
-    plugins: [vue(),
-    dts({ // 添加 dts 插件
-        insertTypesEntry: true, // 自动生成 types 字段指向入口类型文件
-        tsconfigPath: './tsconfig.json', // 指向你的 tsconfig
-        // copyDtsFiles: true, // 是否复制源码中的 .d.ts 文件 (通常不需要，因为会编译)
-    }),
+    plugins: [
+        vue(),
+        dts({ // 添加 dts 插件
+            insertTypesEntry: true, // 自动生成 types 字段指向入口类型文件
+            root: '.',
+            outDir: 'dist/types',
+            include: ['src/**/*.ts', 'src/**/*.vue'],
+            exclude: ['node_modules', 'dist'],
+        }),
     ],
     build: {
         lib: {
-            entry: './src/index.js', // 您的组件库入口文件
+            entry: './src/index.ts', // 您的组件库入口文件
             name: 'ajaxjs_ui', // UMD 模式下的全局变量名
             fileName: (format) => `ajaxjs-ui.${format}.js`, // 输出文件名
             formats: ['es', 'umd', 'cjs']

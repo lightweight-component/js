@@ -1,1 +1,1 @@
-export { getQueryParam, copyToClipboard } from './utils';
+export { getQueryParam } from './utils';

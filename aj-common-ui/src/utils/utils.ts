@@ -1,3 +1,10 @@
+/**
+ * Gets a query parameter value from the URL search string.
+ * 
+ * @param variable - The name of the query parameter to retrieve.
+ * @param isParent - Whether to get the parameter from the parent window's URL (true) or current window's URL (false).
+ * @returns The value of the query parameter if found, otherwise null.
+ */
 export function getQueryParam(variable: string, isParent: boolean): string | null {
     const query: string = (isParent ? parent.location : window.location).search.substring(1);
     const vars: string[] = query.split("&");
@@ -11,26 +18,3 @@ export function getQueryParam(variable: string, isParent: boolean): string | nul
 
     return null;
 }
-
-/**
-* 复制文字到剪切板
-* 
-* @param {*} text 
-*/
-export function copyToClipboard(text: string): void {
-    if (navigator.clipboard) {
-        // clipboard api 复制
-        navigator.clipboard.writeText(text);
-    } else {
-        const textarea: HTMLTextAreaElement = document.createElement('textarea');
-        document.body.appendChild(textarea);
-        textarea.style.position = 'fixed';// 隐藏此输入框
-        textarea.style.clip = 'rect(0 0 0 0)';
-        textarea.style.top = '10px';
-        textarea.value = text;  // 赋值
-        textarea.select(); // 选中
-        document.execCommand('copy', true);
-        document.body.removeChild(textarea);
-    }
-}
- 

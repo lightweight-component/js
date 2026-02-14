@@ -24,9 +24,9 @@
         "noFallthroughCasesInSwitch": true,
         /* Emitting Type Declarations */
         "declaration": true, // 生成 .d.ts 文件
-        "declarationDir": "./types", // 指定 .d.ts 文件输出目录 (可选，但推荐)
+        "declarationDir": "./dist/types", // 指定 .d.ts 文件输出目录 (可选，但推荐)
         "emitDeclarationOnly": true, // 只生成声明文件，不生成 JS (可选，但推荐用于库)
-        "outDir": "./dist-types", // 指定编译输出目录 (如果 emitDeclarationOnly 为 true)
+        "outDir": "./dist/types", // 指定编译输出目录 (如果 emitDeclarationOnly 为 true)
         // "declarationMap": true // 生成 .d.ts.map 文件 (可选，用于调试)
     },
     "include": [
