@@ -1,3 +1,10 @@
+/**
+ * Gets a query parameter value from the URL search string.
+ * 
+ * @param variable - The name of the query parameter to retrieve.
+ * @param isParent - Whether to get the parameter from the parent window's URL (true) or current window's URL (false).
+ * @returns The value of the query parameter if found, otherwise null.
+ */
 export function getQueryParam(variable: string, isParent: boolean = false): string | null {
     const query: string = (isParent ? parent.location : window.location).search.substring(1);
     const vars: string[] = query.split("&");
@@ -104,6 +111,39 @@ export function openDownloadDialog(url: string | Blob, saveName: string): void {
     aLink.dispatchEvent(event);
 }
 
+
+/**
+ * Copies text to the clipboard using the modern Clipboard API if available, or a fallback method.
+ * 
+ * @param text - The text to copy to the clipboard.
+ * @returns void
+ * @description Uses navigator.clipboard.writeText() for modern browsers, and falls back to creating a temporary textarea element
+ * for older browsers that don't support the Clipboard API.
+ */
+export function copyToClipboard(text: string): void {
+    if (navigator.clipboard)
+        navigator.clipboard.writeText(text);  // clipboard api 复制
+    else {
+        const textarea: HTMLTextAreaElement = document.createElement('textarea');
+        document.body.appendChild(textarea);
+        textarea.style.position = 'fixed';// 隐藏此输入框
+        textarea.style.clip = 'rect(0 0 0 0)';
+        textarea.style.top = '10px';
+        textarea.value = text;  // 赋值
+        textarea.select(); // 选中
+        document.execCommand('copy', true);
+        document.body.removeChild(textarea);
+    }
+}
+
+/**
+ * Processes elements with the "w3-include-html" attribute by fetching and including the specified HTML content.
+ * This function recursively processes elements to handle any newly added content that also has the attribute.
+ * 
+ * @description Iterates through all elements in the document, finds those with the "w3-include-html" attribute,
+ * fetches the HTML content from the specified file using a synchronous XMLHttpRequest, replaces the element with
+ * the fetched content, and then calls itself recursively to process any new elements that might have been added.
+ */
 export function myHTMLInclude(): void {
     let a: Element, file: string | null, xhttp: XMLHttpRequest;
     const z: HTMLCollectionOf<Element> = document.getElementsByTagName("*");

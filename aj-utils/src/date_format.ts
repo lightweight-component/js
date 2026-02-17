@@ -29,7 +29,7 @@
  * - q: 季度（1-4）
  * - S: 毫秒（000-999）
  */
-function formatDate(this: Date, format: string): string {
+export function formatDate(this: Date, format: string = 'yyyy-MM-dd hh:mm'): string {
     let $1, o = {
         "M+": this.getMonth() + 1,		// 月份，从0开始算
         "d+": this.getDate(),   		// 日期
@@ -67,7 +67,7 @@ function formatDate(this: Date, format: string): string {
  * @param {string} format 日期格式化模板
  * @returns {string} 格式化后的日期字符串
  */
-export function dateFormat(date: string, format: string): string {
+export function dateFormat(date: string, format: string = 'yyyy-MM-dd hh:mm'): string {
     return formatDate.call(new Date(date), format);
 }
 
