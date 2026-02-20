@@ -1,0 +1,447 @@
+<template>
+    <div class="user-center">
+        <div class="left">
+            <div class="avatar">
+                <div class="imgHolder userAvatar">
+                    <img :src="avatarUrl || '/images/empty-avatar.png'" />
+                </div>
+
+                <h3 class="userName">{{ userLoginId }}</h3>
+            </div>
+            <menu>
+                <ul>
+                    <li :class="{ actived: showing == 'main' }"><a href="javascript:void(0);"
+                            @click="showing = 'main'">概 览</a></li>
+                    <li :class="{ actived: showing == 'profile' }"><a href="javascript:void(0);"
+                            @click="showing = 'profile'">个人信息</a>
+                    </li>
+                    <li :class="{ actived: showing == 'account' }"><a href="javascript:void(0);"
+                            @click="showing = 'account'">帐号管理</a>
+                    </li>
+                    <!-- <li :class="{ actived: showing == 'loginLog' }"><a href="###" @click="showing = 'loginLog'">登录历史</a></li> -->
+                    <li><a href="javascript:void(0);" @click="logout">退出登录</a></li>
+                </ul>
+            </menu>
+        </div>
+        <div class="right">
+            <Main v-if="showing == 'main'" />
+            <Profile v-if="showing == 'profile'" />
+            <Account v-if="showing == 'account'" />
+            <!-- <user-center-login-log v-if="showing == 'loginLog'" /> -->
+        </div>
+        <div class="copyright">Powered by AJ-IAM.</div>
+        <!-- 对话框 -->
+        <!-- <aj-confirm class="logout" v-if="isShow" message="确定退出吗？" /> -->
+    </div>
+</template>
+
+<script lang="ts">
+import Main from './Main.vue';
+import Profile from './Profile.vue';
+import Account from './Account.vue';
+import { XhrFetch } from '@ajaxjs/util';
+
+export default {
+    components: { Main, Profile, Account },
+    data() {
+        return {
+            showing: 'main',
+            isShow: false,
+            loginState: false,
+            userLoginId: '',
+            avatarUrl: '',
+            USER: {},
+        }
+    },
+
+    mounted() {
+        const userInfo: any = JSON.parse(localStorage.getItem('userInfo') as string);
+        this.userLoginId = userInfo.loginId;
+        this.avatarUrl = 'data:image/;base64,' + userInfo.avatarBlob;
+        this.USER = userInfo;
+        // 调接口判断是否已经登录
+        // aj.xhr.get('../../iam_api/user/info', json => {
+        //     if (json.status && json.data) {
+        //         console.log(json.data)
+
+        //         this.USER = json.data;
+        //         this.loginState = true;
+        //     } else {
+        //         if (confirm('你未登录！是否跳转到登录页面？')) {
+        //             location.assign(`../../iam_api/client/to_login?web_url=${encodeURIComponent(location.href)}`);
+        //         }
+        //     }
+        // });
+    },
+    methods: {
+        logout(): void {
+            this.$Modal.confirm({
+                title: '确定退出吗？',
+                content: '登出当前账号',
+                loading: true, // 显示加载状态，防止用户重复点击
+                onOk: () => {
+                    XhrFetch.postForm('/iam_api/user/login/logout', {}, (resp: ApiResponseResult) => {
+                        console.log(resp);
+                        if (resp.status) {
+                            localStorage.removeItem('userInfo');
+                            localStorage.removeItem('isLoggedIn');
+                            this.$Message.success('登出成功！');
+                            this.$Modal.remove(); // 或者 this.$Modal.destroy() (取决于版本)
+
+                            setTimeout(() => {
+                                this.$router.push('/login');
+                            }, 2000);
+                        } else
+                            console.error(resp.message || '登录失败');
+
+                    });
+                }
+            });
+        }
+    }
+};
+</script>
+
+<style lang="less">
+@background_color_1: #f5f5f5;
+@background_color_2: white;
+@background_color_3: #fefefe;
+
+.user-center {
+    min-height: 700px;
+    clear: both;
+    margin: auto;
+    margin-top: 30px;
+    height: 82%;
+    max-width: 1200px;
+
+    h4 {
+        padding: 0 0 1% 3%;
+        font-weight: bold;
+        letter-spacing: 3px;
+        font-size: 1.1rem;
+    }
+
+    .aj-hr {
+        width: 95%;
+    }
+
+    .left {
+        border-radius: 20px 0 0 20px;
+        background-color: @background_color_1;
+        overflow: hidden;
+        width: 22%;
+        height: 500px;
+        float: left;
+
+        menu {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            margin-top: 5%;
+            padding-bottom: 10%;
+
+            a {
+                text-decoration: none;
+            }
+
+            li {
+                border-top: 1px solid lightgray;
+                list-style-type: none;
+                padding: 5%;
+                text-align: center;
+                font-size: .95rem;
+
+                &.actived {
+                    background-color: @background_color_2;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .right {
+        background-color: @background_color_3;
+        width: 78%;
+        float: left;
+        border-radius: 0 10px 10px 10px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #e6e3e3;
+        box-sizing: border-box;
+        min-height: 600px;
+        padding: 4%;
+
+        h3 {
+            width: 80%;
+            margin: 0% auto;
+            margin-bottom: 4%;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 5px;
+            font-size: 1.4rem;
+        }
+
+        iframe {
+            height: 100%;
+            width: 100%;
+            border: 0;
+            min-height: 600px;
+        }
+
+        .achor {
+            text-align: right;
+            padding-right: 5%;
+            font-size: .9rem;
+            margin-bottom: 3%;
+        }
+    }
+
+
+    .avatar {
+        margin: 10% auto;
+
+        div {
+            margin: 5% auto;
+        }
+
+        div.imgHolder {
+            width: 100px;
+            height: 100px;
+
+            img {
+                border-radius: 50%;
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        h3 {
+            text-align: center;
+        }
+    }
+
+    .user-center-main {
+        table {
+            font-size: .95rem;
+
+            td {
+                vertical-align: middle;
+
+                input,
+                textarea {
+                    border: none;
+                    background-color: transparent;
+                    outline: none;
+                }
+            }
+        }
+    }
+
+    .user-center-profile {
+        font-size: .95rem;
+
+        .loginId {
+            padding: 2% 5%;
+        }
+
+        table {
+            td {
+                vertical-align: middle;
+
+                .aj-file-upload {
+                    width: 130px;
+                    margin: 0 auto;
+
+                    .image-preview img {
+                        max-width: 100px;
+                    }
+                }
+
+            }
+        }
+
+        /* 选中表格中每一行的奇数列（第1、3、5...列） */
+        table tr td:nth-child(odd),
+        table tr th:nth-child(odd) {
+            color: gray;
+        }
+
+        .button-1 {
+            display: block;
+            margin: 2% auto;
+        }
+    }
+
+    .user-center-account {
+        min-height: 600px;
+        clear: both;
+        overflow: hidden;
+
+        .safe {
+            margin: 0 5%;
+
+            li {
+                border-bottom: 1px solid lightgray;
+                padding: 4% 0;
+                list-style: none;
+
+                div {
+                    display: inline-block;
+                    min-width: 25%;
+                    box-sizing: border-box;
+
+                    &.ok {
+                        color: green;
+
+                        &::before {
+                            content: "\2714";
+                            border: 2px solid;
+                            text-align: center;
+                            padding: 3px 3px 0px 2px;
+                            border-radius: 50%;
+                            margin-right: 10px;
+                            font-size: 12px;
+                        }
+                    }
+
+                    &.fail {
+                        color: red;
+
+                        &::before {
+                            content: "\2716";
+                            border: 2px solid;
+                            text-align: center;
+                            padding: 3px 3px 0px 2px;
+                            border-radius: 50%;
+                            margin-right: 10px;
+                            font-size: 12px;
+                        }
+                    }
+
+                }
+
+                a {
+                    float: right;
+                    font-weight: bold;
+                }
+            }
+        }
+
+
+        >.center {
+            margin: 5% auto;
+            height: 82%;
+
+            .left {
+                border-radius: 20px 0 0 20px;
+                background-color: #f5f5f5;
+                ;
+                overflow: hidden;
+                width: 22%;
+                height: 100%;
+                float: left;
+
+                menu {
+                    width: 100%;
+                    margin: 0;
+                    padding: 0;
+                    margin-top: 5%;
+                    padding-bottom: 10%;
+
+                    li {
+                        border-top: 1px solid lightgray;
+                        list-style-type: none;
+                        padding: 5%;
+                        text-align: center;
+                        font-size: .9rem;
+                    }
+
+                    li.selected {
+                        background-color: white;
+                    }
+                }
+            }
+
+            .right {
+                background-color: #fefefe;
+                width: 78%;
+                float: left;
+                border-radius: 0 10px 10px 10px;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid #e6e3e3;
+                box-sizing: border-box;
+                min-height: 600px;
+
+                >h3 {
+                    width: 80%;
+                    margin: 0% auto;
+                    text-align: center;
+                    font-weight: 700;
+                    letter-spacing: 5px;
+                    font-size: 1.8rem;
+                }
+
+                iframe {
+                    height: 100%;
+                    width: 100%;
+                    border: 0;
+                    min-height: 600px;
+                }
+
+                .achor {
+                    text-align: right;
+                    padding-right: 5%;
+                    font-size: .9rem;
+                    margin-bottom: 3%;
+                }
+            }
+        }
+    }
+
+    .copyright {
+        text-align: center;
+        color: gray;
+        font-size: .9rem;
+        padding-top: 2%;
+        clear: both;
+    }
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #e3e3e3;
+}
+
+.aj-form-table {
+    width: 95%;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    th {
+        background-color: #efefef;
+        letter-spacing: 3px;
+    }
+
+    td,
+    th {
+        line-height: 160%;
+        height: 120%;
+        padding: 10px 15px;
+    }
+
+    tr {
+        transition: background-color 400ms ease-out;
+
+        &:nth-child(odd) {
+            background: #f5f5f5;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+        }
+
+        &:hover {
+            background-color: #fbf8e9;
+        }
+    }
+}
+</style>

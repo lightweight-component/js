@@ -14,6 +14,7 @@ export default defineConfig({
         }),
     ],
     build: {
+        commonjsOptions: { esmExternals: true },
         lib: {
             entry: './src/index.ts', // 您的组件库入口文件
             name: 'ajaxjs_ui', // UMD 模式下的全局变量名
