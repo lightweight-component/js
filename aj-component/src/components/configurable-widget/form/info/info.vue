@@ -1,6 +1,6 @@
 <template>
   <ConfigTable ref="configTable" class="form-factory">
-    <template v-slot:topbar>
+    <template v-slot:topbar> 
       <a @click="jsonBased.isShowJsonBased = true">从JSON新建</a> | 视图：<a @click="view = 'model'"
         :class="{ selected: view == 'model' }">模型</a> | <a @click="view = 'form'"
         :class="{ selected: view == 'form' }">表单</a> |
@@ -133,7 +133,7 @@
     </template>
 
     <template v-slot:config-panel>
-      <ConfigPanel :cfg="cfg" :api-root="API" />
+      <ConfigPanel :id="id" :cfg="cfg" :api-root="API" />
     </template>
 
     <template v-slot:more-attrib="scope">

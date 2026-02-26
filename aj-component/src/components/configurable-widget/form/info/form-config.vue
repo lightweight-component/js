@@ -3,7 +3,7 @@
   <Tabs style="min-height:600px" :animated="false">
     <TabPane label="表单配置">
       <Form :label-width="120" label-colon>
-        <FormItem label="记录 id">{{ $parent.$parent.$parent.id }}</FormItem>
+        <FormItem label="记录 id">{{ id }}</FormItem>
         <Row>
           <Col span="12">
           <FormItem label="数据源">
@@ -24,6 +24,12 @@
       <Form :label-width="120" style="width:500px;margin:50px auto">
         <FormItem label="获取记录接口">
           <Input v-model="cfg.infoApi" />
+          <div style="padding-top:10px;height: 20px; line-height: 20px;">
+            <Tooltip content="适合RESTful接口，POST创建PUT更新" placement="right">
+              <i class="ivu-icon ivu-icon-ios-help-circle-outline"></i>
+            </Tooltip>
+            <a href="javascript:void(9);" @click="copy">一键复制到下面</a>
+          </div>
         </FormItem>
         <FormItem label="创建记录接口">
           <Input v-model="cfg.createApi" />
@@ -77,10 +83,22 @@
 </template>
 
 <script lang="ts">
+
 export default {
   props: {
-    cfg: Object,
+    id: { type: Number, required: false },
+    cfg: { type: Object, required: true },
     apiRoot: { type: String, required: true }, // API 选择器需要这个属性
+  },
+  methods: {
+    copy(): void {
+      this.cfg.createApi = this.cfg.infoApi;
+      this.cfg.editApi = this.cfg.infoApi;
+
+      // this.$Copy({ text });
+      // this.$Message.success('已复制到剪贴板');
+      this.$Notice.success({ title: '复制成功' });
+    }
   }
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
-    <ListLoader :id="121" show-create-btn />
+    <PageHeader title="商品属性定义" hidden-breadcrumb />
+    <ListLoader :id="150" show-create-btn />
 </template>
 
 <script>

@@ -1,16 +1,12 @@
 <template>
-  <div>
-    <FromRenderer ref="FromRenderer" :cfg="cfg" />
-    <div class="btns" v-if="isShowBtns">
-      <span v-if="isShowInfoBtn">
-        <Input style="width:50px" v-model="entityId" /> <Button style="width:90px" @click="loadInfo">加载</Button>
-      </span>
-      <Button type="primary" v-if="status === 1" @click="create">创建</Button>
-      <Button type="primary" v-if="status === 2" @click="update">保存</Button>
-
-      <Button @click="resetFields" v-if="status !== 0">重置</Button>
-      <Button @click="$router.back()">返回</Button>
-    </div>
+  <FromRenderer ref="FromRenderer" :cfg="cfg" />
+  <div class="btns" v-if="isShowBtns">
+    <span v-if="isShowInfoBtn">
+      <Input style="width:50px" v-model="entityId" /> <Button style="width:90px" @click="loadInfo">加载</Button>
+    </span>
+    <Button type="primary" v-if="status === 1" @click="create">创建</Button>
+    <Button type="primary" v-if="status === 2" @click="update">保存</Button>
+    <Button @click="$router.back()">返回</Button>
   </div>
 </template>
 
@@ -19,9 +15,9 @@ import { defineComponent, ref } from 'vue';
 // import { findNode } from "./info/info";
 import FromRenderer from "./renderer/form-factory-renderer.vue";
 import { XhrFetch, DateFormat } from '@ajaxjs/util';
+import { getRealUrl } from '../common/utils';
 
-// 声明 window.config 并为其指定类型
-declare const window: Window & {
+declare const window: Window & {// 声明 window.config 并为其指定类型
   config: ConfigInterface;
 };
 
@@ -41,13 +37,12 @@ export default defineComponent({
     return {
       formId: this.id || 0, // 表单定义 id
       entityId: 0, // 实体 id
-      cfg: { fields: [] },
+      cfg: { fields: [] } as any,
       status: 1, // 0=查看/1=新增/2=修改
       oldJson: null, // JSON Based 下的旧 JSON 完整数据。因为 data 只有部分
     };
   },
   mounted(): void {
-    // console.log(this.$route.query)
     if (this.$route.query.id)
       this.entityId = Number(this.$route.query.id);
 
@@ -59,17 +54,14 @@ export default defineComponent({
      * 加载表单配置
      */
     load(): void {
-      console.log('加载表单配置')
-
       if (this.entityId) // 有 id 表示修改状态
         this.status = 2;
       else {
         this.status = 1;
         this.FromRenderer.data = {};
-        // this.$refs.FromRenderer.data = {};
       }
 
-      XhrFetch.get(`${window.config.dsApiRoot}/common_api/ds_widget_config/${this.formId}`, (j: RepsonseResult) => {
+      XhrFetch.get(`${window.config.dsApiRoot}/common_api/ds_widget_config/${this.formId}`, (j: ApiResponseResult) => {
         if (j && j.status) {
           this.cfg = j.data.config;
 
@@ -115,14 +107,6 @@ export default defineComponent({
           this.$Message.error("获取表单配置失败");
       });
     },
-
-    /**
-     * 重置表单，但没作用
-     */
-    resetFields(): void {
-      this.FromRenderer.$refs.formDynamic.resetFields();
-    },
-
     /**
      * 创建
      */
@@ -137,7 +121,7 @@ export default defineComponent({
       const data: any = this._getSaveData();
       delete data.id;
 
-      XhrFetch.post(window.config.dsApiRoot + api, data, (j: RepsonseResult) => {
+      XhrFetch.post(getRealUrl(api), data, (j: ApiResponseResult) => {
         if (j.status) {
           this.status = 2;
           this.$Message.success('创建成功');
@@ -166,7 +150,6 @@ export default defineComponent({
       //   (api.httpMethod == 'post' ? post : put)(r.url, callback, r.params);
       // }
     },
-
     /**
       * 更新
       */
@@ -180,7 +163,7 @@ export default defineComponent({
 
       const data: any = this._getSaveData();
 
-      XhrFetch.put(window.config.dsApiRoot + api, data, (j: RepsonseResult) => {
+      XhrFetch.put(getRealUrl(api), data, (j: ApiResponseResult) => {
         if (j.status)
           this.$Message.success('保存成功');
         else
@@ -246,9 +229,8 @@ export default defineComponent({
         return;
       }
 
-      XhrFetch.get(window.config.dsApiRoot + api + "/" + this.entityId, (j: RepsonseResult) => {
+      XhrFetch.get(getRealUrl(api) + "/" + this.entityId, (j: ApiResponseResult) => {
         if (j && j.status) {
-          console.log(j.data);
           this.FromRenderer.data = j.data;
           this.status = 2;
         }

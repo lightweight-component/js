@@ -2,7 +2,7 @@
   <div>
     <RadioGroup v-model="type">
       <Radio :label="1">
-        从 API 接口获取数据 <Tooltip content="rows 文本域默认行数" placement="right"><i class="ivu-icon ivu-icon-ios-help-circle-outline"></i></Tooltip><br />
+        从 API 接口获取数据 <Tooltip content="指定 URL 读取列表，title 字段外显，value 字段值。" placement="right"><i class="ivu-icon ivu-icon-ios-help-circle-outline"></i></Tooltip><br />
         <span>{{api ||'未指定 API'}}</span> &nbsp;<Button size="small" :disabled="type != 1">选择 API</Button>
       </Radio>
 

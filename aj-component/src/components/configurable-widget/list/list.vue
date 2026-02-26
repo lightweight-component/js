@@ -57,13 +57,8 @@ export default defineComponent({
           },
           {
             title: "关联表单",
-            render(h: Function, params: any) {
-              return h("span", params.row.config.bindingFormName);
-              // if (params.row.datasourceName)
-              //   return h("span",
-              //     params.row.datasourceName + "/" + params.row.tableName
-              //   );
-              // else return h("span", params.row.tableName);
+            render(h: Function, params: any): string {
+              return params.row.config.bindingFormName;
             },
             width: 180,
             ellipsis: true,
@@ -71,8 +66,7 @@ export default defineComponent({
           {
             title: "接口地址",
             minWidth: 250,
-            render: (h: Function, params: any) =>
-              h("span", params.row.config.httpApi),
+            render: (h: Function, params: any) => params.row.config.dataBinding.url,
             ellipsis: true,
             tooltip: true,
           },
@@ -80,10 +74,7 @@ export default defineComponent({
             title: "修改日期",
             width: 160,
             align: "center",
-            render(h: Function, params: any) {
-              return h("div", DateFormat.dateFormat(params.row.updateDate)
-              );
-            },
+            render: (h: Function, params: any) => DateFormat.dateFormat(params.row.updateDate),
           },
           List.createDate,
           List.status,

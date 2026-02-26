@@ -29,7 +29,7 @@
 
                         <slot name="toolbar"></slot>
                         <Button v-if="showCreateBtn" type="primary" icon="md-add" @click="onCreate">新建{{ widgetName_
-                        }}</Button>
+                            }}</Button>
                     </div>
                 </div>
                 <Table style="clear:both" :columns="list.columns" :data="list.data" :loading="list.loading">
@@ -51,12 +51,12 @@
         </span>
 
         <Modal v-if="modalInfo" v-model="isShowForm" title="预览" width="800" ok-text="关闭" cancel-text="">
-            <FormLoader ref="FormLoader" :api-prefix="apiPrefix" />
+            <FormLoader ref="FormLoader" />
         </Modal>
 
         <span v-if="!modalInfo && isShowForm">
             <a href="#" @click="isShowForm = false">返回列表</a>
-            <!-- <FormLoader ref="FormLoader2a" :api-prefix="apiPrefix" style="width:1200px;margin: 0 auto;" /> -->
+            <!-- <FormLoader ref="FormLoader2a" style="width:1200px;margin: 0 auto;" /> -->
         </span>
     </div>
 </template>
@@ -65,9 +65,9 @@
 import { defineComponent } from 'vue';
 import { XhrFetch } from '@ajaxjs/util';
 import FormLoader from "../form/form-loader.vue";
+import { getRealUrl } from '../common/utils';
 
-// 声明 window.config 并为其指定类型
-declare const window: Window & {
+declare const window: Window & {// 声明 window.config 并为其指定类型
     config: ConfigInterface;
 };
 
@@ -75,7 +75,6 @@ export default defineComponent({
     name: "ListLoader",
     components: { FormLoader },
     props: {
-        apiPrefix: { type: String, required: false },     // API 前缀
         createRoute: { type: String, required: false },     // 新建事件触发时候，进入的路由地址
         editRoute: { type: String, required: false },       // 编辑事件触发时候，进入的路由地址
         defaultAction: { type: Boolean, required: false, default: true },
@@ -131,10 +130,8 @@ export default defineComponent({
             });
         },
         renderConfig(cfg: ListFactory_ListConfig_New): void {
-            // this.bindingFormId = cfg.bindingFormId;
-            // this.listApiUrl_ = cfg.httpApi.replace('{project_prefix}', this.apiPrefix);
             this.bindingFormId = cfg.bindingFormId || 0;
-            this.listApiUrl_ = cfg.dataBinding.url.replace('{project_prefix}', this.apiPrefix);
+            this.listApiUrl_ = getRealUrl(cfg.dataBinding.url);
             const colDefs: TableColumn[] = cfg.fields;
             this.list.columns = [];
 
@@ -177,7 +174,6 @@ export default defineComponent({
             this.list.pageNo = pageNo;
             this.getData();
         },
-
         /**
          * 分页记录数
          */
@@ -201,8 +197,9 @@ export default defineComponent({
                 this.$parent.edit(id);
             else if (this.modalInfo) {
                 this.isShowForm = true;
-                const formLoader = this.$refs.FormLoader;
+                const formLoader: any = this.$refs.FormLoader;
                 formLoader.formId = this.bindingFormId;
+                formLoader.entityId = 0;
                 formLoader.load();
             }
         },
@@ -526,7 +523,7 @@ function booleanValue(h: (a: string, b: string) => any, params: any): string {
 
 function price(h: (a: string, b: string) => any, params: any): string {
     const value: number | null = params.row[params.column.key]; // 取出当前值
-    
+
     if (!value)
         return '';
 

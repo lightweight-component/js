@@ -120,11 +120,11 @@
     </template>
 
     <template v-slot:live-perview>
-      <ListLoader ref="LivePerview" :api-prefix="apiPrefix" :show-search="false" :modal-info="false" />
+      <ListLoader ref="LivePerview" :show-search="false" :modal-info="false" />
     </template>
 
     <Modal v-model="isShowPerview" title="预览" width="1200" ok-text="关闭" cancel-text="">
-      <ListLoader ref="preview" :api-prefix="apiPrefix" />
+      <ListLoader ref="preview" />
     </Modal>
 
     <template v-slot:more-attrib="scope">

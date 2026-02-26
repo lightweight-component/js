@@ -42,7 +42,7 @@ export default defineComponent({
         columns: [
           List.id,
           {
-            title: "列表名称",
+            title: "表单名称",
             key: "name",
             minWidth: 130,
             ellipsis: true,
@@ -53,10 +53,18 @@ export default defineComponent({
             render(h: Function, params: any) {
               if (params.row.datasourceName)
                 return h("span", params.row.datasourceName + "/" + params.row.tableName);
-              else return h("span", params.row.tableName);
+              else
+                return h("span", params.row.tableName);
             },
             width: 280,
             ellipsis: true,
+          },
+          {
+            title: "接口地址",
+            minWidth: 250,
+            render: (h: Function, params: any) => params.row.config.infoApi,
+            ellipsis: true,
+            tooltip: true,
           },
           {
             title: "修改日期",

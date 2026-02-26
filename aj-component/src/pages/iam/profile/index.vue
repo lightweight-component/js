@@ -12,37 +12,32 @@
                 <ul>
                     <li :class="{ actived: showing == 'main' }"><a href="javascript:void(0);"
                             @click="showing = 'main'">概 览</a></li>
-                    <li :class="{ actived: showing == 'profile' }"><a href="javascript:void(0);"
-                            @click="showing = 'profile'">个人信息</a>
-                    </li>
-                    <li :class="{ actived: showing == 'account' }"><a href="javascript:void(0);"
-                            @click="showing = 'account'">帐号管理</a>
-                    </li>
-                    <!-- <li :class="{ actived: showing == 'loginLog' }"><a href="###" @click="showing = 'loginLog'">登录历史</a></li> -->
+                    <li :class="{ actived: showing == 'account' }" @click="showing = 'account'">帐号管理</li>
+                    <li :class="{ actived: showing == 'oauth' }" @click="showing = 'oauth'">第三方登录</li>
+                    <li :class="{ actived: showing == 'loginLog' }" @click="showing = 'loginLog'">登录历史</li>
                     <li><a href="javascript:void(0);" @click="logout">退出登录</a></li>
                 </ul>
             </menu>
         </div>
         <div class="right">
-            <Main v-if="showing == 'main'" />
-            <Profile v-if="showing == 'profile'" />
+            <Main v-if="showing == 'main'" :user="USER" />
             <Account v-if="showing == 'account'" />
-            <!-- <user-center-login-log v-if="showing == 'loginLog'" /> -->
+            <Oauth v-if="showing == 'oauth'" />
+            <LoginLog v-if="showing == 'loginLog'" />
         </div>
         <div class="copyright">Powered by AJ-IAM.</div>
-        <!-- 对话框 -->
-        <!-- <aj-confirm class="logout" v-if="isShow" message="确定退出吗？" /> -->
     </div>
 </template>
 
 <script lang="ts">
 import Main from './Main.vue';
-import Profile from './Profile.vue';
 import Account from './Account.vue';
+import Oauth from './Oauth.vue';
+import LoginLog from './LoginLog.vue';
 import { XhrFetch } from '@ajaxjs/util';
 
 export default {
-    components: { Main, Profile, Account },
+    components: { Main, Account, Oauth, LoginLog },
     data() {
         return {
             showing: 'main',
@@ -59,19 +54,6 @@ export default {
         this.userLoginId = userInfo.loginId;
         this.avatarUrl = 'data:image/;base64,' + userInfo.avatarBlob;
         this.USER = userInfo;
-        // 调接口判断是否已经登录
-        // aj.xhr.get('../../iam_api/user/info', json => {
-        //     if (json.status && json.data) {
-        //         console.log(json.data)
-
-        //         this.USER = json.data;
-        //         this.loginState = true;
-        //     } else {
-        //         if (confirm('你未登录！是否跳转到登录页面？')) {
-        //             location.assign(`../../iam_api/client/to_login?web_url=${encodeURIComponent(location.href)}`);
-        //         }
-        //     }
-        // });
     },
     methods: {
         logout(): void {
@@ -151,6 +133,7 @@ export default {
                 padding: 5%;
                 text-align: center;
                 font-size: .95rem;
+                cursor: pointer;
 
                 &.actived {
                     background-color: @background_color_2;
@@ -223,6 +206,7 @@ export default {
 
     .user-center-main {
         table {
+            width: 100%;
             font-size: .95rem;
 
             td {

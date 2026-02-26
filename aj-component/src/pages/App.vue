@@ -53,7 +53,24 @@
             <span>交易流水</span>
             </MenuItem>
           </Submenu>
-
+          <Submenu name="shop">
+            <template #title>
+              <Icon type="md-aperture" />
+              商城管理
+            </template>
+            <MenuItem name="shop-arrtib-def" to="/shop/arrtib-def">
+            <Icon type="ios-images"></Icon>
+            <span>商品属性定义</span>
+            </MenuItem>
+            <MenuItem name="shop-arrtib-value" to="/shop/arrtib-value">
+            <Icon type="ios-images"></Icon>
+            <span>商品属性值</span>
+            </MenuItem>
+            <MenuItem name="4-2" to="/pay/transaction">
+            <Icon type="ios-images"></Icon>
+            <span>交易流水</span>
+            </MenuItem>
+          </Submenu>
           <Submenu name="2">
             <template #title>
               <Icon type="ios-people" />

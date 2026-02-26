@@ -6,8 +6,7 @@ export default defineConfig({
     plugins: [vue()],
     // 开发服务器配置
     server: {
-        port: 3000, // 您可以自定义端口
-        open: true, // 自动打开浏览器
+        allowedHosts: ['local.robot.com']
     },
     // 为开发环境指定入口点 (Demo应用)
     build: {

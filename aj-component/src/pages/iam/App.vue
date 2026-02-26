@@ -1,5 +1,5 @@
 <template>
-    <ListLoader :id="130" />
+    <ListLoader :id="130" show-create-btn />
 </template>
 
 <script>

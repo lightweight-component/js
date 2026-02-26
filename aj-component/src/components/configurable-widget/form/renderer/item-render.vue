@@ -11,7 +11,8 @@
 
     <!-- 可写模式 -->
     <span v-if="status !== 0">
-      <Input v-if="item.uiType == 1" type="text" v-model="data[item.name]" :placeholder="item.comment" :readonly="item.ext_attribs && item.ext_attribs.isReadonly" />
+      <Input v-if="item.uiType == 1" type="text" v-model="data[item.name]" :placeholder="item.comment"
+        :readonly="item.ext_attribs && item.ext_attribs.isReadonly" />
 
       <Input v-if="item.uiType == 6" type="textarea" v-model="data[item.name]" :placeholder="item.comment" />
 
@@ -24,7 +25,7 @@
       <DatePicker v-if="item.uiType == 5" type="date" v-model="data[item.name]" placeholder="选择日期" style="width: 200px">
       </DatePicker>
 
-      <Slider v-if="item.uiType == 10" v-model="value2" range />
+      <Slider v-if="item.uiType == 10" v-model="data[item.name]" range />
 
       <span v-if="item.uiType == 7">
         <i-Switch v-model="data[item.name]" size="middle" /> &nbsp;
@@ -33,15 +34,20 @@
       </span>
 
       <!-- {{  item.uiType}} -->
+      <Select v-if="item.uiType == 2 && item.ext_attribs.type == 1" v-model="data[item.name]">
+        <Option v-for="(_item, index) in dropDownListData" :key="index" :value="_item.value">{{ _item.name }}
+        </Option>
+      </Select>
 
-      <Select v-if="item.uiType == 2 && item.ext_attribs" v-model="data[item.name]">
-        <Option v-for="(item, index) in item.ext_attribs.candidateData" :key="index" :value="item.value">{{ item.name }}
+      <Select v-if="item.uiType == 2 && item.ext_attribs.type == 2" v-model="data[item.name]">
+        <Option v-for="(_item, index) in item.ext_attribs.candidateData" :key="index" :value="_item.value">{{ _item.name
+        }}
         </Option>
       </Select>
 
       <RadioGroup v-if="item.uiType == 3 && item.ext_attribs" v-model="data[item.name]">
-        <Radio v-for="(item, index) in item.ext_attribs.candidateData" :key="index" :label="item.value">
-          <span>{{ item.name }}</span>
+        <Radio v-for="(_item, index) in item.ext_attribs.candidateData" :key="index" :label="_item.value">
+          <span>{{ _item.name }}</span>
         </Radio>
       </RadioGroup>
 
@@ -72,20 +78,17 @@
         </Radio>
       </RadioGroup>
 
-      <span v-if="item.uiType == 21">{{ data[item.name] | formatDateLong }}</span>
-      <Input v-if="item.uiType == 22" readonly v-model="data[item.name]" :placeholder="item.comment">
-      <template #append>
-        <Button icon="md-bookmarks" title="数据字典" @click="showDataDict(item.name)"></Button>
-      </template>
-      </Input>
+      <span v-if="item.uiType == 21">{{ data[item.name] }}</span>
+
+      <TreeSelect v-if="item.uiType == 22" v-model="data[item.name]" :data="DataDictData" />
 
       <div v-if="item.uiType == 17">
         <img :src="data[item.name]" alt="图片" style="max-width: 90%;">
       </div>
 
       <CheckboxGroup v-if="item.uiType == 4 && item.ext_attribs" v-model="data[item.name]">
-        <Checkbox v-for="(item, index) in item.ext_attribs.candidateData" :key="index" :label="item.value">{{ item.name
-        }}
+        <Checkbox v-for="(_item, index) in item.ext_attribs.candidateData" :key="index" :label="_item.value">{{
+          _item.name }}
         </Checkbox>
       </CheckboxGroup>
 
@@ -100,8 +103,9 @@
 </template>
 
 <script lang="ts">
-import { defineProps, withDefaults } from 'vue';
+import { defineProps, withDefaults, defineComponent } from 'vue';
 import FileUpload from '../widgets/file-upload.vue';
+import { XhrFetch } from '@ajaxjs/util';
 // import HtmlEditor from "@ajaxjs/util/dist/widget/HtmlEditor/HtmlEditor";
 
 // 1. 定义 Props 类型接口
@@ -111,6 +115,10 @@ interface Props {
   status?: number;
 }
 
+declare const window: Window & {
+  config: ConfigInterface;
+};
+
 // 2. 使用 withDefaults 和 defineProps 定义 props 及其默认值  这样做可以让 TypeScript 完美推断类型
 const props = withDefaults(defineProps<Props>(), {
   item: () => ({}), // 为 object 类型提供默认空对象
@@ -118,12 +126,57 @@ const props = withDefaults(defineProps<Props>(), {
   status: 0,       // 为 number 类型提供默认值
 });
 
-export default {
+export default defineComponent({
   components: { FileUpload },
   props: {
-    item: { type: Object },
-    data: Object,
+    item: { type: Object, required: true },
+    data: { type: Object, required: true },
     status: Number
+  },
+  data() {
+    return {
+      DataDictData: [],
+      dropDownListData: []
+    }
+  },
+  mounted(): void {
+    if (this.item.uiType == 2) {
+      const type: number = this.item?.ext_attribs.type;
+      if (type === 1) {
+        const { api, keyField, valueField } = this.item?.ext_attribs;
+
+        XhrFetch.get(`${api}`, resp => {
+          if (resp.status) {
+            resp.data.forEach((item: any) => {
+              item.label = item[keyField];
+              item.value = item[valueField];
+            });
+            this.dropDownListData = resp.data;
+          }
+        });
+      } else if (type === 2) {
+      }
+    } else if (this.item.uiType == 22) {
+      const selectedId: number | undefined = this.data[this.item.name];
+      const { dataDictId, dataDictIdField } = this.item?.ext_attribs;
+
+      let url: string;
+
+      if (selectedId)
+        url = `${window.config.dsApiRoot}/data_dict/${dataDictId}?selectedId=${selectedId}`;
+      else
+        url = `${window.config.dsApiRoot}/data_dict/${dataDictId}`;
+
+      XhrFetch.get(url, resp => {
+        if (resp.status) {
+          resp.data.forEach((item: any) => {
+            item.title = item.name;
+            item.expand = true;
+          });
+          this.DataDictData = resp.data;
+        }
+      });
+    }
   },
   methods: {
     /**
@@ -146,5 +199,5 @@ export default {
       this.data[name] = e;
     }
   }
-};
+});
 </script>

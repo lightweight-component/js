@@ -24,6 +24,8 @@ import Schedule from '../pages/system/Schedule.vue';
 
 // shop
 import PayTransaction from '../pages/shop/Transaction.vue';
+import ArrtibuteDef from '../pages/shop/ArrtibuteDef.vue';
+import ArrtibuteValue from '../pages/shop/ArrtibuteValue.vue';
 
 // 模拟一个用户组件
 import UserProfile from '../pages/iam/profile/index.vue';
@@ -46,6 +48,14 @@ const routes = [
     {
         path: '/pay/transaction',
         component: PayTransaction
+    },
+    {
+        path: '/shop/arrtib-value',
+        component: ArrtibuteValue
+    },
+    {
+        path: '/shop/arrtib-def',
+        component: ArrtibuteDef
     },
     {
         path: '/user/list',

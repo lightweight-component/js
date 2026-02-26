@@ -36,8 +36,9 @@ import LoginLog from './pages/iam/LoginLog.vue';
 import Tenant from './pages/iam/Tenant.vue';
 import Token from './pages/iam/Token.vue';
 import User from './pages/iam/User.vue';
+import UserCenter from './pages/iam/profile/index.vue';
 
-export const IAM = { App, LoginLog, Tenant, Token, User };
+export const IAM = { App, LoginLog, Tenant, Token, User, UserCenter };
 
 /* Config-widget */
 import ListMgr from './components/configurable-widget/list/list.vue';

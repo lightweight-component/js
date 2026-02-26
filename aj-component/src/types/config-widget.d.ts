@@ -6,7 +6,6 @@ interface ConfigInterface {
      * DS
      */
     dsApiRoot: string;
-    IAM_ApiRoot: string;
     loginUrl: string;
     thisPageUrl: string;
     iamApi: string;

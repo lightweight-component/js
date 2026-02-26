@@ -23,13 +23,7 @@
                 <div>已设置</div>
             </li>
             <li>
-                <a href="oauth/">管理绑定</a>
-                <div style="padding-left:3%;">第三方登录</div>
-                <div>通过微博、微信、QQ等第三方登录的绑定</div>
-            </li>
-
-            <li>
-                <a href="javascript:void(0);" @click="isShowDelAccount = true">账号注销</a>
+                <a href="javascript:void(0);" @click="delAccount">账号注销</a>
                 <div style="padding-left:3%;">删除帐号</div>
 
                 <div>删除该帐号以及所有该帐号关联的信息</div>
@@ -41,13 +35,15 @@
                 <aj-process-line />
                 <form class="aj-form" style="width:300px; margin: 0 auto;">
                     <div>
-                        <input type="text" placeholder="请输入手机号码" size="30" />
+                        <Input type="text" placeholder="请输入手机号码" v-model="userPhone" size="30" />
+                    </div>
+                    <div class="left-a">
+                        <Input type="text" placeholder="请输入验证码" size="10" /> <Button
+                            @click="sendPhoneCode">发送验证码</Button>
                     </div>
                     <div>
-                        <input type="text" placeholder="请输入验证码" size="10" /> <button>发送验证码</button>
-                    </div>
-                    <div>
-                        <button>保存手机</button> &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" @click="showSetPhone = false">取消</a>
+                        <Button type="primary" @click="savePhone">保存手机</Button> &nbsp;&nbsp;&nbsp;<a
+                            href="javascript:void(0);" @click="showSetPhone = false">取消</a>
                     </div>
                 </form>
             </div>
@@ -58,13 +54,15 @@
                 <aj-process-line />
                 <form class="aj-form" style="width:300px; margin: 0 auto;">
                     <div>
-                        <input type="text" placeholder="请输入邮箱" size="30" />
+                        <Input type="email" placeholder="请输入邮箱" v-model="userMail" size="30" />
+                    </div>
+                    <div class="left-a">
+                        <Input type="text" placeholder="请输入邮箱验证码" size="10" /> <Button
+                            @click="sendEmailCode">发送验证码</Button>
                     </div>
                     <div>
-                        <input type="text" placeholder="请输入邮箱验证码" size="10" /> <button>发送验证码</button>
-                    </div>
-                    <div>
-                        <button>保存邮箱</button> &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" @click="showSetEmail = false">取消</a>
+                        <Button type="primary" @click="saveEmail">保存邮箱</Button> &nbsp;&nbsp;&nbsp;<a
+                            href="javascript:void(0);" @click="showSetEmail = false">取消</a>
                     </div>
                 </form>
             </div>
@@ -75,26 +73,33 @@
                 <aj-process-line />
                 <form class="aj-form" style="width:300px; margin: 0 auto;">
                     <div>
-                        <input type="password" placeholder="请输入原密码" size="30" />
+                        <Input type="password" placeholder="请输入原密码" size="30" />
                     </div>
                     <div>
-                        <input type="password" placeholder="请输入新密码" size="30" />
+                        <Input type="password" placeholder="请输入新密码" size="30" />
                     </div>
                     <div>
-                        <input type="password" placeholder="请重复输入新密码" size="30" />
+                        <Input type="password" placeholder="请重复输入新密码" size="30" />
                     </div>
                     <div>
-                        <button>修改密码</button> &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" @click="showChangePsw = false">取消</a>
+                        <Button type="primary">修改密码</Button> &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);"
+                            @click="showChangePsw = false">取消</a>
                     </div>
                 </form>
             </div>
         </aj-layer>
-        <aj-confirm v-show="isShowDelAccount" state="isShowDelAccount" :confirm-handler="delAccount"
-            message="确定删除帐号吗？" />
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { XhrFetch } from '@ajaxjs/util';
+import Layer from './Layer.vue';
+import ProcessLine from './ProcessLine.vue';
+
+declare const window: Window & {
+    config: ConfigInterface;
+};
+
 export default {
     data() {
         return {
@@ -107,12 +112,103 @@ export default {
             showChangePsw: false,
         };
     },
+    components: { 'aj-layer': Layer, 'aj-process-line': ProcessLine },
     mounted() {
     },
     methods: {
-        delAccount() {
-            alert(9)
+        delAccount(): void {
+            this.$Modal.confirm({
+                title: '确定删除帐号吗？⚠️ ',
+                content: '注销账号将永久删除您的账户及所有数据❗<br />注销后，您的所有数据将被永久删除，无法恢复，请谨慎操作。',
+                loading: true, // 显示加载状态，防止用户重复点击
+                onOk: () => {
+                    XhrFetch.del(`${window.config.dsApiRoot}/user`, (resp: ApiResponseResult) => {
+                        console.log(resp);
+                        if (resp.status) {
+                            localStorage.removeItem('userInfo');
+                            localStorage.removeItem('isLoggedIn');
+                            this.$Message.success('注销成功！');
+                            this.$Modal.remove(); // 或者 this.$Modal.destroy() (取决于版本)
+
+                            setTimeout(() => {
+                                this.$router.push('/login');
+                            }, 2000);
+                        } else
+                            console.error(resp.message || '注销失败');
+                    });
+                }
+            });
+        },
+        sendPhoneCode(): void {
+            const phone: string | null = this.userPhone;
+
+            if (!phone) {
+                this.$Message.error('请输入手机号码');
+                return;
+            }
+        },
+        savePhone(): void {
+            const phone: string | null = this.userPhone;
+
+            if (!phone) {
+                this.$Message.error('请输入手机号码');
+                return;
+            }
+
+            XhrFetch.put(`${window.config.iamApi}/user`, { phone }, (result: ApiResponseResult) => {
+                if (result.status) {
+                    let userInfo: any = localStorage.getItem('userInfo');
+                    userInfo = JSON.parse(userInfo);
+                    userInfo.phone = phone;
+                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+                    this.$Message.success('修改成功');
+                }
+            });
+        },
+        sendEmailCode(): void {
+            const email: string | null = this.userMail;
+
+            if (!email) {
+                this.$Message.error('请输入邮箱');
+                return;
+            }
+        },
+        saveEmail(): void {
+            const email: string | null = this.userMail;
+
+            if (!email) {
+                this.$Message.error('请输入邮箱');
+                return;
+            }
+
+            XhrFetch.put(`${window.config.iamApi}/user`, { email }, (result: ApiResponseResult) => {
+                if (result.status) {
+                    let userInfo: any = localStorage.getItem('userInfo');
+                    userInfo = JSON.parse(userInfo);
+                    userInfo.email = email;
+                    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+                    this.$Message.success('修改成功');
+                }
+            });
         }
     }
 };
 </script>
+
+<style lang="less">
+.aj-form {
+    &>div {
+        margin-bottom: 15px;
+
+        &.left-a {
+            text-align: left;
+
+            .ivu-input-wrapper {
+                width: 193px;
+            }
+        }
+    }
+}
+</style>

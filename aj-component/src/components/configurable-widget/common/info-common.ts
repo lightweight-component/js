@@ -26,7 +26,6 @@ export default {
     data(this: Common) {
         return {
             id: this.initId || 0,
-            apiPrefix: this.$route.query.apiPrefix,
             name: '',
             isShowPerview: false,
             datasourceId: 0,    // 关联的数据源 id。不是数据绑定，没什么约束力，只是参考用
@@ -55,7 +54,7 @@ export default {
          * 获取单个数据
          */
         getDataBase(cb: Function): void {
-            XhrFetch.get(`${window.config.dsApiRoot}/common_api/ds_widget_config/${this.id}?allow=1`, (j: ApiResponseResult) => {
+            XhrFetch.get(`${window.config.dsApiRoot}/common_api/ds_widget_config/${this.id}`, (j: ApiResponseResult) => {
                 let r: any = j.data;
 
                 if (r) {
