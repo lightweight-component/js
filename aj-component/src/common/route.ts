@@ -28,6 +28,7 @@ import ArrtibuteDef from '../pages/shop/ArrtibuteDef.vue';
 import ArrtibuteValue from '../pages/shop/ArrtibuteValue.vue';
 import Spu from '../pages/shop/Spu.vue';
 import Sku from '../pages/shop/Sku.vue';
+import ProductEdit from '../pages/shop/ProductEdit.vue';
 
 // 模拟一个用户组件
 import UserProfile from '../pages/iam/profile/index.vue';
@@ -66,6 +67,10 @@ const routes = [
     {
         path: '/shop/sku',
         component: Sku
+    },
+    {
+        path: '/shop/product-edit',
+        component: ProductEdit
     },
     {
         path: '/user/list',
