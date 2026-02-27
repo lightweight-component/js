@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import { ConfigWdiget } from '@ajaxjs/ui';
+import ListLoader from '../../../components/configurable-widget/list/list-loader.vue';
 
 export default {
     components: {
-        ListLoader: ConfigWdiget.ListLoader
+        ListLoader: ListLoader
     }
 }
 </script>

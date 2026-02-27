@@ -91,26 +91,26 @@ function request(api: string, method: string, bodyData: any, callback: ResponseC
                         return handleTokenRefresh(() => makeRequest()).finally(() => {
                             isRetry = false;
                         });
-                    } else if (!response.ok) 
+                    } else if (!response.ok)
                         throw new Error(`Unexpected status: ${response.status}`);
-                    
+
                     return response.json();
                 })
-                    .then(data => {
-                        if (callback) 
-                            callback(data);
+                .then(data => {
+                    if (callback)
+                        callback(data);
 
-                        resolve();
-                    })
-                    .catch(error => {
-                        if (error.message.includes('401')) 
-                            // 刷新失败或无权限
-                            console.error('Authentication failed, please login again.');
-                         else 
-                            console.error('Network error when fetching from: ' + api, error);
-                        
-                        reject(error);
-                    });
+                    resolve();
+                })
+                .catch(error => {
+                    if (error.message.includes('401'))
+                        // 刷新失败或无权限
+                        console.error('Authentication failed, please login again.');
+                    else
+                        console.error('Network error when fetching from: ' + api, error);
+
+                    reject(error);
+                });
             });
         });
     };
@@ -161,4 +161,3 @@ export function putForm(api: string, bodyData: any, callback: ResponseCallback, 
 export function del(api: string, callback: ResponseCallback, header?: HttpHeaders): void {
     request(api, 'DELETE', null, callback, header);
 }
- 

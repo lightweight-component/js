@@ -54,10 +54,20 @@
             </MenuItem>
           </Submenu>
           <Submenu name="shop">
+
             <template #title>
               <Icon type="md-aperture" />
               商城管理
             </template>
+
+            <MenuItem name="shop-spu" to="/shop/spu">
+            <Icon type="ios-images"></Icon>
+            <span>商品 SPU</span>
+            </MenuItem>
+            <MenuItem name="shop-sku" to="/shop/sku">
+            <Icon type="ios-images"></Icon>
+            <span>商品 SKU</span>
+            </MenuItem>
             <MenuItem name="shop-arrtib-def" to="/shop/arrtib-def">
             <Icon type="ios-images"></Icon>
             <span>商品属性定义</span>
@@ -66,6 +76,7 @@
             <Icon type="ios-images"></Icon>
             <span>商品属性值</span>
             </MenuItem>
+
             <MenuItem name="4-2" to="/pay/transaction">
             <Icon type="ios-images"></Icon>
             <span>交易流水</span>

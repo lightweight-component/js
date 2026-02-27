@@ -26,6 +26,8 @@ import Schedule from '../pages/system/Schedule.vue';
 import PayTransaction from '../pages/shop/Transaction.vue';
 import ArrtibuteDef from '../pages/shop/ArrtibuteDef.vue';
 import ArrtibuteValue from '../pages/shop/ArrtibuteValue.vue';
+import Spu from '../pages/shop/Spu.vue';
+import Sku from '../pages/shop/Sku.vue';
 
 // 模拟一个用户组件
 import UserProfile from '../pages/iam/profile/index.vue';
@@ -56,6 +58,14 @@ const routes = [
     {
         path: '/shop/arrtib-def',
         component: ArrtibuteDef
+    },
+    {
+        path: '/shop/spu',
+        component: Spu
+    },
+    {
+        path: '/shop/sku',
+        component: Sku
     },
     {
         path: '/user/list',
