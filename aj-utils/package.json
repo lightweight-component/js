@@ -1,6 +1,6 @@
 {
     "name": "@ajaxjs/util",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Core JS Utils",
     "scripts": {
         "dev": "rollup -w -c",

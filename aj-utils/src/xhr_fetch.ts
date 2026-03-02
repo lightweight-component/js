@@ -6,7 +6,11 @@ export type HttpHeaders = {
 // 定义回调函数的类型：接收一个参数（通常是响应数据），无返回值
 export type ResponseCallback = (data: any) => void;
 
-window.on401 = function () { }
+let _on401: Function;
+
+export function setOn401(on401: Function): void {
+    _on401 = on401;
+}
 
 function request(api: string, method: string, bodyData: any, callback: ResponseCallback, header?: HttpHeaders): void {
     let headers: HttpHeaders = {};
@@ -31,8 +35,8 @@ function request(api: string, method: string, bodyData: any, callback: ResponseC
         body,
         credentials: 'include' as const
     }).then(response => {
-       if (response.status === 401 && window.on401 != null)
-            return window.on401(response.json());
+        if (response.status === 401 && _on401)
+            return _on401(response.json());
         else if (response.status === 404)
             throw new Error('Not found 404: ' + api);
         else if (response.status === 500)
