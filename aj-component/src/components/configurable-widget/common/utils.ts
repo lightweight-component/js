@@ -1,7 +1,3 @@
-declare const window: Window & {// 声明 window.config 并为其指定类型
-    config: ConfigInterface;
-};
-
 const PROJECT_PREFIX: RegExp = /{project_prefix}/i;
 const IAM_PREFIX: RegExp = /{iam_prefix}/i;
 

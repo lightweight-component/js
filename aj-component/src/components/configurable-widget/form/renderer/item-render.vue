@@ -115,10 +115,6 @@ interface Props {
   status?: number;
 }
 
-declare const window: Window & {
-  config: ConfigInterface;
-};
-
 // 2. 使用 withDefaults 和 defineProps 定义 props 及其默认值  这样做可以让 TypeScript 完美推断类型
 const props = withDefaults(defineProps<Props>(), {
   item: () => ({}), // 为 object 类型提供默认空对象

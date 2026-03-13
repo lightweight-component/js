@@ -114,11 +114,6 @@ import refreshTokens from '../common/tokenRefresh';
 
 // refreshTokens();
 
-// 声明 window.config 并为其指定类型
-declare const window: Window & {
-    config: ConfigInterface;
-};
-
 export default defineComponent({
   components: { PermissionMgr },
   data(): RolePanel {

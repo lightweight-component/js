@@ -1,9 +1,3 @@
-// 声明 window.config 并为其指定类型
-// does not work here
-declare const window: Window & {
-    config: ConfigInterface;
-};
-
 /**
  * API 响应结果
  *

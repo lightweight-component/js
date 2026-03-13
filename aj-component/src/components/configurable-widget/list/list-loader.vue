@@ -67,10 +67,6 @@ import { XhrFetch } from '@ajaxjs/util';
 import FormLoader from "../form/form-loader.vue";
 import { getRealUrl } from '../common/utils';
 
-declare const window: Window & {// 声明 window.config 并为其指定类型
-    config: ConfigInterface;
-};
-
 export default defineComponent({
     name: "ListLoader",
     components: { FormLoader },

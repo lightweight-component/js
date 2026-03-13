@@ -28,10 +28,6 @@ import List from '../../common/common-ui';
 import FastiViewTable from "../../common/FastiViewTable.vue";
 import ListLoader from "./list-loader.vue";
 
-declare const window: Window & {// 声明 window.config 并为其指定类型
-  config: ConfigInterface;
-};
-
 /**
  * LIST 管理界面列表
  */

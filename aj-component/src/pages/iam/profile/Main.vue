@@ -76,10 +76,6 @@
 <script lang="ts">
 import { DateFormat, XhrFetch } from '@ajaxjs/util';
 
-declare const window: Window & {
-    config: ConfigInterface;
-};
-
 export default {
     props: {
         user: {

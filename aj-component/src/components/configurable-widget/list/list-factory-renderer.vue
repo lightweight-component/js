@@ -53,10 +53,6 @@ import { defineComponent, ref } from 'vue';
 import FromRenderer from '../form/renderer/form-factory-renderer.vue';
 import { XhrFetch } from '@ajaxjs/util';
 
-declare const window: Window & {// 声明 window.config 并为其指定类型
-  config: ConfigInterface;
-};
-
 /**
  * 列表渲染器
  * 调用器

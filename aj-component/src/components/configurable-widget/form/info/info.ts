@@ -5,11 +5,6 @@ import ConfigTable from '../../common/config-table.vue';
 import InfoMixins from '../../common/info-common';
 import FastiViewTable from "../../../common/FastiViewTable.vue";
 
-// 声明 window.config 并为其指定类型
-declare const window: Window & {
-    config: ConfigInterface;
-};
-
 /**
  * 内页
  */

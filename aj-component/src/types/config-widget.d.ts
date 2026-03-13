@@ -1,17 +1,4 @@
 /**
- * 配置
- */
-interface ConfigInterface {
-    /**
-     * DS
-     */
-    dsApiRoot: string;
-    loginUrl: string;
-    thisPageUrl: string;
-    iamApi: string;
-}
-
-/**
  * 项目
  */
 type DataService_Porject = {

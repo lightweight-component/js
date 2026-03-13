@@ -20,11 +20,6 @@ import FormLoader from "./form-loader.vue";
 import FastiViewTable from "../../common/FastiViewTable.vue";
 import { DateFormat } from '@ajaxjs/util';
 
-// 声明 window.config 并为其指定类型
-declare const window: Window & {
-  config: ConfigInterface;
-};
-
 /**
  * FORM 管理界面列表
  */

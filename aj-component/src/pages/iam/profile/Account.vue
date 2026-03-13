@@ -73,17 +73,17 @@
                 <aj-process-line />
                 <form class="aj-form" style="width:300px; margin: 0 auto;">
                     <div>
-                        <Input type="password" placeholder="请输入原密码" size="30" />
+                        <Input type="password" placeholder="请输入原密码" v-model="modiflyPsw.oldPsw" size="30" />
                     </div>
                     <div>
-                        <Input type="password" placeholder="请输入新密码" size="30" />
+                        <Input type="password" placeholder="请输入新密码" v-model="modiflyPsw.newPsw" size="30" />
                     </div>
                     <div>
-                        <Input type="password" placeholder="请重复输入新密码" size="30" />
+                        <Input type="password" placeholder="请重复输入新密码" v-model="modiflyPsw.newPsw2" size="30" />
                     </div>
                     <div>
-                        <Button type="primary">修改密码</Button> &nbsp;&nbsp;&nbsp;<a href="javascript:void(0);"
-                            @click="showChangePsw = false">取消</a>
+                        <Button type="primary" @click="doModiflyPsw">修改密码</Button> &nbsp;&nbsp;&nbsp;<a
+                            href="javascript:void(0);" @click="showChangePsw = false">取消</a>
                     </div>
                 </form>
             </div>
@@ -96,10 +96,6 @@ import { XhrFetch } from '@ajaxjs/util';
 import Layer from './Layer.vue';
 import ProcessLine from './ProcessLine.vue';
 
-declare const window: Window & {
-    config: ConfigInterface;
-};
-
 export default {
     data() {
         return {
@@ -110,12 +106,44 @@ export default {
             showSetPhone: false,
             showSetEmail: false,
             showChangePsw: false,
+            modiflyPsw: { oldPsw: '', newPsw: '', newPsw2: '' }
         };
     },
     components: { 'aj-layer': Layer, 'aj-process-line': ProcessLine },
     mounted() {
     },
     methods: {
+        /**
+         * 修改密码
+         */
+        doModiflyPsw(): void {
+            const { oldPsw, newPsw, newPsw2 } = this.modiflyPsw;
+
+            if (!oldPsw || !newPsw || !newPsw2) {
+                this.$Message.success('请填写完整的信息');
+                return;
+            }
+
+            if (newPsw !== newPsw2) {
+                this.$Message.success('两次密码不一致');
+                return;
+            }
+
+            XhrFetch.post(`${window.config.iamApi}/reset_psw/modify_psw`, { oldPsw, newPsw }, (resp: ApiResponseResult) => {
+                console.log(resp);
+                if (resp.status) {
+                    this.$Message.success('修改密码成功！');
+                    // this.$Modal.remove(); // 或者 this.$Modal.destroy() (取决于版本)
+
+                    setTimeout(() => {
+                        // this.$router.push('/login');
+                    }, 2000);
+                } else {
+                    this.$Message.error('修改密码失败：' + resp.message);
+                    console.error(resp.message || '修改密码失败');
+                }
+            });
+        },
         delAccount(): void {
             this.$Modal.confirm({
                 title: '确定删除帐号吗？⚠️ ',

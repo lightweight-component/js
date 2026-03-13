@@ -144,10 +144,6 @@ import InfoMixins from '../common/info-common.ts';
 import ListLoader from "./list-loader.vue";
 import FastiViewTable from "../../common/FastiViewTable.vue";
 
-declare const window: Window & {// 声明 window.config 并为其指定类型
-  config: ConfigInterface;
-};
-
 /**
  * 内页
  */

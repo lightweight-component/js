@@ -39,11 +39,6 @@ import { ref } from 'vue';
 import HtmlEditor from '../../components/html-editor/HtmlEditor.vue';
 import { XhrFetch, DateFormat } from '@ajaxjs/util';
 
-// 声明 window.config 并为其指定类型
-declare const window: Window & {
-    config: ConfigInterface;
-};
-
 export default {
     setup() {
         const htmlEditor = ref();

@@ -17,10 +17,6 @@ import FromRenderer from "./renderer/form-factory-renderer.vue";
 import { XhrFetch, DateFormat } from '@ajaxjs/util';
 import { getRealUrl } from '../common/utils';
 
-declare const window: Window & {// 声明 window.config 并为其指定类型
-  config: ConfigInterface;
-};
-
 export default defineComponent({
   setup() {
     const FromRenderer = ref();

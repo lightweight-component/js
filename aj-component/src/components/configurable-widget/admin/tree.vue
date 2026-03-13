@@ -31,10 +31,6 @@
 import { defineComponent } from 'vue';
 import { XhrFetch } from '@ajaxjs/util';
 
-declare const window: Window & {
-    config: ConfigInterface;
-};
-
 export default defineComponent({
     data() {
         return {
