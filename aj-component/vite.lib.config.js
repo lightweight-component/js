@@ -19,7 +19,7 @@ export default defineConfig({
             entry: './src/index.ts', // 您的组件库入口文件
             name: 'ajaxjs_ui', // UMD 模式下的全局变量名
             fileName: (format) => `ajaxjs-ui.${format}.js`, // 输出文件名
-            formats: ['es', 'umd', 'cjs']
+            formats: ['es', 'umd']
         },
         rollupOptions: {
             // 确保外部化处理那些你不想打包进库的依赖
