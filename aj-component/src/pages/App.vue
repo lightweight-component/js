@@ -196,7 +196,7 @@ export default {
       try {
         const userInfo: any = JSON.parse(storedInfo);
         this.userLoginId = userInfo.loginId;
-        this.avatarUrl = 'data:image/;base64,' + userInfo.avatarBlob;
+        this.avatarUrl = 'data:image/*;base64,' + userInfo.avatarBlob;
       } catch (e) {
         console.error('Failed to parse user info from localStorage:', e);
         localStorage.removeItem('userInfo');
@@ -208,7 +208,7 @@ export default {
       if (newId == 1) {
         const userInfo: any = JSON.parse(localStorage.getItem('userInfo') as string);
         this.userLoginId = userInfo.loginId;
-        this.avatarUrl = 'data:image/;base64,' + userInfo.avatarBlob;
+        this.avatarUrl = 'data:image/*;base64,' + userInfo.avatarBlob;
       }
     },
   }

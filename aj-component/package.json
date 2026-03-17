@@ -1,6 +1,6 @@
 {
     "name": "@ajaxjs/ui",
-    "version": "1.7.1",
+    "version": "1.7.2",
     "private": false,
     "publishConfig": {
         "access": "public"
@@ -19,17 +19,13 @@
     "bugs": {
         "url": "https://github.com/lightweight-component/js/issues"
     },
-    "main": "./dist/ajaxjs-ui.cjs.js",
+    "main": "./dist/ajaxjs-ui.es.js",
     "module": "./dist/ajaxjs-ui.es.js",
     "exports": {
         ".": {
             "import": {
                 "types": "./dist/types/index.d.ts",
                 "default": "./dist/ajaxjs-ui.es.js"
-            },
-            "require": {
-                "types": "./dist/types/index.d.ts",
-                "default": "./dist/ajaxjs-ui.cjs.js"
             }
         },
         "./dist/ui.css": "./dist/ui.css",

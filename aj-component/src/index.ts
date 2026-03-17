@@ -51,5 +51,12 @@ import FormLoader from './components/configurable-widget/form/form-loader.vue';
 export const ConfigWdiget = { ListMgr, ListInfo, FormMgr, FormInfo, ListLoader, FormLoader };
 // export { default as ConfigWdigetFormMgr } from './components/configurable-widget/form/list.vue';
 
+/* Tree Table */
+import TreeTable from './components/tree-table/tree-table.vue';
+import TreeSelector from './components/tree-table/tree-selector.vue';
+import FastiViewTable from './components/common/FastiViewTable.vue';
+
+export const CommonUI = { TreeTable, TreeSelector, FastiViewTable };
+
 // 导入工具函数
 export { getQueryParam } from './utils/utils';

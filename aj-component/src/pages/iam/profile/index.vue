@@ -52,7 +52,7 @@ export default {
     mounted() {
         const userInfo: any = JSON.parse(localStorage.getItem('userInfo') as string);
         this.userLoginId = userInfo.loginId;
-        this.avatarUrl = 'data:image/;base64,' + userInfo.avatarBlob;
+        this.avatarUrl = 'data:image/*;base64,' + userInfo.avatarBlob;
         this.USER = userInfo;
     },
     methods: {

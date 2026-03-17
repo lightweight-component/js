@@ -494,7 +494,7 @@ function thumb(h: (a: string, b: object, c?: any[]) => any, params: any) {
 
     return h('a', a, [
         h('img', {
-            src: isBase64Image ? 'data:image/;base64,' + value : value,
+            src: isBase64Image ? 'data:image/*;base64,' + value : value,
             // 对于内联样式，可以直接传递字符串或对象
             style: 'max-width:100px;max-height:50px;margin-top:5px'
         })
