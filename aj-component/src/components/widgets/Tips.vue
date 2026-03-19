@@ -8,8 +8,6 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Tips',
-  props: {
-    text: { type: String, required: true }
-  }
+  props: { text: { type: String, required: true } }
 });
 </script>

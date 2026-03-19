@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../style/common-functions.less";
+@import "../../style/common-functions.less";
 
 article {
   &>p {

@@ -9,7 +9,7 @@ export default {
   name: 'AccordionMenu',
   methods: {
     onClk(ev: Event): void {
-      let children: HTMLCollection = this.$el.children;
+      const children: HTMLCollection = this.$el.children;
       highlightSubItem(ev);
       let _btn: Element = ev.target as Element;
 
@@ -18,7 +18,7 @@ export default {
 
         for (let btn: Element, i = 0, j = children.length; i < j; i++) {
           btn = children[i];
-          let ul = btn.querySelector("ul");
+          const ul = btn.querySelector("ul");
 
           if (btn == _btn) {
             if (btn.className.indexOf("pressed") != -1) {
@@ -63,7 +63,7 @@ function highlightSubItem(ev: Event): void {
 </script>
 
 <style lang="less" scoped>
-@import "../style/common-functions.less";
+@import "../../style/common-functions.less";
 
 // 折叠菜单 Accordion Menu
 .aj-accordion {
@@ -128,7 +128,6 @@ function highlightSubItem(ev: Event): void {
     h3,
     li {
       padding: 5px 0 5px 15px;
-      letter-spacing: 2px;
       line-height: 20px;
       color: #939da8;
       font-size: 12px;

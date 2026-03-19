@@ -22,7 +22,7 @@ export default {
     onClk(ev: Event): void {
       let el: Element = ev.target as Element;
       let setFontSize = (fontSize: string): void => {
-        document.body.querySelectorAll(this.$props.articleTarget).forEach((p: HTMLParagraphElement) => (p.style.fontSize = fontSize));
+        document.body.querySelectorAll(this.$props.articleTarget).forEach((p) => ((p as HTMLParagraphElement).style.fontSize = fontSize));
       };
 
       if (el.tagName == "LABEL" || el.tagName == "INPUT") {

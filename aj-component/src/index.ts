@@ -55,8 +55,9 @@ export const ConfigWdiget = { ListMgr, ListInfo, FormMgr, FormInfo, ListLoader, 
 import TreeTable from './components/tree-table/tree-table.vue';
 import TreeSelector from './components/tree-table/tree-selector.vue';
 import FastiViewTable from './components/common/FastiViewTable.vue';
+import List from './components/common/common-ui';
 
-export const CommonUI = { TreeTable, TreeSelector, FastiViewTable };
+export const CommonUI = { TreeTable, TreeSelector, FastiViewTable, List };
 
 // 导入工具函数
 export { getQueryParam } from './utils/utils';

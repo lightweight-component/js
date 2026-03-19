@@ -15,9 +15,9 @@ export default {
     openHeight: { type: Number, default: 200 },
     closeHeight: { type: Number, default: 50 },
   },
-  data(): any {
+  data() {
     return {
-      expended: false,
+      expended: false
     };
   },
 };
