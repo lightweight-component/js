@@ -103,24 +103,12 @@
 </template>
 
 <script lang="ts">
-import { defineProps, withDefaults, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import FileUpload from '../widgets/file-upload.vue';
 import { XhrFetch } from '@ajaxjs/util';
 // import HtmlEditor from "@ajaxjs/util/dist/widget/HtmlEditor/HtmlEditor";
 
-// 1. 定义 Props 类型接口
-interface Props {
-  item?: object | Record<string, any>; // 使用 ? 表示可选，或根据实际需要定义具体结构
-  data?: object | Record<string, any>;
-  status?: number;
-}
 
-// 2. 使用 withDefaults 和 defineProps 定义 props 及其默认值  这样做可以让 TypeScript 完美推断类型
-const props = withDefaults(defineProps<Props>(), {
-  item: () => ({}), // 为 object 类型提供默认空对象
-  data: () => ({}),
-  status: 0,       // 为 number 类型提供默认值
-});
 
 export default defineComponent({
   components: { FileUpload },

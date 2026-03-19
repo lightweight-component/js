@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { XhrFetch } from '@ajaxjs/util'; 
+import { XhrFetch } from '@ajaxjs/util';
 
 export default defineComponent({
     data() {
@@ -32,11 +32,11 @@ export default defineComponent({
         },
         handleSubmit(valid: boolean, { username, password }: { username: string; password: string }): void {
             if (valid) {
-                const data = { grant_type: 'password', username, password, client_id: 'fvccgrfl3fzA7lrFyCpDA', client_secret: 'zKvmM4Km8ghCIijl9ubqpHm1' };
+                const data = { username, password, appId: window.config.appId };
 
-                XhrFetch.postForm('/iam_api/oidc/ropc_token', data, (resp: ApiResponseResult) => {
+                XhrFetch.postForm(`${window.config.iamApi}/user/login`, data, (resp: ApiResponseResult) => {
                     if (resp.status) {
-                        XhrFetch.get('/iam_api/user/info', (resp: ApiResponseResult) => {
+                        XhrFetch.get(`${window.config.iamApi}/user/info`, (resp: ApiResponseResult) => {
                             console.log(resp);
                             this.msg = '登录成功';
                             localStorage.setItem('isLoggedIn', 'true');

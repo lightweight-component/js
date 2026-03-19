@@ -62,7 +62,7 @@ export default {
                 content: '登出当前账号',
                 loading: true, // 显示加载状态，防止用户重复点击
                 onOk: () => {
-                    XhrFetch.postForm('/iam_api/user/login/logout', {}, (resp: ApiResponseResult) => {
+                    XhrFetch.postForm(`${window.config.iamApi}/user/login/logout`, {}, (resp: ApiResponseResult) => {
                         console.log(resp);
                         if (resp.status) {
                             localStorage.removeItem('userInfo');
