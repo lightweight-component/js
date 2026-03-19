@@ -46,8 +46,7 @@ export default defineComponent({
     // var arr = date.split('-'), now = new Date(arr[0], arr[1] - 1, arr[2],
     // " ", "", " ");
     if (this.fieldValue) {
-      let arr: string = this.fieldValue.split(" ")[0],
-        _arr = arr.split("-");
+      const arr: string = this.fieldValue.split(" ")[0], _arr = arr.split("-");
       // @ts-ignore xxxx
       this.$refs.calendar.date = new Date(arr[0], arr[1] - 1, arr[2], " ", "", " ");
     }

@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { XhrFetch } from '@ajaxjs/util';
-import TreeSelector from './tree-selector.vue';
+import TreeSelector from './TreeSelector.vue';
 
 export default {
   components: { TreeSelector },
