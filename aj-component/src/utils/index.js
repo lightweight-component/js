@@ -1,1 +1,0 @@
-export { getQueryParam } from './utils';

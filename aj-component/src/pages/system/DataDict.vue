@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TreeTable from '../../components/tree-table/tree-table.vue';
+import TreeTable from '../../components/tree-table/TreeTable.vue';
 
 export default {
     components: { TreeTable },

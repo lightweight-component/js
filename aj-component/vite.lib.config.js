@@ -14,6 +14,7 @@ export default defineConfig({
         }),
     ],
     build: {
+        sourcemap: true, 
         commonjsOptions: { esmExternals: true },
         lib: {
             entry: './src/index.ts', // 您的组件库入口文件

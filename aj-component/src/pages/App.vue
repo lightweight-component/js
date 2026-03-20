@@ -151,7 +151,7 @@
           <div style="float: right; cursor: pointer;" @click="$router.push('/user/profile')">
             <Avatar shape="square" :src="avatarUrl || '/images/empty-avatar.png'" /> {{ userLoginId }} 已登录
           </div>
-          <span style="font-size:18px;font-weight: bold;letter-spacing: 1px;">歪觅机器人管理后台</span>
+          <span style="font-size:18px;font-weight: bold;letter-spacing: 1px;">{{ name }}管理后台</span>
         </Header>
         <Content :style="{ padding: '0 16px 16px' }">
           <Breadcrumb :style="{ margin: '16px 0' }">
@@ -175,6 +175,7 @@ if (localStorage.getItem('isLoggedIn') !== 'true' && confirm('你未登录，是
 export default {
   data() {
     return {
+      name: document.title,
       userLoginId: '',
       avatarUrl: '',
       isCollapsed: false

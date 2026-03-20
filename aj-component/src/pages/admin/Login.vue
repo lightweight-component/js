@@ -1,7 +1,7 @@
 <template>
     <div class="mask">
         <Login @on-submit="handleSubmit" class="login">
-            <h1>欢迎登录歪觅机器人管理后台</h1>
+            <h1>欢迎登录{{ name }}</h1>
             <UserName name="username" />
             <Password name="password" />
             <div class="auto-login">
@@ -22,6 +22,7 @@ import { XhrFetch } from '@ajaxjs/util';
 export default defineComponent({
     data() {
         return {
+            name: document.title,
             msg: "",
             autoLogin: false,
         };
@@ -36,15 +37,12 @@ export default defineComponent({
 
                 XhrFetch.postForm(`${window.config.iamApi}/user/login`, data, (resp: ApiResponseResult) => {
                     if (resp.status) {
-                        XhrFetch.get(`${window.config.iamApi}/user/info`, (resp: ApiResponseResult) => {
-                            console.log(resp);
+                        XhrFetch.get(`${window.config.iamApi}/user`, (resp: ApiResponseResult) => {
                             this.msg = '登录成功';
                             localStorage.setItem('isLoggedIn', 'true');
                             localStorage.setItem('userInfo', JSON.stringify(resp.data))
 
-                            setTimeout(() => {
-                                this.$router.push('/?login_ok=1');
-                            }, 2000);
+                            setTimeout(() => this.$router.push('/?login_ok=1'), 2000);
                         });
                     } else
                         this.msg = resp.message || '登录失败';
@@ -73,7 +71,7 @@ export default defineComponent({
 }
 
 .login {
-    width: 400px;
+    width: 450px;
     margin: 0 auto;
     margin-top: 10%;
     background-color: white;
