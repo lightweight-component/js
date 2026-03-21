@@ -44,8 +44,8 @@ export const ConfigWdiget = { ListMgr, ListInfo, FormMgr, FormInfo, ListLoader, 
 // export { default as ConfigWdigetFormMgr } from './components/configurable-widget/form/list.vue';
 
 /* Tree Table */
-import TreeTable from './components/tree-table/tree-table.vue';
-import TreeSelector from './components/tree-table/tree-selector.vue';
+import TreeTable from './components/tree-table/TreeTable.vue';
+import TreeSelector from './components/tree-table/TreeSelector.vue';
 import FastiViewTable from './components/common/FastiViewTable.vue';
 import List from './components/common/common-ui';
 
