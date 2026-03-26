@@ -142,6 +142,10 @@
             <Icon type="search"></Icon>
             <span>操作日志</span>
             </MenuItem>
+            <MenuItem name="/system/server-status/index" to="/system/server-status/index">
+            <Icon type="search"></Icon>
+            <span>系统监控</span>
+            </MenuItem>
           </Submenu>
         </Menu>
       </Sider>
