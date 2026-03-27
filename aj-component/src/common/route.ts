@@ -22,6 +22,7 @@ import FormMgr from '../components/configurable-widget/form/list.vue';
 import FormInfo from '../components/configurable-widget/form/info/info.vue';
 import Schedule from '../pages/system/Schedule.vue';
 import SystemMonitor from '../pages/system/dev-tools/SystemMonitor.vue';
+import ServerStatusIndex from '../pages/system/server-status/index.vue';
 
 // shop
 import PayTransaction from '../pages/shop/Transaction.vue';
@@ -126,6 +127,10 @@ const routes = [
         component: SystemMonitor
     },
     {
+        path: '/system/server-status/index',
+        component: ServerStatusIndex
+    },
+    {
         path: '/resource/article',
         component: Article
     },
@@ -199,8 +204,10 @@ const routes = [
 
 // 3. 创建路由器实例
 const router: Router = createRouter({ // 使用 createRouter 工厂函数
+    // @ts-ignore
     history: createWebHashHistory(import.meta.env.BASE_URL), // 使用 HTML5 History 模式 (推荐)
     // history: createWebHashHistory(), // 使用 Hash 模式
+    // @ts-ignore
     routes
 });
 
