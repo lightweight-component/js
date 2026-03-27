@@ -21,6 +21,7 @@ import ListInfo from '../components/configurable-widget/list/info.vue';
 import FormMgr from '../components/configurable-widget/form/list.vue';
 import FormInfo from '../components/configurable-widget/form/info/info.vue';
 import Schedule from '../pages/system/Schedule.vue';
+import SystemMonitor from '../pages/system/dev-tools/SystemMonitor.vue';
 
 // shop
 import PayTransaction from '../pages/shop/Transaction.vue';
@@ -119,6 +120,10 @@ const routes = [
     {
         path: '/system/schedule',
         component: Schedule
+    },
+    {
+        path: '/system/sys_monitor',
+        component: SystemMonitor
     },
     {
         path: '/resource/article',

@@ -142,6 +142,10 @@
             <Icon type="search"></Icon>
             <span>操作日志</span>
             </MenuItem>
+            <MenuItem name="sys_sys_monitor" to="/system/sys_monitor">
+            <Icon type="search"></Icon>
+            <span>操作日志</span>
+            </MenuItem>
           </Submenu>
         </Menu>
       </Sider>
