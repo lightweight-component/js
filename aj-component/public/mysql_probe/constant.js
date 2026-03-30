@@ -1,19 +1,5 @@
 //定义几个全局变量
-var AppUrl = "http://localhost:8088/robot_api";//整个页面的请求页面
-
-/**
- * 表格隔行变色
- */
-function altRows() {
-    var rows = $("tr");
-
-    for (i = 0; i < rows.length; i++) {
-        if (i % 2 == 0)
-            rows[i].className = "evenrowcolor";
-         else
-            rows[i].className = "oddrowcolor";
-    }
-}
+var AppUrl = "/robot_api";//整个页面的请求页面
 
 /**
  * 获取地址栏 url 的参数信息

@@ -151,6 +151,35 @@
             <span>系统监控</span>
             </MenuItem>
           </Submenu>
+
+          <Submenu name="devtools">
+            <template #title>
+              <Icon type="md-aperture" />
+              系统监控
+            </template>
+
+            <MenuItem name="/devtools-status/home" to="/devtools-status/home">
+            <Icon type="ios-images"></Icon>
+            <span>系统概览</span>
+            </MenuItem>
+            <MenuItem name="/devtools-status/mysql_prob" to="/devtools-status/mysql_probe">
+            <Icon type="ios-images"></Icon>
+            <span>MySQL探针</span>
+            </MenuItem>
+            <MenuItem name="shop-arrtib-def" to="/shop/arrtib-def">
+            <Icon type="ios-images"></Icon>
+            <span>商品属性定义</span>
+            </MenuItem>
+            <MenuItem name="shop-arrtib-value" to="/shop/arrtib-value">
+            <Icon type="ios-images"></Icon>
+            <span>商品属性值</span>
+            </MenuItem>
+
+            <MenuItem name="4-2" to="/pay/transaction">
+            <Icon type="ios-images"></Icon>
+            <span>交易流水</span>
+            </MenuItem>
+          </Submenu>
         </Menu>
       </Sider>
       <Layout>

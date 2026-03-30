@@ -24,6 +24,10 @@ import Schedule from '../pages/system/Schedule.vue';
 import SystemMonitor from '../pages/system/dev-tools/SystemMonitor.vue';
 import ServerStatusIndex from '../pages/system/server-status/index.vue';
 
+// DevTools
+import DevToolsHome from '../pages/devtools/Home.vue';
+import MysqlProbe from '../pages/devtools/MysqlProbe.vue';
+
 // shop
 import PayTransaction from '../pages/shop/Transaction.vue';
 import ArrtibuteDef from '../pages/shop/ArrtibuteDef.vue';
@@ -189,6 +193,14 @@ const routes = [
     {
         path: '/old-about',
         redirect: '/about' // 别名重定向示例
+    },
+    {
+        path: '/devtools-status/home',
+        component: DevToolsHome // 别名重定向示例
+    },
+    {
+        path: '/devtools-status/mysql_probe',
+        component: MysqlProbe // 别名重定向示例
     },
     {
         path: '/about-us', // 别名
