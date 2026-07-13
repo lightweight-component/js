@@ -51,6 +51,10 @@ function request(api: string, method: string, bodyData: any, callback: ResponseC
                 callback(data); // 调用回调
         })
         .catch(error => {
+            if(_on401 && (error + '').indexOf('Unexpected status: 401') !== -1) {
+                console.error('401::::::::: ' + error);
+                _on401();
+            }
             console.error('Network error when fetching from: ' + api, error); // 网络错误时才会 reject Promise
         });
 }
