@@ -1,0 +1,1 @@
+{"root":["./src/background.ts","./src/content.ts","./src/export-utils.test.ts","./src/export-utils.ts","./src/export.ts","./src/session-db.ts","./src/types.ts","./vite.config.ts"],"version":"5.9.3"}

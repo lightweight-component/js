@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Web Copy",
+  "version": "0.1.0",
+  "description": "选择网页 DOM 区域并导出 HTML、Markdown 和图片。",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_title": "选择网页区域" },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"],
+    "run_at": "document_idle",
+    "all_frames": false
+  }]
+}
