@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "简洁代理切换",
+  "version": "1.0.0",
+  "description": "快速切换直连、SOCKS5 和 HTTP 代理。",
+  "permissions": ["proxy", "storage"],
+  "action": {
+    "default_title": "简洁代理切换",
+    "default_popup": "popup.html",
+    "default_icon": "icons/proxy.svg"
+  },
+  "icons": {
+    "48": "icons/proxy.svg",
+    "96": "icons/proxy.svg"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "scripts": ["proxy.js", "background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "simple-proxy-switch@example.local",
+      "strict_min_version": "128.0"
+    }
+  }
+}

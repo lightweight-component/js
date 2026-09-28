@@ -1,0 +1,16 @@
+:root { color: #15141a; font: menu; }
+body { width: 280px; margin: 0; background: #fff; }
+main { padding: 14px; }
+h1 { margin: 0 0 10px; font-size: 16px; font-weight: 600; }
+.proxy-list { display: grid; gap: 3px; }
+.proxy { display: grid; grid-template-columns: 18px 1fr; width: 100%; padding: 8px 6px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: inherit; cursor: pointer; font: inherit; text-align: left; }
+.proxy:hover { background: #f0f0f4; }
+.proxy.selected { border-color: #0060df; background: #f0f6ff; }
+.dot { width: 10px; height: 10px; margin-top: 4px; border: 1px solid #737373; border-radius: 50%; box-sizing: border-box; }
+.selected .dot { border: 3px solid #0060df; }
+.name { font-size: 14px; }
+.detail { margin-top: 2px; color: #5b5b66; font-size: 12px; }
+.current { margin: 10px 0 0; color: #5b5b66; font-size: 12px; }
+.error { margin: 10px 0 0; color: #c50042; font-size: 12px; }
+.settings { display: block; margin: 10px 0 0 auto; padding: 4px 6px; border: 0; border-radius: 3px; background: transparent; color: #0060df; cursor: pointer; font: inherit; }
+.settings:hover { background: #f0f0f4; }

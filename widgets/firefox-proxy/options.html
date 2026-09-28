@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="options.css">
+  <title>简洁代理切换 - 设置</title>
+</head>
+<body>
+  <main>
+    <h1>代理设置</h1>
+    <p class="hint">新增、编辑或删除本地代理配置。直连是内置选项，不会显示在此列表中。</p>
+    <section id="proxy-list" class="cards" aria-label="已保存的代理"></section>
+    <section class="editor" aria-labelledby="editor-title">
+      <h2 id="editor-title">新增代理</h2>
+      <form id="proxy-form" novalidate>
+        <input id="id" type="hidden">
+        <label>名称<input id="name" type="text" required maxlength="80" autocomplete="off"></label>
+        <label>类型<select id="type"><option value="socks5">SOCKS5</option><option value="http">HTTP</option></select></label>
+        <label>Host<input id="host" type="text" required maxlength="253" placeholder="127.0.0.1" autocomplete="off"></label>
+        <label>Port<input id="port" type="number" required min="1" max="65535" step="1" placeholder="1080"></label>
+        <label id="dns-row" class="check"><input id="proxy-dns" type="checkbox"> SOCKS5 通过代理解析 DNS</label>
+        <p id="message" class="message" aria-live="polite"></p>
+        <div class="actions"><button id="cancel" type="button" hidden>取消</button><button type="submit">保存代理</button></div>
+      </form>
+    </section>
+  </main>
+  <script src="proxy.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
