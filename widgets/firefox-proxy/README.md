@@ -1,6 +1,6 @@
 # 简洁代理切换
 
-Firefox WebExtension：在直连、SOCKS5 与 HTTP 代理之间快速切换。配置仅保存在 Firefox 的 `browser.storage.local`，扩展不会访问网络、修改系统代理或执行外部程序。
+Firefox WebExtension：在直连、SOCKS5、HTTP 与 HTTPS Proxy 之间快速切换。配置仅保存在 Firefox 的 `browser.storage.local`，扩展不会访问网络、修改系统代理或执行外部程序。
 
 ## 临时加载与调试
 
@@ -16,6 +16,8 @@ Firefox WebExtension：在直连、SOCKS5 与 HTTP 代理之间快速切换。�
 - **直连**：在弹窗选择“直连”，工具栏角标显示 `D`。扩展写入 `{ proxyType: "none" }`。
 - **SOCKS5**：先在本机启动 SOCKS5 服务，再选择对应配置；角标为 `S`。DNS 选项启用时会写入 `proxyDNS: true` 与 `socksVersion: 5`，让 Firefox 把名称交给 SOCKS5 代理解析。
 - **HTTP**：先在本机启动 HTTP 代理，再选择对应配置；角标为 `H`。扩展会为 `http` 和 `ssl` 使用同一地址，因此 HTTPS 通过 HTTP CONNECT 隧道。
+- **HTTPS Proxy**：角标为 `T`。扩展使用 `browser.proxy.onRequest` 返回 `{ type: "https" }`，因此 Firefox 会先与代理服务器建立 TLS；这不是“通过普通 HTTP 代理访问 HTTPS 网站”。
+- **认证**：HTTP 与 HTTPS Proxy 可选保存 Basic 用户名及密码。配置认证时，扩展以 `browser.proxy.onRequest` 的 `ProxyInfo.proxyAuthorizationHeader` 将认证信息发送到选中的代理服务器，不会放入 URL 或转发给目标网站。
 - **确认 SOCKS5 DNS**：用一个仅代理端能解析的测试域名访问，或查看 SOCKS5 服务日志应出现域名而不是仅 IP；同时确认设置页的“SOCKS5 通过代理解析 DNS”已勾选。
 - **WebExtension Console**：在 `about:debugging` → “此 Firefox” 中，找到此临时扩展并点击“检查”。弹窗/设置页可从页面右键“检查元素”查看各自控制台。
 

@@ -41,7 +41,7 @@ type XhrCallback = (json: {}, text: string) => void;
 /**
  * 全局请求的 head 参数
  */
-let BASE_HEAD_PARAMS = null;
+let BASE_HEAD_PARAMS: any = null;
 
 /**
  * 设置全局请求的 head 参数
@@ -285,4 +285,3 @@ export function toParams(param: any): string {
 
     return result.substring(1);
 }
- 

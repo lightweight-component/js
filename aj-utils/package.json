@@ -1,6 +1,7 @@
 {
-    "name": "@ajaxjs/util",
-    "version": "1.2.6",
+    "name": "@ajax-js/dataservice",
+    "version": "1.0.0",
+    "private": false,
     "description": "Core JS Utils",
     "scripts": {
         "dev": "rollup -w -c",

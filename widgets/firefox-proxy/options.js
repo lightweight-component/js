@@ -7,7 +7,9 @@ let state;
 
 function formatProxy(proxy) {
   const dns = proxy.type === "socks5" ? `，DNS 代理：${proxy.proxyDNS ? "开" : "关"}` : "";
-  return `${proxy.type === "socks5" ? "SOCKS5" : "HTTP"} · ${proxy.host}:${proxy.port}${dns}`;
+  const typeLabel = proxy.type === "socks5" ? "SOCKS5" : proxy.type === "https" ? "HTTPS" : "HTTP";
+  const authentication = proxy.type !== "socks5" && proxy.username && proxy.password ? "，已配置认证" : "";
+  return `${typeLabel} · ${proxy.host}:${proxy.port}${dns}${authentication}`;
 }
 
 function showMessage(text, success = false) {
@@ -17,6 +19,9 @@ function showMessage(text, success = false) {
 
 function updateDnsVisibility() {
   dnsRow.hidden = type.value !== "socks5";
+  const needsAuthentication = type.value === "http" || type.value === "https";
+  document.getElementById("username-row").hidden = !needsAuthentication;
+  document.getElementById("password-row").hidden = !needsAuthentication;
 }
 
 function resetForm() {
@@ -71,6 +76,8 @@ function editProxy(id) {
   document.getElementById("host").value = proxy.host;
   document.getElementById("port").value = proxy.port;
   document.getElementById("proxy-dns").checked = proxy.proxyDNS;
+  document.getElementById("username").value = proxy.username;
+  document.getElementById("password").value = proxy.password;
   document.getElementById("editor-title").textContent = "编辑代理";
   cancel.hidden = false;
   showMessage("");
@@ -84,9 +91,9 @@ async function removeProxy(id) {
   state.proxies = state.proxies.filter((item) => item.id !== id);
   if (state.selectedId === id) {
     state.selectedId = DIRECT_ID;
-    await browser.proxy.settings.set({ value: getProxyConfig(null) });
   }
   await saveState(state);
+  if (state.selectedId === DIRECT_ID) await applySelectedProxy(DIRECT_ID);
   await updateBadge(state);
   if (document.getElementById("id").value === id) resetForm();
   render();
@@ -102,7 +109,8 @@ form.addEventListener("submit", async (event) => {
   const proxy = normalizeProxy({
     id: id || createId(), name: document.getElementById("name").value, type: type.value,
     host: document.getElementById("host").value, port: document.getElementById("port").value,
-    proxyDNS: document.getElementById("proxy-dns").checked
+    proxyDNS: document.getElementById("proxy-dns").checked,
+    username: document.getElementById("username").value, password: document.getElementById("password").value
   });
   const validationError = validateProxy(proxy);
   if (validationError) return showMessage(validationError);

@@ -9,33 +9,33 @@
               机器人管理
             </template>
             <MenuItem name="1-1" to="/">
-            <Icon type="ios-navigate"></Icon>
-            <span>首页</span>
+              <Icon type="ios-navigate"></Icon>
+              <span>首页</span>
             </MenuItem>
 
             <MenuItem name="1-3" to="/robot/agent">
-            <Icon type="settings"></Icon>
-            <span>机器人管理</span>
+              <Icon type="settings"></Icon>
+              <span>机器人管理</span>
             </MenuItem>
             <MenuItem name="1-4" to="/robot/voice">
-            <Icon type="settings"></Icon>
-            <span>音色管理</span>
+              <Icon type="settings"></Icon>
+              <span>音色管理</span>
             </MenuItem>
             <MenuItem name="1-2" to="/robot/voice_print">
-            <Icon type="search"></Icon>
-            <span>声纹管理</span>
+              <Icon type="search"></Icon>
+              <span>声纹管理</span>
             </MenuItem>
             <MenuItem name="1-6" to="/robot/kb">
-            <Icon type="settings"></Icon>
-            <span>知识库管理</span>
+              <Icon type="settings"></Icon>
+              <span>知识库管理</span>
             </MenuItem>
             <MenuItem name="1-5" to="/robot/ota">
-            <Icon type="settings"></Icon>
-            <span>固件管理</span>
+              <Icon type="settings"></Icon>
+              <span>固件管理</span>
             </MenuItem>
             <MenuItem name="1-7" to="/robot/sample_trial">
-            <Icon type="settings"></Icon>
-            <span>样品试用</span>
+              <Icon type="settings"></Icon>
+              <span>样品试用</span>
             </MenuItem>
           </Submenu>
 
@@ -45,12 +45,12 @@
               资源管理
             </template>
             <MenuItem name="4-1" to="/resource/article">
-            <Icon type="ios-images"></Icon>
-            <span>图文管理</span>
+              <Icon type="ios-images"></Icon>
+              <span>图文管理</span>
             </MenuItem>
             <MenuItem name="4-2" to="/pay/transaction">
-            <Icon type="ios-images"></Icon>
-            <span>交易流水</span>
+              <Icon type="ios-images"></Icon>
+              <span>交易流水</span>
             </MenuItem>
           </Submenu>
           <Submenu name="shop">
@@ -61,25 +61,25 @@
             </template>
 
             <MenuItem name="shop-spu" to="/shop/spu">
-            <Icon type="ios-images"></Icon>
-            <span>商品 SPU</span>
+              <Icon type="ios-images"></Icon>
+              <span>商品 SPU</span>
             </MenuItem>
             <MenuItem name="shop-sku" to="/shop/sku">
-            <Icon type="ios-images"></Icon>
-            <span>商品 SKU</span>
+              <Icon type="ios-images"></Icon>
+              <span>商品 SKU</span>
             </MenuItem>
             <MenuItem name="shop-arrtib-def" to="/shop/arrtib-def">
-            <Icon type="ios-images"></Icon>
-            <span>商品属性定义</span>
+              <Icon type="ios-images"></Icon>
+              <span>商品属性定义</span>
             </MenuItem>
             <MenuItem name="shop-arrtib-value" to="/shop/arrtib-value">
-            <Icon type="ios-images"></Icon>
-            <span>商品属性值</span>
+              <Icon type="ios-images"></Icon>
+              <span>商品属性值</span>
             </MenuItem>
 
             <MenuItem name="4-2" to="/pay/transaction">
-            <Icon type="ios-images"></Icon>
-            <span>交易流水</span>
+              <Icon type="ios-images"></Icon>
+              <span>交易流水</span>
             </MenuItem>
           </Submenu>
           <Submenu name="2">
@@ -88,28 +88,28 @@
               用户管理
             </template>
             <MenuItem name="2-1" to="/user/list">
-            <Icon type="ios-person"></Icon>
-            <span>用户列表</span>
+              <Icon type="ios-person"></Icon>
+              <span>用户列表</span>
             </MenuItem>
             <MenuItem name="2-2" to="/user/role">
-            <Icon type="ios-cube-outline"></Icon>
-            <span>权限管理</span>
+              <Icon type="ios-cube-outline"></Icon>
+              <span>权限管理</span>
             </MenuItem>
             <MenuItem name="2-3" to="/user/login_log">
-            <Icon type="md-key"></Icon>
-            <span>登录日志</span>
+              <Icon type="md-key"></Icon>
+              <span>登录日志</span>
             </MenuItem>
             <MenuItem name="2-4" to="/user/tenant">
-            <Icon type="ios-contact-outline"></Icon>
-            <span>租户管理</span>
+              <Icon type="ios-contact-outline"></Icon>
+              <span>租户管理</span>
             </MenuItem>
             <MenuItem name="2-5" to="/user/app">
-            <Icon type="md-apps"></Icon>
-            <span>应用管理</span>
+              <Icon type="md-apps"></Icon>
+              <span>应用管理</span>
             </MenuItem>
             <MenuItem name="2-6" to="/user/token">
-            <Icon type="md-link"></Icon>
-            <span>Token 管理</span>
+              <Icon type="md-link"></Icon>
+              <span>Token 管理</span>
             </MenuItem>
           </Submenu>
 
@@ -119,36 +119,36 @@
               系统管理
             </template>
             <MenuItem name="3-1" to="/system/list-mgr">
-            <Icon type="ios-list"></Icon>
-            <span>列表管理</span>
+              <Icon type="ios-list"></Icon>
+              <span>列表管理</span>
             </MenuItem>
             <MenuItem name="3-5" to="/system/form-mgr">
-            <Icon type="ios-paper-outline" />
-            <span>表单管理</span>
+              <Icon type="ios-paper-outline" />
+              <span>表单管理</span>
             </MenuItem>
             <MenuItem name="3-4" to="/system/data_dict">
-            <Icon type="md-grid" />
-            <span>数据字典</span>
+              <Icon type="md-grid" />
+              <span>数据字典</span>
             </MenuItem>
             <MenuItem name="3-2">
-            <Icon type="settings"></Icon>
-            <span>文件管理</span>
+              <Icon type="settings"></Icon>
+              <span>文件管理</span>
             </MenuItem>
             <MenuItem name="3-6" to="/system/schedule">
-            <Icon type="search" />
-            <span>任务调度</span>
+              <Icon type="search" />
+              <span>任务调度</span>
             </MenuItem>
             <MenuItem name="3-3">
-            <Icon type="search"></Icon>
-            <span>操作日志</span>
+              <Icon type="search"></Icon>
+              <span>操作日志</span>
             </MenuItem>
             <MenuItem name="sys_sys_monitor" to="/system/sys_monitor">
-            <Icon type="search"></Icon>
-            <span>操作日志</span>
+              <Icon type="search"></Icon>
+              <span>操作日志</span>
             </MenuItem>
             <MenuItem name="/system/server-status/index" to="/system/server-status/index">
-            <Icon type="search"></Icon>
-            <span>系统监控</span>
+              <Icon type="search"></Icon>
+              <span>系统监控</span>
             </MenuItem>
           </Submenu>
 
@@ -159,25 +159,25 @@
             </template>
 
             <MenuItem name="/devtools-status/home" to="/devtools-status/home">
-            <Icon type="ios-images"></Icon>
-            <span>系统概览</span>
+              <Icon type="ios-images"></Icon>
+              <span>系统概览</span>
             </MenuItem>
             <MenuItem name="/devtools-status/mysql_prob" to="/devtools-status/mysql_probe">
-            <Icon type="ios-images"></Icon>
-            <span>MySQL探针</span>
+              <Icon type="ios-images"></Icon>
+              <span>MySQL探针</span>
             </MenuItem>
             <MenuItem name="shop-arrtib-def" to="/shop/arrtib-def">
-            <Icon type="ios-images"></Icon>
-            <span>商品属性定义</span>
+              <Icon type="ios-images"></Icon>
+              <span>商品属性定义</span>
             </MenuItem>
             <MenuItem name="shop-arrtib-value" to="/shop/arrtib-value">
-            <Icon type="ios-images"></Icon>
-            <span>商品属性值</span>
+              <Icon type="ios-images"></Icon>
+              <span>商品属性值</span>
             </MenuItem>
 
             <MenuItem name="4-2" to="/pay/transaction">
-            <Icon type="ios-images"></Icon>
-            <span>交易流水</span>
+              <Icon type="ios-images"></Icon>
+              <span>交易流水</span>
             </MenuItem>
           </Submenu>
         </Menu>

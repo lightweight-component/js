@@ -1,8 +1,8 @@
 <template>
-  <div>{{n}}</div>
+  <div>{{ n }}</div>
 </template>
 
-<script>
+<script lang="ts">
 /*
  淘宝SKU组合查询算法实现 https://www.cnblogs.com/linybo/p/14061335.html
  sku组合查询算法探讨 https://blog.csdn.net/xmlife/article/details/77628724
@@ -58,13 +58,13 @@ function getNum(key: string): number {
     let j;
 
     for (j = 0; j < keys[i].length && items.length > 0; j++) {
-        // @ts-ignore xxxxxxxx
-      if (keys[i][j] == items[0]) 
+      // @ts-ignore xxxxxxxx
+      if (keys[i][j] == items[0])
         break;
     }
 
-    if (j < keys[i].length && items.length > 0) 
-        n.push(items.shift());  // 找到该项，跳过
+    if (j < keys[i].length && items.length > 0)
+      n.push(items.shift());  // 找到该项，跳过
     else {
       for (let m = 0; m < keys[i].length; m++) // 分解求值
         result += getNum(n.concat(keys[i][m], items).join(";"));

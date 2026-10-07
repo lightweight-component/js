@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
   "name": "简洁代理切换",
-  "version": "1.0.0",
-  "description": "快速切换直连、SOCKS5 和 HTTP 代理。",
+  "version": "1.1.1",
+  "description": "快速切换直连、SOCKS5、HTTP 和 HTTPS 代理。",
   "permissions": ["proxy", "storage"],
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_title": "简洁代理切换",
     "default_popup": "popup.html",
@@ -23,7 +24,10 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "simple-proxy-switch@example.local",
-      "strict_min_version": "128.0"
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+          "required": ["none"]
+      }
     }
   }
 }

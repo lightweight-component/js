@@ -3,7 +3,9 @@ const current = document.getElementById("current");
 const error = document.getElementById("error");
 
 function formatProxy(proxy) {
-  return `${proxy.type === "socks5" ? "SOCKS5" : "HTTP"} ${proxy.host}:${proxy.port}`;
+  const type = proxy.type === "socks5" ? "SOCKS5" : proxy.type === "https" ? "HTTPS" : "HTTP";
+  const authentication = proxy.type !== "socks5" && proxy.username && proxy.password ? " · 已配置认证" : "";
+  return `${type} ${proxy.host}:${proxy.port}${authentication}`;
 }
 
 function showError(message) {

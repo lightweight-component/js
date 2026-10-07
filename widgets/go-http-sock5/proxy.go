@@ -3,6 +3,9 @@ package main
 import (
 	"bufio"
 	"context"
+	"crypto/sha256"
+	"crypto/subtle"
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"io"
@@ -19,11 +22,17 @@ const socksConnectTimeout = 12 * time.Second
 
 type Proxy struct {
 	dialer    *SOCKS5Dialer
-	transport *http.Transport
+	transport http.RoundTripper
+	auth      proxyAuth
 	verbose   bool
 	logger    *log.Logger
 	mu        sync.Mutex
 	tunnels   map[net.Conn]struct{}
+}
+
+type proxyAuth struct {
+	enabled  bool
+	expected [sha256.Size]byte
 }
 
 type SOCKS5Dialer struct {
@@ -31,8 +40,11 @@ type SOCKS5Dialer struct {
 	timeout time.Duration
 }
 
-func NewProxy(socksAddress string, verbose bool, logger *log.Logger) *Proxy {
+func NewProxy(socksAddress, username, password string, verbose bool, logger *log.Logger) *Proxy {
 	p := &Proxy{dialer: &SOCKS5Dialer{address: socksAddress, timeout: socksConnectTimeout}, verbose: verbose, logger: logger, tunnels: make(map[net.Conn]struct{})}
+	if username != "" && password != "" {
+		p.auth = proxyAuth{enabled: true, expected: sha256.Sum256([]byte(username + ":" + password))}
+	}
 	p.transport = &http.Transport{
 		Proxy:                 nil,
 		DialContext:           p.dialer.DialContext,
@@ -48,11 +60,43 @@ func NewProxy(socksAddress string, verbose bool, logger *log.Logger) *Proxy {
 }
 
 func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if !p.authorize(r) {
+		w.Header().Set("Proxy-Authenticate", `Basic realm="Private Proxy"`)
+		http.Error(w, "Proxy Authentication Required", http.StatusProxyAuthRequired)
+		if p.verbose {
+			p.logger.Print("407 Proxy Authentication Required")
+		}
+		return
+	}
+	r.Header.Del("Proxy-Authorization")
 	if r.Method == http.MethodConnect {
 		p.handleConnect(w, r)
 		return
 	}
 	p.handleHTTP(w, r)
+}
+
+func (p *Proxy) AuthStatus() string {
+	if p.auth.enabled {
+		return "enabled"
+	}
+	return "disabled"
+}
+
+func (p *Proxy) authorize(r *http.Request) bool {
+	if !p.auth.enabled {
+		return true
+	}
+	fields := strings.Fields(r.Header.Get("Proxy-Authorization"))
+	if len(fields) != 2 || !strings.EqualFold(fields[0], "Basic") {
+		return false
+	}
+	credentials, err := base64.StdEncoding.DecodeString(fields[1])
+	if err != nil {
+		return false
+	}
+	provided := sha256.Sum256(credentials)
+	return subtle.ConstantTimeCompare(p.auth.expected[:], provided[:]) == 1
 }
 
 func (p *Proxy) handleConnect(w http.ResponseWriter, r *http.Request) {
